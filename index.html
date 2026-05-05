@@ -7,21 +7,21 @@
 
 <style>
 :root{
-  --bg:#07121f;
-  --card:#ffffff;
-  --text:#0b1220;
-  --muted:#64748b;
-  --stroke:#d6dde8;
-  --o2:#005EB8;
-  --o2Dark:#004A93;
+  --bg:#050505;
+  --panel:#0d0d0d;
+  --card:#121212;
+  --card2:#1b1b1b;
+  --text:#f5f5f5;
+  --muted:#b6bcc6;
+  --stroke:#2b2b2b;
+  --yellow:#DFFF00;
+  --yellowSoft:#F2FF66;
   --red:#E4002B;
-  --redDark:#B80022;
-  --green:#0f9f6e;
+  --blue:#005EB8;
+  --green:#10b981;
   --amber:#f59e0b;
-  --soft:#f8fbff;
-  --radius:24px;
-  --shadow:0 10px 24px rgba(2,6,23,.16);
-  --max:1200px;
+  --max:1300px;
+  --shadow:0 16px 40px rgba(0,0,0,.35);
 }
 
 *{box-sizing:border-box}
@@ -31,13 +31,13 @@ html,body{
   min-height:100%;
   font-family:Arial,Helvetica,sans-serif;
   background:
-    radial-gradient(900px 500px at 15% 0%, rgba(0,94,184,.28), transparent 60%),
-    radial-gradient(800px 500px at 90% 10%, rgba(228,0,43,.18), transparent 55%),
-    linear-gradient(180deg,#06101b 0%,#0b1930 100%);
-  color:#fff;
+    radial-gradient(900px 500px at 10% 0%, rgba(223,255,0,.14), transparent 60%),
+    radial-gradient(900px 500px at 95% 15%, rgba(223,255,0,.08), transparent 55%),
+    linear-gradient(180deg,#000,#090909);
+  color:var(--text);
 }
 
-main{padding:24px 0 36px}
+main{padding:24px 0 40px}
 
 .shell{
   width:min(var(--max),calc(100% - 24px));
@@ -46,72 +46,87 @@ main{padding:24px 0 36px}
 
 .card{
   background:var(--card);
-  color:var(--text);
-  border-radius:28px;
+  border:1px solid rgba(223,255,0,.26);
+  border-radius:26px;
   box-shadow:var(--shadow);
-  padding:18px;
-  border:1px solid #e8eef7;
+  padding:20px;
 }
 
-.intro-card{margin-bottom:18px}
+.hero{
+  margin-bottom:18px;
+  border-left:7px solid var(--yellow);
+}
 
 h1{
   margin:0 0 10px;
-  font-size:clamp(30px,4vw,52px);
-  line-height:1.05;
+  font-size:clamp(34px,5vw,62px);
+  line-height:1.02;
+  color:var(--text);
 }
 
 .sub{
   margin:0;
-  color:#334155;
+  color:var(--muted);
   font-size:clamp(15px,2vw,18px);
-  line-height:1.45;
+  line-height:1.5;
+  max-width:1100px;
 }
 
 .quick-links{
   display:grid;
   grid-template-columns:repeat(3,1fr);
-  gap:12px;
-  margin-top:18px;
+  gap:14px;
+  margin-top:20px;
 }
 
 .quick-link{
   border:none;
+  background:var(--yellow);
+  color:#000;
   border-radius:20px;
-  padding:15px 16px;
-  color:#fff;
+  padding:17px;
+  min-height:92px;
   text-align:left;
   cursor:pointer;
-  transition:.18s ease;
-  min-height:82px;
-  box-shadow:0 8px 20px rgba(2,6,23,.12);
+  font-weight:900;
+  box-shadow:0 10px 24px rgba(223,255,0,.12);
+  transition:.15s;
 }
 
-.quick-link:hover{transform:translateY(-2px)}
-.quick-link b{display:block;font-size:16px;margin-bottom:6px}
-.quick-link span{display:block;font-size:13px;line-height:1.35;opacity:.94}
+.quick-link:hover{
+  transform:translateY(-2px);
+  background:var(--yellowSoft);
+}
 
-.quick-link.blue{background:var(--o2)}
-.quick-link.red{background:var(--red)}
-.quick-link.green{background:var(--green)}
-.quick-link.dark{background:var(--o2Dark)}
-.quick-link.amber{background:var(--amber); color:#111827}
+.quick-link b{
+  display:block;
+  font-size:18px;
+  margin-bottom:7px;
+}
 
-.flow-wrap{
+.quick-link span{
+  display:block;
+  font-size:13px;
+  line-height:1.35;
+  font-weight:700;
+  opacity:.8;
+}
+
+.flow-layout{
   display:grid;
-  grid-template-columns:.9fr 1.1fr;
+  grid-template-columns:390px 1fr;
   gap:18px;
+  align-items:start;
 }
 
 .side-panel{
   position:sticky;
-  top:16px;
-  align-self:start;
+  top:14px;
 }
 
-.panel-title{
-  margin:0 0 10px;
-  font-size:22px;
+.side-panel h2{
+  margin:0 0 12px;
+  font-size:24px;
 }
 
 .menu{
@@ -122,7 +137,8 @@ h1{
 .menu-btn{
   width:100%;
   border:1px solid var(--stroke);
-  background:#f8fbff;
+  border-left:5px solid var(--yellow);
+  background:var(--card2);
   color:var(--text);
   border-radius:16px;
   padding:13px;
@@ -132,183 +148,186 @@ h1{
 }
 
 .menu-btn:hover{
-  border-color:var(--o2);
+  border-color:var(--yellow);
   transform:translateY(-1px);
 }
 
 .menu-btn b{
   display:block;
   font-size:15px;
-  margin-bottom:4px;
+  margin-bottom:5px;
 }
 
 .menu-btn span{
   display:block;
+  color:var(--muted);
   font-size:13px;
-  color:#475569;
   line-height:1.35;
 }
 
-.menu-tag{
+.tag{
   display:inline-block;
-  margin-top:8px;
-  font-size:11px;
-  font-weight:800;
-  color:#0f3f7e;
-  background:#eaf3ff;
-  border:1px solid #bfdbfe;
+  margin-top:9px;
+  background:rgba(223,255,0,.12);
+  border:1px solid rgba(223,255,0,.4);
+  color:var(--yellow);
   border-radius:999px;
   padding:5px 8px;
+  font-size:11px;
+  font-weight:900;
 }
+
+.controls{
+  display:flex;
+  gap:10px;
+  margin-top:16px;
+  flex-wrap:wrap;
+}
+
+.flow-btn{
+  border:none;
+  border-radius:14px;
+  padding:13px 17px;
+  font-weight:900;
+  cursor:pointer;
+  min-width:96px;
+}
+
+.flow-btn.yes{background:var(--green); color:#001b12}
+.flow-btn.no{background:var(--red); color:white}
+.flow-btn.next{background:var(--yellow); color:#000}
+.flow-btn.back{background:#475569; color:white}
+.flow-btn.reset{background:#111827; color:white; border:1px solid #334155}
 
 .trail{
   display:grid;
   gap:14px;
 }
 
+.empty-state{
+  background:rgba(255,255,255,.04);
+  border:1px dashed rgba(223,255,0,.35);
+  border-radius:24px;
+  padding:24px;
+  color:var(--muted);
+}
+
 .step-card{
-  background:#fff;
-  color:var(--text);
-  border-radius:22px;
-  border:1px solid #e8eef7;
-  box-shadow:var(--shadow);
+  background:var(--card);
+  border:1px solid rgba(223,255,0,.22);
+  border-left:7px solid var(--yellow);
+  border-radius:24px;
   overflow:hidden;
+  box-shadow:var(--shadow);
 }
 
 .step-head{
-  padding:14px 16px;
-  background:#f8fbff;
-  border-bottom:1px solid var(--stroke);
   display:flex;
   justify-content:space-between;
   gap:12px;
   align-items:center;
+  padding:14px 16px;
+  background:#090909;
+  border-bottom:1px solid var(--stroke);
 }
 
 .step-number{
-  font-weight:900;
-  color:var(--o2);
+  color:var(--yellow);
   font-size:13px;
+  font-weight:900;
   text-transform:uppercase;
   letter-spacing:.5px;
 }
 
 .step-type{
+  color:var(--muted);
   font-size:12px;
-  font-weight:800;
-  color:#475569;
+  font-weight:900;
 }
 
 .step-body{
-  padding:16px;
+  padding:17px;
 }
 
 .step-body h3{
-  margin:0 0 8px;
-  font-size:21px;
+  margin:0 0 9px;
+  font-size:22px;
+  line-height:1.15;
 }
 
 .step-body p{
   margin:0;
-  color:#475569;
-  line-height:1.45;
+  color:var(--muted);
+  line-height:1.5;
   font-size:15px;
 }
 
+.actions{
+  margin-top:15px;
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
 .answer-box{
-  margin-top:12px;
-  border-left:5px solid var(--o2);
-  background:#eff6ff;
+  margin-top:13px;
+  background:#191919;
+  border:1px solid var(--stroke);
+  border-left:5px solid var(--yellow);
   border-radius:14px;
-  padding:11px 13px;
-  color:#0f172a;
-  font-weight:800;
+  padding:12px 13px;
+  color:var(--text);
+  font-weight:900;
 }
 
 .answer-box.no{
   border-left-color:var(--red);
-  background:#fff1f2;
 }
 
-.actions{
-  margin-top:14px;
-  display:flex;
-  flex-wrap:wrap;
-  gap:10px;
-}
-
-.flow-btn{
-  border:none;
-  border-radius:14px;
-  padding:13px 18px;
-  color:#fff;
-  font-weight:900;
-  cursor:pointer;
-  min-width:100px;
-  box-shadow:0 6px 14px rgba(2,6,23,.12);
-}
-
-.yes{background:var(--o2)}
-.no{background:var(--red)}
-.next{background:var(--green)}
-.back{background:#64748b}
-.reset{background:#0f172a}
-
-.outcome{
-  background:#f0fdf4;
-  border:1px solid #bbf7d0;
-  border-left:6px solid var(--green);
+.outcome.success{
+  border-left-color:var(--green);
 }
 
 .outcome.stop{
-  background:#fff7ed;
-  border:1px solid #fed7aa;
-  border-left:6px solid var(--amber);
+  border-left-color:var(--amber);
 }
 
 .outcome.fail{
-  background:#fff1f2;
-  border:1px solid #fecdd3;
-  border-left:6px solid var(--red);
+  border-left-color:var(--red);
 }
 
 .evidence{
-  margin-top:12px;
   display:grid;
-  gap:8px;
+  gap:9px;
   padding:0;
+  margin:14px 0 0;
   list-style:none;
 }
 
 .evidence li{
-  background:rgba(255,255,255,.65);
-  border:1px solid rgba(15,23,42,.08);
-  border-radius:12px;
-  padding:10px 12px;
+  background:#1a1a1a;
+  border:1px solid var(--stroke);
+  border-left:4px solid var(--yellow);
+  border-radius:13px;
+  padding:11px 12px;
+  color:#d1d5db;
   font-size:14px;
-  color:#334155;
-}
-
-.footer-actions{
-  margin-top:18px;
-  display:flex;
-  gap:10px;
-  flex-wrap:wrap;
+  line-height:1.4;
 }
 
 .footer-note{
   margin-top:18px;
   padding:16px 18px;
+  background:rgba(255,255,255,.05);
+  border:1px solid rgba(223,255,0,.22);
   border-radius:20px;
-  background:rgba(255,255,255,.08);
-  border:1px solid rgba(255,255,255,.12);
-  color:#e5eef9;
-  font-size:14px;
+  color:var(--muted);
   line-height:1.5;
+  font-size:14px;
 }
 
 @media(max-width:1000px){
-  .flow-wrap{grid-template-columns:1fr}
+  .flow-layout{grid-template-columns:1fr}
   .side-panel{position:static}
   .quick-links{grid-template-columns:1fr}
 }
@@ -316,7 +335,7 @@ h1{
 @media(max-width:720px){
   .shell{width:min(var(--max),calc(100% - 16px))}
   .card,.step-card{border-radius:22px}
-  h1{font-size:34px}
+  h1{font-size:36px}
 }
 </style>
 </head>
@@ -325,47 +344,50 @@ h1{
 <main>
 <div class="shell">
 
-<section class="card intro-card">
+<section class="card hero">
   <h1>Completion Save Flow</h1>
   <p class="sub">
-    Field-led guidance to help protect completion. Select the issue, follow the prompts, and only close the job once all realistic same-day save options have been exhausted and clearly noted.
+    Use this before failing a job. The aim is to protect completion by proving the right save actions have been attempted, FM support has been used, and any failure has a clear, defensible rationale.
   </p>
 
   <div class="quick-links">
-<button class="quick-link blue" onclick="startFlow('coc_menu')">
-  <b>Customer / Access issue</b>
-  <span>No reply, access, reschedule, cancellation or route concern.</span>
-</button>
+    <button class="quick-link" onclick="startFlow('customer_menu','Customer / Access issue')">
+      <b>Customer / Access issue</b>
+      <span>No reply, not ready, unsure, access, route, reschedule or cancellation.</span>
+    </button>
 
-<button class="quick-link red" onclick="startFlow('coax_start')">
-  <b>Network / Drop issue</b>
-  <span>Coax, fibre, repull, light levels or non-serviceable.</span>
-</button>
-<button class="quick-link amber" onclick="startFlow('construction_start')">
-  <b>Construction / Preworks issue</b>
-  <span>2-man jobs, civils risk, preworks and install saves.</span>
-</button>
+    <button class="quick-link" onclick="startFlow('network_menu','Network / Drop issue')">
+      <b>Network / Drop issue</b>
+      <span>Coax, fibre, repull, light levels, port checks or non-serviceable.</span>
+    </button>
+
+    <button class="quick-link" onclick="startFlow('construction_menu','Construction / Preworks issue')">
+      <b>Construction / Preworks issue</b>
+      <span>Blocked route, sweep, PA3/PA4 tooling, PA2/CUR blow issues or DP change.</span>
+    </button>
   </div>
 </section>
 
-<section class="flow-wrap">
-
+<section class="flow-layout">
   <aside class="card side-panel">
-    <h2 class="panel-title">Start a flow</h2>
+    <h2>Start a flow</h2>
     <div class="menu" id="menu"></div>
 
-    <div class="footer-actions">
+    <div class="controls">
       <button class="flow-btn back" onclick="goBack()">Back</button>
       <button class="flow-btn reset" onclick="resetAll()">Reset</button>
     </div>
   </aside>
 
-  <section class="trail" id="trail"></section>
-
+  <section class="trail" id="trail">
+    <div class="empty-state">
+      Select a flow to begin. Each answer will stay visible so the final outcome shows the full rationale behind the decision.
+    </div>
+  </section>
 </section>
 
 <div class="footer-note">
-  Completion should be protected where possible, but not at the expense of safety, customer experience or correct process. If the job cannot be saved, close it correctly with clear notes showing what was attempted.
+  Completion is the focus. Permanent fix is always preferred, but a safe temporary solution can be used where appropriate to protect completion. FM escalation is required before any failure.
 </div>
 
 </div>
@@ -373,221 +395,212 @@ h1{
 
 <script>
 const menuItems = [
-  { label:"Change of circumstances", desc:"Customer/property not ready, unsure, third-party access, appointment moved earlier.", next:"coc_menu", tag:"Customer" },
-  { label:"No reply / no one home", desc:"No answer, unreachable, wrong contact details or reattendance required.", next:"nr_menu", tag:"Customer" },
-  { label:"Drop / repull required - coax", desc:"Damaged drop, low levels or low SNR.", next:"coax_start", tag:"Network" },
-  { label:"Drop / repull required - Fibre Up", desc:"Light meter, port light checks, scope/clean and preblow escalation.", next:"fu_start", tag:"Fibre" },
-  { label:"Drop / repull required - fibre UG/OH", desc:"Qualification-led port checks and VMO2 tech support.", next:"fo_start", tag:"Fibre" },
-  { label:"Cable route not agreed", desc:"Customer will not accept the proposed route.", next:"route_start", tag:"Customer" },
-  { label:"No access to pit / cab", desc:"Blocked pit/cab access, parked vehicle or obstruction.", next:"pit_start", tag:"Access" },
-  { label:"Order entry error", desc:"Sales/order issue, TV expectation issue or order correction required.", next:"order_start", tag:"Order" },
-  { label:"Customer requested reschedule", desc:"Customer wants to move the job.", next:"resched_start", tag:"Customer" },
-  { label:"Customer requested cancellation", desc:"Understand reason, attempt to resolve and escalate where appropriate.", next:"cancel_start", tag:"Customer" },
-  { label:"Non serviceable address", desc:"Includes capacity/facilities issues.", next:"nsa_start", tag:"Network" },
-{ 
-  label:"Construction / preworks issue", 
-  desc:"2-man jobs, civils risk, blocked route, preworks and install saves.", 
-  next:"construction_start", 
-  tag:"Construction" 
-},
+  {label:"Customer / Access issue", desc:"No reply, not ready, unsure, third-party access, route, reschedule or cancellation.", next:"customer_menu", tag:"Customer"},
+  {label:"Network / Drop issue", desc:"Coax, fibre, repull, light levels and non-serviceable scenarios.", next:"network_menu", tag:"Network"},
+  {label:"Construction / Preworks issue", desc:"Blocked ducts, sweeps, PA3/PA4 tooling, PA2/CUR blow issues and DP change checks.", next:"construction_menu", tag:"Construction"}
 ];
 
 const FLOWS = {
-  coc_menu:{
+  customer_menu:{
     type:"menu",
-    title:"Change of circumstances",
-    desc:"Pick what is actually stopping the job from completing.",
+    title:"Customer / Access issue",
+    desc:"Pick what is putting the job at risk. Every route should attempt a same-day save before failure.",
     options:[
-      {label:"Customer/property not ready", desc:"Return later, temporary safe install, or reschedule.", next:"coc_ready_1", tag:"Customer"},
-      {label:"Customer unsure / second thoughts", desc:"Understand concerns, resolve where possible, then escalate if needed.", next:"coc_unsure_1", tag:"Customer"},
-      {label:"Third-party access required", desc:"Service cupboard, landlord, agent or building manager access.", next:"coc_access_1", tag:"Access"},
-      {label:"Appointment brought forward", desc:"Customer did not expect the earlier slot.", next:"coc_early_1", tag:"Customer"}
+      {label:"No reply / no one home", desc:"Contact attempts, wait guidance and reattendance.", next:"nr_start", tag:"Customer"},
+      {label:"Customer/property not ready", desc:"Permanent install preferred, safe temporary as last resort.", next:"not_ready_1", tag:"Customer"},
+      {label:"Customer unsure / second thoughts", desc:"Resolve concerns and use FM/senior support before failing.", next:"unsure_1", tag:"Customer"},
+      {label:"Third-party access required", desc:"Landlord, agent, service cupboard or building manager access.", next:"access_1", tag:"Access"},
+      {label:"Cable route not agreed", desc:"Alternative route, FM/senior support and clear rationale.", next:"route_1", tag:"Route"},
+      {label:"Customer requested reschedule", desc:"Try to accommodate today before moving the job.", next:"resched_1", tag:"Customer"},
+      {label:"Customer requested cancellation", desc:"Understand reason, attempt save and escalate before failing.", next:"cancel_1", tag:"Customer"}
     ]
   },
-  coc_ready_1:{type:"question",title:"Can you reattend later today while protecting your remaining route?",desc:"Same-day return is preferred where possible.",yes:"coc_ready_yes",no:"coc_ready_2"},
-  coc_ready_yes:{type:"outcome",tone:"success",title:"Reattend later today and complete",desc:"Get the job put back into your ID, agree a return time with the customer, reattend and complete."},
-  coc_ready_2:{type:"question",title:"Can you complete a safe temporary install today?",desc:"Only use a temporary position if it is safe and creates no hazard.",yes:"coc_ready_temp",no:"coc_ready_fail"},
-  coc_ready_temp:{type:"outcome",tone:"success",title:"Complete install temporarily",desc:"Install equipment safely in a temporary position. Complete the job and agree a return date with the customer to relocate if required."},
-  coc_ready_fail:{type:"outcome",tone:"fail",title:"Stop here — close it correctly with clear notes",desc:"Inform router and arrange reschedule. Close as change of circumstances - customer/property not ready."},
 
-  coc_unsure_1:{type:"question",title:"Can you resolve the customer’s concerns?",desc:"Understand what is stopping them from proceeding and address expectations clearly.",yes:"coc_unsure_saved",no:"coc_unsure_2"},
-  coc_unsure_saved:{type:"outcome",tone:"success",title:"Continue with install",desc:"Customer is happy to proceed. Complete the install."},
-  coc_unsure_2:{type:"question",title:"Can your FM or a senior technician help save the job?",desc:"Use support if it may help resolve the customer’s concerns.",yes:"coc_unsure_saved",no:"coc_unsure_fail"},
-  coc_unsure_fail:{type:"outcome",tone:"fail",title:"Stop here — close it correctly with clear notes",desc:"If support cannot save the job, close as change of circumstances - customer unsure/second thoughts."},
-
-  coc_access_1:{type:"question",title:"Is third-party access required?",desc:"For example, service cupboard, landlord, letting agent or building manager access.",yes:"coc_access_2",no:"done"},
-  coc_access_2:{type:"question",title:"Can access be arranged today?",desc:"Contact landlord, letting agent or building manager where possible.",yes:"coc_access_saved",no:"coc_access_3"},
-  coc_access_saved:{type:"outcome",tone:"success",title:"Return when access is granted and complete",desc:"Reattend same day where possible and complete the install."},
-  coc_access_3:{type:"question",title:"Can you complete today with a safe temporary setup?",desc:"Only proceed if the temporary setup is safe and feasible.",yes:"coc_access_temp",no:"coc_access_fail"},
-  coc_access_temp:{type:"outcome",tone:"success",title:"Complete today and plan return",desc:"Complete using a safe temporary arrangement and agree a return for the final access works."},
-  coc_access_fail:{type:"outcome",tone:"fail",title:"Stop here — access not available",desc:"Close correctly and arrange return when access can be provided. Close as change of circumstances - third-party access not available."},
-
-  coc_early_1:{type:"question",title:"Can you contact the customer?",desc:"Call and text to explain the situation and agree options.",yes:"coc_early_2",no:"coc_early_4"},
-  coc_early_2:{type:"question",title:"Can the customer proceed today?",desc:"Reassure them and agree a workable plan for today.",yes:"coc_early_saved",no:"coc_early_3"},
-  coc_early_saved:{type:"outcome",tone:"success",title:"Proceed with install",desc:"Customer agrees. Complete the install."},
-  coc_early_3:{type:"question",title:"Can another responsible adult provide access?",desc:"If yes, proceed. If no, consider later reattendance.",yes:"coc_early_saved",no:"coc_early_4"},
-  coc_early_4:{type:"question",title:"Can the customer return later today for reattendance?",desc:"Agree a time and reattend if realistic.",yes:"coc_early_return",no:"coc_early_fail"},
-  coc_early_return:{type:"outcome",tone:"success",title:"Reattend later and complete",desc:"Arrange return time with the customer and complete the install."},
-  coc_early_fail:{type:"outcome",tone:"fail",title:"Stop here — rebook correctly",desc:"Close as change of circumstances - appointment brought forward. Arrange suitable appointment via correct channels."},
-
-  nr_menu:{
+  network_menu:{
     type:"menu",
-    title:"No reply / no one home",
-    desc:"Pick what is happening on site.",
+    title:"Network / Drop issue",
+    desc:"Pick the network blocker. The flow will push the correct recovery checks before any fail outcome.",
     options:[
-      {label:"Not answering but may be nearby", desc:"Call/text, wait based on AM/PM, reopen and reattempt later.", next:"nr_near_1", tag:"Customer"},
-      {label:"Customer unreachable / wrong contact", desc:"Call/text/voicemail. FM to source alternate contact if number is incorrect.", next:"nr_unreach_1", tag:"Customer"}
+      {label:"Coax damaged drop / low levels", desc:"Connections, tap, cut/test, boundary, repair, temp and FM escalation.", next:"coax_1", tag:"Coax"},
+      {label:"Fibre Up issue", desc:"Light levels, port check, new port, scope/clean and preblow.", next:"fibreup_1", tag:"Fibre"},
+      {label:"UG/OH fibre issue", desc:"Qualification-based DP access, preblow and same-day save options.", next:"ugoh_1", tag:"Fibre"},
+      {label:"Non-serviceable / no capacity", desc:"Maps, portals, Badger neighbours, FM and senior tech support.", next:"nsa_1", tag:"Network"}
     ]
   },
-  nr_near_1:{type:"info",title:"Attempt contact",desc:"Call and text all available numbers. If the customer responds, proceed when available.",next:"nr_near_2"},
-  nr_near_2:{type:"question",title:"Is this an AM appointment?",desc:"AM guidance is shorter wait. PM guidance is longer wait.",yes:"nr_near_am",no:"nr_near_pm"},
-  nr_near_am:{type:"info",title:"AM guidance",desc:"Wait around 5 minutes. If no answer, move on and plan reattendance later where possible.",next:"nr_near_3"},
-  nr_near_pm:{type:"info",title:"PM guidance",desc:"Wait around 15 minutes. If no answer, move on and plan reattendance later where possible.",next:"nr_near_3"},
-  nr_near_3:{type:"question",title:"Can the job be reopened and reattempted later today?",desc:"If realistic, reopen and put as the last job of the day.",yes:"nr_near_4",no:"nr_near_fail"},
-  nr_near_4:{type:"outcome",tone:"success",title:"Reattend later and complete",desc:"If the customer confirms availability, you must reattend and complete the install."},
-  nr_near_fail:{type:"outcome",tone:"fail",title:"Stop here — close it correctly with clear notes",desc:"If no response and reattendance is not possible, close as no reply / no one home. Notes must show contact attempts."},
 
-  nr_unreach_1:{type:"info",title:"Attempt contact",desc:"Call, text and leave voicemail where available.",next:"nr_unreach_2"},
-  nr_unreach_2:{type:"question",title:"Is the contact number incorrect or invalid?",desc:"If incorrect, escalate to FM to source alternative contact details.",yes:"nr_unreach_3",no:"nr_unreach_fail"},
-  nr_unreach_3:{type:"outcome",tone:"stop",title:"Escalate to FM for alternative contact",desc:"FM may source alternative contact details and potentially email the customer. If contact is established, proceed with the install."},
-  nr_unreach_fail:{type:"outcome",tone:"fail",title:"Stop here — close it correctly with clear notes",desc:"Close as no reply / no one home - customer unreachable. Notes must show all contact attempts."},
+  construction_menu:{
+    type:"menu",
+    title:"Construction / Preworks issue",
+    desc:"Pick the build/blocker. This section is designed to build a strong rationale before a construction failure.",
+    options:[
+      {label:"PA3 / PA4 blocked route", desc:"Desiliter, cobra ends, hoover, sweep, backrod, alternative routes and DP change.", next:"pa34_1", tag:"PA3/PA4"},
+      {label:"PA2 / CUR blow issue", desc:"Compressor, fibre gun, sponges, bullets, reverse blow and pressure changes.", next:"pa2cur_1", tag:"PA2/CUR"},
+      {label:"Blocked sweep / conduit", desc:"Hoover, expose sweep, rod after sweep and backrod.", next:"sweep_1", tag:"Sweep"},
+      {label:"No viable route to DP", desc:"Maps, portals, alternative route and DP change consideration.", next:"dp_route_1", tag:"DP Route"},
+      {label:"Preworks cannot be completed safely", desc:"Safety, access, scope and FM escalation.", next:"cons_safety_1", tag:"Safety"}
+    ]
+  },
 
-  coax_start:{type:"info",title:"Coax — damaged drop / low levels / low SNR",desc:"Attempt repair first, then escalation, then dry install only where appropriate.",next:"coax_damage_1"},
-  coax_damage_1:{type:"question",title:"Is there visible damage on the drop?",desc:"If yes, cut at the damage point and test from there.",yes:"coax_damage_2",no:"coax_levels_1"},
-  coax_damage_2:{type:"info",title:"Cut at damage point and test",desc:"Cut at the point of damage, then test levels at that point.",next:"coax_damage_3"},
-  coax_damage_3:{type:"question",title:"Are levels OK at this point?",desc:"If yes, splice and replace the affected section.",yes:"coax_damage_splice",no:"coax_boundary_1"},
-  coax_damage_splice:{type:"outcome",tone:"success",title:"Splice, replace section and reinstate",desc:"Fit splice kit and install new cable length from that point. Bury/reinstate garden and proceed with install."},
-  coax_boundary_1:{type:"info",title:"Cut at boundary and test",desc:"Cut at boundary wall and test from this point.",next:"coax_boundary_2"},
-  coax_boundary_2:{type:"question",title:"Are levels OK at boundary?",desc:"If yes, splice and replace the affected section.",yes:"coax_damage_splice",no:"coax_neighbour_1"},
-  coax_neighbour_1:{type:"question",title:"Can a temporary neighbour connection be attempted?",desc:"Only where this is a realistic and appropriate option on site.",yes:"coax_neighbour_ok",no:"coax_escalate_1"},
-  coax_neighbour_ok:{type:"outcome",tone:"success",title:"Temporary neighbour option",desc:"Attempt temporary connection from neighbour’s garden. If levels are within spec, complete install."},
-  coax_escalate_1:{type:"info",title:"Contact FM",desc:"Contact FM to review whether repull can be completed today.",next:"coax_escalate_2"},
-  coax_escalate_2:{type:"question",title:"Can repull be completed today?",desc:"If yes, repull and complete. If no, check whether dry install is appropriate.",yes:"coax_repullday",no:"coax_dry_1"},
-  coax_repullday:{type:"outcome",tone:"success",title:"Repull today and complete",desc:"Proceed with repull today and complete install."},
-  coax_dry_1:{type:"question",title:"Can repull go ahead without construction?",desc:"Duct must be visible/available. If construction is required, do not dry install.",yes:"coax_dry_ok",no:"coax_dry_no"},
-  coax_dry_ok:{type:"outcome",tone:"success",title:"Dry install and book TLOS repull",desc:"Complete dry install. Book TLOS repull for next working day. Close install as complete."},
-  coax_dry_no:{type:"outcome",tone:"fail",title:"Stop here — construction required",desc:"Do not complete dry install. Close as not done and inform the customer. Repull requires construction."},
-  coax_levels_1:{type:"outcome",tone:"stop",title:"Low levels / low SNR",desc:"Follow the same cut/test escalation route where applicable. If levels cannot be brought within spec, the job should not complete."},
+  nr_start:{type:"info",title:"No reply / no one home",desc:"Call and text all available numbers. Leave voicemail where available. The job should be reopened and reattended, multiple times if necessary, where this can save the job.",next:"nr_1"},
+  nr_1:{type:"question",title:"Have all available contact methods been attempted?",desc:"Call, text and voicemail where available. Notes must show the attempts.",yes:"nr_2",no:"nr_contact_required"},
+  nr_contact_required:{type:"outcome",tone:"stop",title:"Do not fail yet — attempt contact first",desc:"Attempt all contact methods before progressing. Failure is not defensible without clear contact attempts."},
+  nr_2:{type:"question",title:"Has the correct wait guidance been followed?",desc:"AM: wait 10 minutes. PM: wait 10 minutes. PPM / 4–7: use judgement and speak to FM if unsure due to end-of-day route pressure.",yes:"nr_3",no:"nr_wait_required"},
+  nr_wait_required:{type:"outcome",tone:"stop",title:"Do not fail yet — follow wait guidance",desc:"Wait 10 minutes for AM/PM. For PPM, use judgement and contact FM if unsure before deciding the job cannot be saved."},
+  nr_3:{type:"question",title:"Can the job be reopened and reattended today?",desc:"Jobs must always be reopened and reattended where possible, multiple times if necessary, to save completion.",yes:"nr_saved",no:"nr_4"},
+  nr_saved:{type:"outcome",tone:"success",title:"Reopen, reattend and complete",desc:"Reopen the job, agree/attempt reattendance and complete the install if the customer becomes available."},
+  nr_4:{type:"question",title:"Has FM been contacted before failure?",desc:"FM escalation is mandatory before any fail.",yes:"nr_fail",no:"fm_required"},
+  nr_fail:{type:"outcome",tone:"fail",title:"Failure rationale — no reply / no one home",desc:"Fail only once all contact methods have been attempted, correct wait guidance has been followed, reattendance has been attempted or ruled out, and FM has been contacted. Notes must show times, contact attempts and why the job could not be saved."},
 
-  fu_start:{type:"info",title:"Fibre Up",desc:"No temporary fibre connections. Light meter, port light/new port, scope/clean, FM preblow, then dry install only if appropriate.",next:"fu_1"},
-  fu_1:{type:"info",title:"Check light levels",desc:"Use light meter. If levels are within spec, continue with install.",next:"fu_2"},
-  fu_2:{type:"question",title:"Are light levels within spec?",desc:"If not within spec, check port in cabinet for light.",yes:"fu_saved",no:"fu_3"},
-  fu_saved:{type:"outcome",tone:"success",title:"Continue with install",desc:"Levels are within spec. Proceed with install."},
-  fu_3:{type:"info",title:"Check cabinet port for light",desc:"If port has no light, use a new port. Re-test levels.",next:"fu_4"},
-  fu_4:{type:"question",title:"After port check/new port, are levels within spec?",desc:"If still not, scope and clean fibre ends.",yes:"fu_saved",no:"fu_5"},
-  fu_5:{type:"info",title:"Scope and clean fibre ends",desc:"Scope ends and ensure they are clean. Re-test light levels.",next:"fu_6"},
-  fu_6:{type:"question",title:"After scope/clean, are levels within spec?",desc:"If not, contact FM to arrange preblow same day.",yes:"fu_saved",no:"fu_7"},
-  fu_7:{type:"question",title:"Can FM arrange preblow today?",desc:"If yes, re-test after preworks and proceed.",yes:"fu_preblow",no:"fu_8"},
-  fu_preblow:{type:"outcome",tone:"success",title:"Preblow today, re-test and proceed",desc:"Preblow completed today. Re-test levels. If within spec, proceed with install."},
-  fu_8:{type:"question",title:"Are there construction issues?",desc:"If there are no construction issues, dry install and book TLOS. If construction is required, do not dry install.",yes:"fu_cons",no:"fu_dry"},
-  fu_dry:{type:"outcome",tone:"success",title:"Dry install and book TLOS",desc:"No construction issues. Complete dry install, book TLOS and close install as complete."},
-  fu_cons:{type:"outcome",tone:"fail",title:"Stop here — construction required",desc:"Do not complete dry install. Book TLOS with construction and close install as not done."},
+  not_ready_1:{type:"question",title:"Can the permanent install still be completed today?",desc:"Permanent completion is preferred where possible.",yes:"not_ready_saved",no:"not_ready_2"},
+  not_ready_saved:{type:"outcome",tone:"success",title:"Complete permanent install",desc:"Complete the job permanently and close as complete."},
+  not_ready_2:{type:"question",title:"Can a safe temporary install save the job today?",desc:"Temporary install is allowed if safe. It should be a last resort to protect completion when permanent completion is not possible on the day.",yes:"not_ready_temp",no:"not_ready_3"},
+  not_ready_temp:{type:"outcome",tone:"success",title:"Complete safe temporary install",desc:"Complete the install safely in a temporary position, document what has been agreed and arrange follow-up where required."},
+  not_ready_3:{type:"question",title:"Has FM been contacted before failure?",desc:"FM escalation is mandatory before any fail.",yes:"not_ready_fail",no:"fm_required"},
+  not_ready_fail:{type:"outcome",tone:"fail",title:"Failure rationale — customer/property not ready",desc:"Fail only once permanent completion and safe temporary completion have been considered, same-day reattendance has been ruled out, and FM has been contacted. Notes must explain what prevented completion."},
 
-  fo_start:{type:"info",title:"Fibre — other build types",desc:"Port access depends on qualification. Remediation is via VMO2 technicians, not contractors.",next:"fo_1"},
-  fo_1:{type:"info",title:"Check light levels",desc:"Use light meter. If within spec, continue with install.",next:"fo_2"},
-  fo_2:{type:"question",title:"Are light levels within spec?",desc:"If not, qualification determines whether you can check port for light.",yes:"fo_saved",no:"fo_3"},
-  fo_saved:{type:"outcome",tone:"success",title:"Continue with install",desc:"Levels are within spec. Proceed with install."},
-  fo_3:{type:"question",title:"Are you qualified to access the port?",desc:"PIA / OH qualification may be required. If not qualified, escalate to FM.",yes:"fo_4",no:"fo_qual"},
-  fo_qual:{type:"info",title:"Escalate via FM",desc:"Arrange a qualified VMO2 technician to attend and support port-side checks.",next:"fo_5"},
-  fo_4:{type:"info",title:"Port-side checks",desc:"Check for light at port. If no light, use a new port. Re-test levels.",next:"fo_5"},
-  fo_5:{type:"info",title:"Scope and clean fibre ends",desc:"Scope ends and clean as required. Re-test light levels.",next:"fo_6"},
-  fo_6:{type:"question",title:"Are levels within spec now?",desc:"If not, check whether prepull can be completed today, even later.",yes:"fo_saved",no:"fo_7"},
-  fo_7:{type:"question",title:"Can prepull/fibre work be completed today?",desc:"If yes, dry install now and crew completes preworks later.",yes:"fo_dry_ok",no:"fo_fail"},
-  fo_dry_ok:{type:"outcome",tone:"success",title:"Dry install now and preworks later",desc:"Complete dry install and complete the job. Advise customer crew will attend later to complete preworks."},
-  fo_fail:{type:"outcome",tone:"fail",title:"Stop here — close it correctly with clear notes",desc:"If prepull cannot be completed today, close as drop/repull required - fibre."},
+  unsure_1:{type:"question",title:"Have the customer’s concerns been understood and addressed?",desc:"Clarify what is causing the customer to hesitate and try to resolve it on site.",yes:"unsure_saved",no:"unsure_2"},
+  unsure_saved:{type:"outcome",tone:"success",title:"Customer happy to proceed",desc:"Proceed with the install and complete the job."},
+  unsure_2:{type:"question",title:"Has FM or a senior technician been used to support the save?",desc:"FM escalation is mandatory before any fail. Use support to try and resolve the concern.",yes:"unsure_3",no:"fm_required"},
+  unsure_3:{type:"question",title:"After support, will the customer proceed?",desc:"If the customer agrees, complete the job.",yes:"unsure_saved",no:"unsure_fail"},
+  unsure_fail:{type:"outcome",tone:"fail",title:"Failure rationale — customer unsure / second thoughts",desc:"Fail only once the concern has been understood, options have been explained, FM/senior support has been used, and the customer still will not proceed. Notes must clearly explain the reason."},
 
-  route_start:{type:"question",title:"Can you find an alternative route the customer will accept?",desc:"The route must be technically viable and as close to customer expectation as possible.",yes:"route_saved",no:"route_2"},
-  route_saved:{type:"outcome",tone:"success",title:"Agree route and proceed",desc:"Agree final route with customer and continue with install."},
-  route_2:{type:"question",title:"Can FM or a senior technician help resolve route concerns?",desc:"Use support where more time or experience could save the job.",yes:"route_saved",no:"route_fail"},
-  route_fail:{type:"outcome",tone:"fail",title:"Stop here — close it correctly with clear notes",desc:"Close as cable route not agreed. Notes must explain what route was proposed and why it could not be agreed."},
+  access_1:{type:"question",title:"Can third-party access be arranged today?",desc:"Contact landlord, letting agent, building manager or relevant party where possible.",yes:"access_saved",no:"access_2"},
+  access_saved:{type:"outcome",tone:"success",title:"Access arranged — complete today",desc:"Reattend or wait where realistic, gain access and complete the install."},
+  access_2:{type:"question",title:"Can a safe temporary install complete the job today?",desc:"Only proceed if safe and appropriate. Permanent solution can be followed up later if needed.",yes:"access_temp",no:"access_3"},
+  access_temp:{type:"outcome",tone:"success",title:"Complete safe temporary install",desc:"Complete safely, document the access limitation and agree any follow-up required."},
+  access_3:{type:"question",title:"Has FM been contacted before failure?",desc:"FM escalation is mandatory before any fail.",yes:"access_fail",no:"fm_required"},
+  access_fail:{type:"outcome",tone:"fail",title:"Failure rationale — third-party access unavailable",desc:"Fail only once access has been attempted, same-day options have been explored, safe temporary completion has been ruled out, and FM has been contacted."},
 
-  pit_start:{type:"info",title:"No access to pit / cab",desc:"Usually caused by parked vehicle or obstruction. Try to identify owner, leave note and reattempt later.",next:"pit_1"},
-  pit_1:{type:"question",title:"Can you identify the vehicle/obstruction owner?",desc:"Ask customer and nearby neighbours. If located, request temporary movement.",yes:"pit_owner",no:"pit_2"},
-  pit_owner:{type:"outcome",tone:"success",title:"Ask owner to move temporarily",desc:"If owner can move vehicle/obstruction temporarily, access pit/cab and complete required works."},
-  pit_2:{type:"info",title:"Leave polite note and move on",desc:"Leave a polite note requesting the vehicle/obstruction is moved so access can be gained. Return later same day.",next:"pit_3"},
-  pit_3:{type:"question",title:"On return, is access now available?",desc:"If yes, complete works. If still blocked, close correctly.",yes:"pit_owner",no:"pit_fail"},
-  pit_fail:{type:"outcome",tone:"fail",title:"Stop here — reschedule correctly",desc:"Close as no access to pit/cab. Notes must explain attempts made to gain access."},
+  route_1:{type:"question",title:"Can an alternative route be agreed with the customer?",desc:"Try to find a technically viable route that meets, or gets close to, the customer’s expectations.",yes:"route_saved",no:"route_2"},
+  route_saved:{type:"outcome",tone:"success",title:"Alternative route agreed — complete",desc:"Agree the final route with the customer and complete the install."},
+  route_2:{type:"question",title:"Has FM or a senior technician reviewed the route concern?",desc:"Use support where experience or authority may save the job.",yes:"route_3",no:"fm_required"},
+  route_3:{type:"question",title:"After support, can the route be agreed?",desc:"If yes, complete the install. If no, build the rationale clearly.",yes:"route_saved",no:"route_fail"},
+  route_fail:{type:"outcome",tone:"fail",title:"Failure rationale — cable route not agreed",desc:"Fail only once alternative routes have been considered, FM/senior support has reviewed it, and the customer still will not accept a viable route. Notes must explain the proposed route, alternatives discussed and why agreement could not be reached."},
 
-  order_start:{type:"question",title:"Has the customer actually placed the order?",desc:"Confirm whether this is a genuine order or an order entry issue.",yes:"order_2",no:"order_fail_noorder"},
-  order_fail_noorder:{type:"outcome",tone:"fail",title:"Stop here — order not placed",desc:"Close as customer never ordered / order entry error."},
-  order_2:{type:"question",title:"Can customer service or sales fix the order today?",desc:"Attempt same-day correction so the install can proceed.",yes:"order_saved",no:"order_3"},
-  order_saved:{type:"outcome",tone:"success",title:"Proceed with install",desc:"Order corrected and customer happy. Continue with install."},
-  order_3:{type:"question",title:"Is the issue linked to TV service expectations?",desc:"If yes, contact TiVo Nigel or use CONS 360 Teams channel for support.",yes:"order_tv",no:"order_fail"},
-  order_tv:{type:"outcome",tone:"stop",title:"Get TV support",desc:"Use TiVo Nigel / CONS 360 support. If resolved on the day, proceed. If not resolved, close correctly."},
-  order_fail:{type:"outcome",tone:"fail",title:"Stop here — close it correctly with clear notes",desc:"Close as order entry error."},
+  resched_1:{type:"question",title:"Can the customer be accommodated today?",desc:"Consider later return, timing adjustment, or another responsible adult allowing access.",yes:"resched_saved",no:"resched_2"},
+  resched_saved:{type:"outcome",tone:"success",title:"Accommodate and complete today",desc:"Adjust the plan where reasonable and complete the install."},
+  resched_2:{type:"question",title:"Has FM been contacted before failure?",desc:"FM escalation is mandatory before any fail.",yes:"resched_fail",no:"fm_required"},
+  resched_fail:{type:"outcome",tone:"fail",title:"Failure rationale — customer requested reschedule",desc:"Fail only once same-day options have been explored and FM has been contacted. Notes must explain what options were offered and why the job could not complete today."},
 
-  resched_start:{type:"question",title:"Can you accommodate the customer today?",desc:"Consider later return, timing adjustment or another responsible adult to allow access.",yes:"resched_saved",no:"resched_fail"},
-  resched_saved:{type:"outcome",tone:"success",title:"Proceed and complete",desc:"Make reasonable accommodations and complete the install today."},
-  resched_fail:{type:"outcome",tone:"fail",title:"Stop here — reschedule correctly",desc:"Close as customer requested reschedule and arrange rebooking via correct channels."},
+  cancel_1:{type:"question",title:"Do you understand why the customer wants to cancel?",desc:"Ask the reason and try to resolve the blocker.",yes:"cancel_2",no:"cancel_reason_required"},
+  cancel_reason_required:{type:"outcome",tone:"stop",title:"Do not fail yet — understand the reason first",desc:"Clarify why the customer wants to cancel before progressing. The notes must explain the reason."},
+  cancel_2:{type:"question",title:"Can the concern be resolved on site?",desc:"If yes, proceed and complete.",yes:"cancel_saved",no:"cancel_3"},
+  cancel_saved:{type:"outcome",tone:"success",title:"Customer agrees to proceed",desc:"Complete the install."},
+  cancel_3:{type:"question",title:"Has FM or senior support been used before failure?",desc:"FM escalation is mandatory before any fail.",yes:"cancel_fail",no:"fm_required"},
+  cancel_fail:{type:"outcome",tone:"fail",title:"Failure rationale — customer requested cancellation",desc:"Fail only once the reason has been understood, resolution options have been attempted, FM/senior support has been used, and the customer still requests cancellation."},
 
-  cancel_start:{type:"question",title:"Can you address the reason for cancellation?",desc:"Understand why the customer wants to cancel and attempt to resolve where appropriate.",yes:"cancel_saved",no:"cancel_2"},
-  cancel_saved:{type:"outcome",tone:"success",title:"Proceed with install",desc:"Customer agrees to proceed. Complete the install."},
-  cancel_2:{type:"question",title:"Can FM or a senior technician help resolve concerns?",desc:"Use support if it could save the job.",yes:"cancel_saved",no:"cancel_fail"},
-  cancel_fail:{type:"outcome",tone:"fail",title:"Stop here — close it correctly with clear notes",desc:"Close as customer requested cancellation."},
+  coax_1:{type:"question",title:"Have all relevant connections been checked/replaced?",desc:"Check omni/cabinet connections and replace F-connectors where required before judging the drop as failed.",yes:"coax_2",no:"coax_connections"},
+  coax_connections:{type:"outcome",tone:"stop",title:"Do not fail yet — complete connection checks",desc:"Replace/check required connectors and retest before progressing."},
+  coax_2:{type:"question",title:"Has signal been tested at the tap?",desc:"Confirm the issue is not at source. Try alternative ports where appropriate and escalate Networks if needed.",yes:"coax_3",no:"coax_tap"},
+  coax_tap:{type:"outcome",tone:"stop",title:"Do not fail yet — test at tap",desc:"Test at the tap/source and rule out port/source issues before progressing."},
+  coax_3:{type:"question",title:"Is there visible damage on the drop?",desc:"If damage is visible, cut at the damage point and test from there.",yes:"coax_4",no:"coax_6"},
+  coax_4:{type:"question",title:"After cutting at the damage point, are levels within spec?",desc:"If yes, repair from that point.",yes:"coax_repair",no:"coax_5"},
+  coax_repair:{type:"outcome",tone:"success",title:"Repair, reinstate and complete",desc:"Splice/repair from the damage point, replace the affected section, reinstate safely and complete the install."},
+  coax_5:{type:"question",title:"Have you cut and tested at the boundary?",desc:"Boundary test helps narrow the failure point and may allow repair from there.",yes:"coax_7",no:"coax_boundary_required"},
+  coax_6:{type:"question",title:"Have you cut and tested at the boundary or first accessible point?",desc:"Use this to narrow the failure and avoid unnecessary repull.",yes:"coax_7",no:"coax_boundary_required"},
+  coax_boundary_required:{type:"outcome",tone:"stop",title:"Do not fail yet — cut/test at boundary",desc:"Cut and test at the boundary or first accessible point where appropriate before booking or failing for repull."},
+  coax_7:{type:"question",title:"Can the drop be repaired from the boundary/test point?",desc:"Permanent repair is preferred where possible.",yes:"coax_repair",no:"coax_8"},
+  coax_8:{type:"question",title:"Can a safe temporary connection save completion today?",desc:"Temporary is last resort but acceptable if safe. For HFC, consider a neighbour temporary where appropriate.",yes:"coax_temp",no:"coax_9"},
+  coax_temp:{type:"outcome",tone:"success",title:"Complete with safe temporary solution",desc:"Use the safe temporary option, complete the install and ensure follow-up is arranged for the permanent fix."},
+  coax_9:{type:"question",title:"Has FM reviewed before failure or repull decision?",desc:"FM escalation is mandatory before any fail.",yes:"coax_10",no:"fm_required"},
+  coax_10:{type:"question",title:"Can repull be completed today?",desc:"If yes, complete repull and install today.",yes:"coax_repullday",no:"coax_11"},
+  coax_repullday:{type:"outcome",tone:"success",title:"Repull today and complete",desc:"Complete repull and install on the day."},
+  coax_11:{type:"question",title:"Can a dry install be completed without construction?",desc:"Only where safe and no civils/construction is required.",yes:"coax_dry",no:"coax_fail"},
+  coax_dry:{type:"outcome",tone:"success",title:"Dry install and protect follow-up",desc:"Complete dry install, book required TLOS/repull follow-up and close install as complete where process allows."},
+  coax_fail:{type:"outcome",tone:"fail",title:"Failure rationale — coax drop / repull required",desc:"Fail only once connections, tap/source, cut/test points, repair options, safe temporary options, same-day repull and dry install options have been exhausted, and FM has reviewed. Notes must show what was tested and why completion cannot be achieved."},
 
-  nsa_start:{type:"info",title:"Non serviceable address",desc:"Includes no capacity/facilities. Attempt saves before closing.",next:"nsa_1"},
-  nsa_1:{type:"question",title:"Do neighbours have or previously had service?",desc:"Use Badger/neighbour check to understand how service has been provided nearby.",yes:"nsa_rep",no:"nsa_2"},
-  nsa_rep:{type:"outcome",tone:"success",title:"Replicate neighbour install if possible",desc:"Use neighbour install process as reference and attempt to replicate to complete install."},
-  nsa_2:{type:"info",title:"FM to check GCOMS",desc:"Ask FM to check GCOMS to understand how network has been built and whether install can be enabled.",next:"nsa_3"},
-  nsa_3:{type:"question",title:"Can a senior engineer attend to find a solution?",desc:"If yes and a solution is found, proceed. If no solution, close correctly.",yes:"nsa_senior",no:"nsa_fail"},
-  nsa_senior:{type:"outcome",tone:"stop",title:"Senior engineer on-site review",desc:"Senior engineer attends and attempts to find a way to complete the install."},
-  nsa_fail:{type:"outcome",tone:"fail",title:"Stop here — close it correctly with clear notes",desc:"Close as non serviceable address. Notes must explain what checks were completed."},
+  fibreup_1:{type:"question",title:"Have light levels been checked with a light meter?",desc:"Confirm levels before progressing. Fibre cannot be temporarily connected like coax.",yes:"fibreup_2",no:"fibre_light_required"},
+  fibre_light_required:{type:"outcome",tone:"stop",title:"Do not fail yet — check light levels",desc:"Use light meter and record/understand the result before progressing."},
+  fibreup_2:{type:"question",title:"Are light levels within spec?",desc:"If yes, continue install.",yes:"fibre_success",no:"fibreup_3"},
+  fibre_success:{type:"outcome",tone:"success",title:"Levels within spec — complete install",desc:"Proceed and complete the job."},
+  fibreup_3:{type:"question",title:"Has the cabinet port been checked for light / changed where required?",desc:"If the port has no light, use a new port and retest.",yes:"fibreup_4",no:"fibre_port_required"},
+  fibre_port_required:{type:"outcome",tone:"stop",title:"Do not fail yet — complete port checks",desc:"Check for light at port, use a new port where required and retest."},
+  fibreup_4:{type:"question",title:"Have fibre ends been scoped and cleaned?",desc:"Scope and clean fibre ends, then retest.",yes:"fibreup_5",no:"fibre_scope_required"},
+  fibre_scope_required:{type:"outcome",tone:"stop",title:"Do not fail yet — scope and clean",desc:"Scope and clean fibre ends before progressing to failure rationale."},
+  fibreup_5:{type:"question",title:"Are levels within spec after checks?",desc:"If yes, complete. If not, preblow is next.",yes:"fibre_success",no:"fibreup_6"},
+  fibreup_6:{type:"question",title:"Can FM arrange preblow today?",desc:"FM escalation is mandatory before failure. Preblow should be attempted to save the day where possible.",yes:"fibre_preblow",no:"fibreup_7"},
+  fibre_preblow:{type:"outcome",tone:"success",title:"Preblow, retest and complete",desc:"Complete preblow today, retest light levels and complete the install if levels are within spec."},
+  fibreup_7:{type:"question",title:"Are there construction issues preventing dry install?",desc:"Dry install only where no construction issue prevents the follow-up.",yes:"fibreup_fail",no:"fibre_dry"},
+  fibre_dry:{type:"outcome",tone:"success",title:"Dry install and book follow-up",desc:"Complete dry install and book the required follow-up/preblow where process allows."},
+  fibreup_fail:{type:"outcome",tone:"fail",title:"Failure rationale — Fibre Up / construction required",desc:"Fail only once light levels, port checks, new port, scope/clean, FM preblow and dry install suitability have all been considered. Notes must explain why fibre cannot be completed today."},
 
-  construction_start:{
-  type:"info",
-  title:"Construction / Preworks issue",
-  desc:"Use this where the job includes preworks and install activity, particularly on 2-man work orders where the aim is to complete the civils/prep activity and still protect the install on the day.",
-  next:"construction_1"
-},
+  ugoh_1:{type:"question",title:"Have light levels been checked?",desc:"Use light meter. If within spec, complete install.",yes:"ugoh_2",no:"fibre_light_required"},
+  ugoh_2:{type:"question",title:"Are levels within spec?",desc:"If yes, continue install.",yes:"fibre_success",no:"ugoh_3"},
+  ugoh_3:{type:"question",title:"Are you qualified to access the DP/port?",desc:"Certain qualifications are required to access DPs. Do not access if not qualified.",yes:"ugoh_4",no:"ugoh_fm"},
+  ugoh_fm:{type:"question",title:"Can FM arrange qualified technician support today?",desc:"Use qualified VMO2 support to complete the port-side checks.",yes:"ugoh_4",no:"ugoh_7"},
+  ugoh_4:{type:"question",title:"Have port-side checks/new port been completed?",desc:"Check for light at DP/port, use new port where required and retest.",yes:"ugoh_5",no:"fibre_port_required"},
+  ugoh_5:{type:"question",title:"Have fibre ends been scoped and cleaned?",desc:"Clean/scope as required and retest.",yes:"ugoh_6",no:"fibre_scope_required"},
+  ugoh_6:{type:"question",title:"Are levels within spec now?",desc:"If yes, complete install.",yes:"fibre_success",no:"ugoh_7"},
+  ugoh_7:{type:"question",title:"Can preblow/preworks be completed today?",desc:"If yes, complete the required preworks and continue.",yes:"fibre_preblow",no:"ugoh_8"},
+  ugoh_8:{type:"question",title:"Can a safe temporary UG option save completion?",desc:"On UG network only, it may be possible to use a neighbour T where appropriate until blockage is cleared.",yes:"ugoh_temp",no:"ugoh_9"},
+  ugoh_temp:{type:"outcome",tone:"success",title:"Use safe UG temporary option and complete",desc:"Use the neighbour T / safe temporary UG option where suitable, complete the install and ensure permanent follow-up is arranged."},
+  ugoh_9:{type:"question",title:"Has FM reviewed before failure?",desc:"FM escalation is mandatory before any fail.",yes:"ugoh_fail",no:"fm_required"},
+  ugoh_fail:{type:"outcome",tone:"fail",title:"Failure rationale — UG/OH fibre issue",desc:"Fail only once qualification requirements, port checks, new port, scope/clean, preblow/preworks, UG temporary options and FM support have been exhausted. Notes must explain why completion cannot be achieved today."},
 
-construction_1:{
-  type:"question",
-  title:"Can the required preworks be completed safely today?",
-  desc:"Confirm whether the route can be recovered, cleared, dug, pulled or prepared safely within the scope of the work order.",
-  yes:"construction_2",
-  no:"construction_fail"
-},
+  nsa_1:{type:"question",title:"Have maps/portals been checked to understand the build?",desc:"Check GCOMS, Network Expansion Portal or Openreach portal depending on build.",yes:"nsa_2",no:"nsa_maps_required"},
+  nsa_maps_required:{type:"outcome",tone:"stop",title:"Do not fail yet — check maps/portals",desc:"Check the relevant network records first so the failure is based on evidence, not assumption."},
+  nsa_2:{type:"question",title:"Have neighbours been checked / Badgered?",desc:"Check whether neighbours have been installed and copy how this has been achieved where possible.",yes:"nsa_3",no:"nsa_badger_required"},
+  nsa_badger_required:{type:"outcome",tone:"stop",title:"Do not fail yet — Badger neighbours",desc:"Check nearby installs and use them as a guide before concluding the address is non-serviceable."},
+  nsa_3:{type:"question",title:"Can FM or senior tech find a way to install?",desc:"Use FM/senior support to review maps, route and local build.",yes:"nsa_saved",no:"nsa_fail"},
+  nsa_saved:{type:"outcome",tone:"success",title:"Route found — complete install",desc:"Use the identified method and complete the install."},
+  nsa_fail:{type:"outcome",tone:"fail",title:"Failure rationale — non-serviceable / no capacity",desc:"Fail only once maps/portals have been checked, neighbours have been Badgered, and FM/senior tech support has reviewed whether a route or solution exists. Notes must explain the network reason preventing completion."},
 
-construction_2:{
-  type:"question",
-  title:"Can the install still be completed today after the preworks?",
-  desc:"If the preworks can be completed, check whether there is still enough time and resource to complete the install fully.",
-  yes:"construction_saved",
-  no:"construction_partial"
-},
+  pa34_1:{type:"question",title:"Have you confirmed this is PA3 / PA4 build?",desc:"Desiliter, cobra and hoover recovery applies to PA3 / PA4 style routes, not PA2/CUR straw blow issues.",yes:"pa34_2",no:"build_type_required"},
+  build_type_required:{type:"outcome",tone:"stop",title:"Do not fail yet — confirm build type",desc:"Confirm the build type before choosing tooling or failure rationale."},
+  pa34_2:{type:"question",title:"Has the Desiliter been attempted where suitable?",desc:"Use Desiliter where appropriate to attempt route recovery before failing for construction.",yes:"pa34_3",no:"desiliter_required"},
+  desiliter_required:{type:"outcome",tone:"stop",title:"Do not fail yet — attempt Desiliter",desc:"Where suitable, attempt Desiliter and record the outcome before progressing."},
+  pa34_3:{type:"question",title:"Have different cobra ends / attachments been attempted?",desc:"Try suitable cobra ends for the blockage type. A single attempt is not enough to prove non-recoverable.",yes:"pa34_4",no:"cobra_required"},
+  cobra_required:{type:"outcome",tone:"stop",title:"Do not fail yet — try alternative cobra ends",desc:"Attempt different cobra ends/attachments and record what was tried."},
+  pa34_4:{type:"question",title:"If the sweep/conduit is suspected, has debris been cleared?",desc:"Use hoover/vacuum where suitable to clear debris from the sweep before failing.",yes:"pa34_5",no:"hoover_required"},
+  hoover_required:{type:"outcome",tone:"stop",title:"Do not fail yet — clear debris",desc:"Hoover/clear the sweep or conduit where appropriate and reattempt the route."},
+  pa34_5:{type:"question",title:"Has the sweep been exposed and tested from after the sweep where needed?",desc:"Expose the sweep if safe and within scope, then rod from after the sweep to prove the issue location.",yes:"pa34_6",no:"sweep_required"},
+  sweep_required:{type:"outcome",tone:"stop",title:"Do not fail yet — expose/test sweep where required",desc:"Where safe and in scope, expose the sweep and rod from after it before failing."},
+  pa34_6:{type:"question",title:"Has backrodding been attempted where possible?",desc:"Backrod to see if the blockage can be cleared from the opposite direction.",yes:"pa34_7",no:"backrod_required"},
+  backrod_required:{type:"outcome",tone:"stop",title:"Do not fail yet — attempt backrod",desc:"Backrod where possible and record the outcome."},
+  pa34_7:{type:"question",title:"Is there another viable route to the DP?",desc:"Check portals/maps and on-site route options before failing.",yes:"alt_route_success",no:"pa34_8"},
+  alt_route_success:{type:"outcome",tone:"success",title:"Use alternative route and complete",desc:"Use the viable alternative route to protect completion."},
+  pa34_8:{type:"question",title:"Could the job be saved with a DP change?",desc:"Check whether another DP is viable and whether a DP change can be completed.",yes:"dp_change_success",no:"pa34_9"},
+  dp_change_success:{type:"outcome",tone:"success",title:"Progress DP change and complete",desc:"Complete or arrange the DP change where viable and continue the job."},
+  pa34_9:{type:"question",title:"After all recovery options, has the blockage been located and sprayed up?",desc:"Spray up only after other options have been attempted. Locate the blockage as accurately as possible.",yes:"pa34_fail",no:"spray_required"},
+  spray_required:{type:"outcome",tone:"stop",title:"Do not fail yet — locate and spray up",desc:"After recovery attempts are exhausted, locate the blockage and spray up/mark the suspected point so construction has actionable information."},
+  pa34_fail:{type:"outcome",tone:"fail",title:"Failure rationale — PA3 / PA4 blocked route",desc:"Fail only once build type is confirmed, Desiliter has been attempted where suitable, multiple cobra ends have been tried, debris/sweep checks have been completed, backrod has been attempted, alternative routes and DP change have been ruled out, and the blockage has been located/sprayed up."},
 
-construction_saved:{
-  type:"outcome",
-  tone:"success",
-  title:"Complete preworks and install",
-  desc:"Complete the preworks, then continue with the install and close the job as complete."
-},
+  sweep_1:{type:"question",title:"Does the blockage appear to be at the sweep / conduit?",desc:"Confirm whether the issue is around the sweep, bend, conduit entry or transition point.",yes:"sweep_2",no:"pa34_1"},
+  sweep_2:{type:"question",title:"Has the sweep/conduit been cleared with hoover/vacuum?",desc:"Clear loose debris before concluding construction is required.",yes:"sweep_3",no:"hoover_required"},
+  sweep_3:{type:"question",title:"Has the sweep been exposed where required?",desc:"If safe and in scope, expose to test beyond the bend/restriction.",yes:"sweep_4",no:"sweep_required"},
+  sweep_4:{type:"question",title:"Have you rodded from after the sweep?",desc:"This proves whether the issue is in the sweep or further along the route.",yes:"sweep_5",no:"rod_after_required"},
+  rod_after_required:{type:"outcome",tone:"stop",title:"Do not fail yet — rod from after the sweep",desc:"Rod from after the sweep where possible before failing for construction."},
+  sweep_5:{type:"question",title:"Have you attempted to backrod?",desc:"Backrod from the opposite direction where possible.",yes:"pa34_7",no:"backrod_required"},
 
-construction_partial:{
-  type:"question",
-  title:"Can the preworks be completed today to allow a clean return?",
-  desc:"If the install cannot complete today, still complete the preworks where possible so the next visit is protected.",
-  yes:"construction_preworks_only",
-  no:"construction_fail"
-},
+  pa2cur_1:{type:"question",title:"Have you confirmed this is PA2 / CUR build?",desc:"PA2 and CUR use straw-based fibre blow methods. Use the correct recovery process.",yes:"pa2cur_2",no:"build_type_required"},
+  pa2cur_2:{type:"question",title:"Has the fibre been attempted with compressor and fibre gun?",desc:"Attempt standard blow method first.",yes:"pa2cur_3",no:"pa2cur_standard_required"},
+  pa2cur_standard_required:{type:"outcome",tone:"stop",title:"Do not fail yet — attempt standard blow",desc:"Use compressor and fibre gun before progressing to blockage recovery."},
+  pa2cur_3:{type:"question",title:"Have sponges and bullets been blown to try and clear the blockage?",desc:"Use sponges/bullets to attempt to clear the straw.",yes:"pa2cur_4",no:"pa2cur_sponges_required"},
+  pa2cur_sponges_required:{type:"outcome",tone:"stop",title:"Do not fail yet — try sponges and bullets",desc:"Blow sponges and bullets before progressing to failure rationale."},
+  pa2cur_4:{type:"question",title:"Has reverse blow been attempted from the DP end?",desc:"If house-end blow fails, try from the DP end where possible.",yes:"pa2cur_5",no:"pa2cur_reverse_required"},
+  pa2cur_reverse_required:{type:"outcome",tone:"stop",title:"Do not fail yet — attempt reverse blow",desc:"Try blowing from the DP end before failing for construction."},
+  pa2cur_5:{type:"question",title:"Has the larger 10 bar compressor been considered/attempted if available?",desc:"Use larger compressor if available and appropriate.",yes:"pa2cur_6",no:"pa2cur_10bar_required"},
+  pa2cur_10bar_required:{type:"outcome",tone:"stop",title:"Do not fail yet — consider 10 bar compressor",desc:"Check whether the larger compressor is available and appropriate before failing."},
+  pa2cur_6:{type:"question",title:"Have different air pressures been attempted?",desc:"Both increasing and reducing air pressure can help. Lower pressure has sometimes cleared blockages where higher pressure has not.",yes:"pa2cur_7",no:"pa2cur_pressure_required"},
+  pa2cur_pressure_required:{type:"outcome",tone:"stop",title:"Do not fail yet — vary air pressure",desc:"Try appropriate pressure changes, including lower pressure, before failing."},
+  pa2cur_7:{type:"question",title:"Can another route or DP change save the job?",desc:"Check maps/portals and DP options before failure.",yes:"dp_change_success",no:"pa2cur_8"},
+  pa2cur_8:{type:"question",title:"After all blow recovery options, has the blockage been located and sprayed up?",desc:"Only spray up once all recovery options have been attempted.",yes:"pa2cur_fail",no:"spray_required"},
+  pa2cur_fail:{type:"outcome",tone:"fail",title:"Failure rationale — PA2 / CUR blow issue",desc:"Fail only once standard blow, sponges/bullets, reverse blow, larger compressor consideration, pressure variation, alternative route and DP change options have been exhausted, and the blockage has been located/sprayed up."},
 
-construction_preworks_only:{
-  type:"outcome",
-  tone:"stop",
-  title:"Complete preworks and protect the return visit",
-  desc:"Complete the preworks, capture clear notes and evidence, and make sure the follow-on visit is set up correctly. Do not leave the next visit with the same blocker."
-},
+  dp_route_1:{type:"question",title:"Have GCOMS / Network Expansion / Openreach portal been checked?",desc:"Use the relevant portal depending on build to understand how the network is routed.",yes:"dp_route_2",no:"nsa_maps_required"},
+  dp_route_2:{type:"question",title:"Is there another viable route to the current DP?",desc:"Check maps and on-site options.",yes:"alt_route_success",no:"dp_route_3"},
+  dp_route_3:{type:"question",title:"Could another DP be used with a DP change?",desc:"Consider whether DP change can save the install.",yes:"dp_change_success",no:"dp_route_4"},
+  dp_route_4:{type:"question",title:"Has FM or senior technician reviewed the route?",desc:"FM escalation is mandatory before failure.",yes:"dp_route_fail",no:"fm_required"},
+  dp_route_fail:{type:"outcome",tone:"fail",title:"Failure rationale — no viable route to DP",desc:"Fail only once maps/portals have been checked, alternative routes have been considered, DP change has been ruled out, and FM/senior support has reviewed."},
 
-construction_fail:{
-  type:"outcome",
-  tone:"fail",
-  title:"Stop here — close it correctly with clear notes",
-  desc:"If the construction/preworks activity cannot be completed safely or effectively today, close correctly with notes explaining what was attempted, what prevented completion, and what is required next."
-},
-  done:{type:"outcome",tone:"success",title:"Done",desc:"Use the menu to select another issue, or reset to clear the flow."}
+  cons_safety_1:{type:"question",title:"Is the activity unsafe or outside scope?",desc:"Do not proceed where it creates risk or is outside the work order/safe method.",yes:"cons_safety_2",no:"construction_menu"},
+  cons_safety_2:{type:"question",title:"Has FM reviewed the safety/scope concern?",desc:"FM escalation is mandatory before failure.",yes:"cons_safety_fail",no:"fm_required"},
+  cons_safety_fail:{type:"outcome",tone:"fail",title:"Failure rationale — preworks cannot be completed safely",desc:"Fail only where the required activity cannot be completed safely or is outside scope, and FM has reviewed. Notes must explain the risk, location, and what would be required next."},
+
+  fm_required:{type:"outcome",tone:"stop",title:"Do not fail yet — FM escalation required",desc:"FM escalation is mandatory before any failure. Contact FM, explain the issue, and record the guidance/decision before closing."},
+
+  done:{type:"outcome",tone:"success",title:"Done",desc:"Use the menu to start another flow or reset to clear the screen."}
 };
-
-let activeCards = [];
 
 const menuEl = document.getElementById("menu");
 const trailEl = document.getElementById("trail");
@@ -597,11 +610,7 @@ function renderMainMenu(){
   menuItems.forEach(item=>{
     const btn = document.createElement("button");
     btn.className = "menu-btn";
-    btn.innerHTML = `
-      <b>${item.label}</b>
-      <span>${item.desc}</span>
-      <span class="menu-tag">${item.tag}</span>
-    `;
+    btn.innerHTML = `<b>${item.label}</b><span>${item.desc}</span><span class="tag">${item.tag}</span>`;
     btn.onclick = () => startFlow(item.next, item.label);
     menuEl.appendChild(btn);
   });
@@ -609,19 +618,19 @@ function renderMainMenu(){
 
 function startFlow(id, label){
   trailEl.innerHTML = "";
-  activeCards = [];
-  if(label){
-    addAnsweredCard("Selected issue", "Menu choice", label, "");
-  }
+  addAnsweredCard("Selected issue", "Menu choice", label);
   renderNode(id);
 }
 
 function renderNode(id){
   const node = FLOWS[id] || FLOWS.done;
-
   const card = document.createElement("article");
   card.className = "step-card";
   card.dataset.node = id;
+
+  if(node.type === "outcome"){
+    card.classList.add("outcome", node.tone || "stop");
+  }
 
   const stepNo = trailEl.children.length + 1;
   const typeLabel = node.type === "question" ? "Decision" : node.type === "menu" ? "Select" : node.type === "info" ? "Action" : "Outcome";
@@ -641,42 +650,38 @@ function renderNode(id){
   const actions = card.querySelector(".actions");
 
   if(node.type === "question"){
-    const noBtn = makeButton("No", "no", () => answerQuestion(card, node, "No", node.no));
-    const yesBtn = makeButton("Yes", "yes", () => answerQuestion(card, node, "Yes", node.yes));
-    actions.append(noBtn, yesBtn);
+    actions.append(
+      makeButton("No", "no", () => answerQuestion(card, "No", node.no)),
+      makeButton("Yes", "yes", () => answerQuestion(card, "Yes", node.yes))
+    );
   }
 
   if(node.type === "info"){
-    const nextBtn = makeButton("Next", "next", () => answerInfo(card, node, node.next));
-    actions.append(nextBtn);
+    actions.append(makeButton("Next", "next", () => answerInfo(card, node.next)));
   }
 
   if(node.type === "menu"){
     (node.options || []).forEach(opt=>{
       const btn = document.createElement("button");
       btn.className = "menu-btn";
-      btn.innerHTML = `<b>${opt.label}</b><span>${opt.desc || ""}</span>${opt.tag ? `<span class="menu-tag">${opt.tag}</span>` : ""}`;
-      btn.onclick = () => answerMenu(card, node, opt.label, opt.next);
+      btn.innerHTML = `<b>${opt.label}</b><span>${opt.desc || ""}</span>${opt.tag ? `<span class="tag">${opt.tag}</span>` : ""}`;
+      btn.onclick = () => answerMenu(card, opt.label, opt.next);
       actions.appendChild(btn);
     });
   }
 
   if(node.type === "outcome"){
-    const tone = node.tone || "stop";
-    card.classList.add("outcome", tone === "success" ? "outcome" : tone === "fail" ? "fail" : "stop");
-
     const evidence = document.createElement("ul");
     evidence.className = "evidence";
     evidence.innerHTML = `
-      <li>Notes should clearly explain what was attempted.</li>
-      <li>Customer contact, escalation or evidence should be recorded where relevant.</li>
-      <li>If the job cannot be saved, close using the correct reason code.</li>
+      <li>Notes must explain what was attempted and why the job could not be completed.</li>
+      <li>FM escalation must be recorded before any failure.</li>
+      <li>Evidence, location details, customer contact and next required action should be captured where relevant.</li>
     `;
     card.querySelector(".step-body").appendChild(evidence);
   }
 
   trailEl.appendChild(card);
-  activeCards.push(card);
   card.scrollIntoView({behavior:"smooth", block:"start"});
 }
 
@@ -692,33 +697,32 @@ function disableActions(card){
   card.querySelectorAll("button").forEach(btn=>btn.disabled = true);
 }
 
-function addAnswerToCard(card, answer, isNo){
-  const body = card.querySelector(".step-body");
+function addAnswer(card, answer, isNo=false){
   const box = document.createElement("div");
   box.className = "answer-box" + (isNo ? " no" : "");
   box.textContent = "Answer: " + answer;
-  body.appendChild(box);
+  card.querySelector(".step-body").appendChild(box);
 }
 
-function answerQuestion(card, node, answer, nextId){
+function answerQuestion(card, answer, nextId){
   disableActions(card);
-  addAnswerToCard(card, answer, answer === "No");
+  addAnswer(card, answer, answer === "No");
   renderNode(nextId || "done");
 }
 
-function answerInfo(card, node, nextId){
+function answerInfo(card, nextId){
   disableActions(card);
-  addAnswerToCard(card, "Completed / understood", false);
+  addAnswer(card, "Completed / understood");
   renderNode(nextId || "done");
 }
 
-function answerMenu(card, node, answer, nextId){
+function answerMenu(card, answer, nextId){
   disableActions(card);
-  addAnswerToCard(card, answer, false);
+  addAnswer(card, answer);
   renderNode(nextId || "done");
 }
 
-function addAnsweredCard(title, type, answer, desc){
+function addAnsweredCard(title, type, answer){
   const card = document.createElement("article");
   card.className = "step-card";
   card.innerHTML = `
@@ -728,20 +732,15 @@ function addAnsweredCard(title, type, answer, desc){
     </div>
     <div class="step-body">
       <h3>${title}</h3>
-      ${desc ? `<p>${desc}</p>` : ""}
       <div class="answer-box">Answer: ${answer}</div>
     </div>
   `;
   trailEl.appendChild(card);
-  activeCards.push(card);
 }
 
 function goBack(){
   if(trailEl.children.length === 0) return;
-
-  const last = trailEl.lastElementChild;
-  trailEl.removeChild(last);
-  activeCards.pop();
+  trailEl.removeChild(trailEl.lastElementChild);
 
   const previous = trailEl.lastElementChild;
   if(previous){
@@ -750,11 +749,18 @@ function goBack(){
     if(answer) answer.remove();
     previous.scrollIntoView({behavior:"smooth", block:"start"});
   }
+
+  if(trailEl.children.length === 0){
+    resetAll();
+  }
 }
 
 function resetAll(){
-  trailEl.innerHTML = "";
-  activeCards = [];
+  trailEl.innerHTML = `
+    <div class="empty-state">
+      Select a flow to begin. Each answer will stay visible so the final outcome shows the full rationale behind the decision.
+    </div>
+  `;
 }
 
 renderMainMenu();
