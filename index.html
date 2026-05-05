@@ -395,9 +395,30 @@ h1{
 
 <script>
 const menuItems = [
-  {label:"Customer / Access issue", desc:"No reply, not ready, unsure, third-party access, route, reschedule or cancellation.", next:"customer_menu", tag:"Customer"},
-  {label:"Network / Drop issue", desc:"Coax, fibre, repull, light levels and non-serviceable scenarios.", next:"network_menu", tag:"Network"},
-  {label:"Construction / Preworks issue", desc:"Blocked ducts, sweeps, PA3/PA4 tooling, PA2/CUR blow issues and DP change checks.", next:"construction_menu", tag:"Construction"}
+  {
+    label:"Customer / Access fail",
+    desc:"No reply, customer not ready, unsure, access issue, route not agreed, reschedule or cancellation.",
+    next:"customer_menu",
+    tag:"Customer"
+  },
+  {
+    label:"Drop / Network fail",
+    desc:"Coax, fibre, repull, light levels, UG/OH and non-serviceable checks.",
+    next:"network_menu",
+    tag:"Network"
+  },
+  {
+    label:"Construction / Preworks fail",
+    desc:"Blocked route, sweep, PA3/PA4 tooling, PA2/CUR blow issues and DP change checks.",
+    next:"construction_menu",
+    tag:"Construction"
+  },
+  {
+    label:"Order / System issue",
+    desc:"Order entry error, sales issue, TV expectation issue or order correction required.",
+    next:"order_1",
+    tag:"Order"
+  }
 ];
 
 const FLOWS = {
