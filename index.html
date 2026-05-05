@@ -336,6 +336,209 @@ h1{
   cursor:not-allowed;
   transform:none;
 }
+
+  /* ==========================================================================================
+   VMO2 RED / BLUE / WHITE THEME OVERRIDE
+  
+   ============================================================================================ */
+
+:root{
+  --bg:#07121f;
+  --panel:#ffffff;
+  --card:#ffffff;
+  --card2:#f8fbff;
+  --text:#0b1220;
+  --muted:#475569;
+  --stroke:#d6dde8;
+  --yellow:#005EB8;      /* reused as primary blue */
+  --yellowSoft:#eaf3ff;  /* reused as soft blue */
+  --red:#E4002B;
+  --blue:#005EB8;
+  --green:#0f9f6e;
+  --amber:#f59e0b;
+}
+
+html,body{
+  background:
+    radial-gradient(900px 500px at 10% 0%, rgba(0,94,184,.28), transparent 60%),
+    radial-gradient(900px 500px at 95% 15%, rgba(228,0,43,.20), transparent 55%),
+    linear-gradient(180deg,#06101b 0%,#0b1930 100%);
+  color:#ffffff;
+}
+
+.card,
+.step-card{
+  background:#ffffff;
+  color:var(--text);
+  border:1px solid #e8eef7;
+  box-shadow:0 10px 24px rgba(2,6,23,.16);
+}
+
+.hero{
+  border-left:7px solid var(--blue);
+}
+
+h1{
+  color:var(--text);
+}
+
+.sub{
+  color:#334155;
+}
+
+.quick-link{
+  color:#ffffff;
+  box-shadow:0 8px 20px rgba(2,6,23,.14);
+}
+
+.quick-link:hover{
+  opacity:.92;
+  transform:translateY(-2px);
+}
+
+/* Top 4 button colours */
+.quick-link:nth-child(1){
+  background:var(--blue);
+}
+
+.quick-link:nth-child(2){
+  background:var(--red);
+}
+
+.quick-link:nth-child(3){
+  background:#0f9f6e;
+}
+
+.quick-link:nth-child(4){
+  background:#0f172a;
+}
+
+.quick-link span{
+  color:#ffffff;
+  opacity:.92;
+}
+
+.side-panel h2{
+  color:var(--text);
+}
+
+.menu-btn{
+  background:#f8fbff;
+  color:var(--text);
+  border:1px solid var(--stroke);
+  border-left:5px solid var(--blue);
+}
+
+.menu-btn:hover{
+  border-color:var(--blue);
+}
+
+.menu-btn span{
+  color:#475569;
+}
+
+.tag{
+  background:#eaf3ff !important;
+  border:1px solid #bfdbfe !important;
+  color:#0f3f7e !important;
+}
+
+.step-card{
+  border-left:7px solid var(--blue);
+}
+
+.step-head{
+  background:#f8fbff;
+  border-bottom:1px solid var(--stroke);
+}
+
+.step-number{
+  color:var(--blue);
+}
+
+.step-type{
+  color:#475569;
+}
+
+.step-body h3{
+  color:var(--text);
+}
+
+.step-body p{
+  color:#475569;
+}
+
+.answer-box{
+  background:#eff6ff;
+  border:1px solid #bfdbfe;
+  border-left:5px solid var(--blue);
+  color:#0f172a;
+}
+
+.answer-box.no{
+  background:#fff1f2;
+  border-color:#fecdd3;
+  border-left-color:var(--red);
+}
+
+.evidence li{
+  background:#f8fbff;
+  border:1px solid var(--stroke);
+  border-left:4px solid var(--blue);
+  color:#334155;
+}
+
+.empty-state{
+  background:rgba(255,255,255,.08);
+  border:1px dashed rgba(255,255,255,.28);
+  color:#e5eef9;
+}
+
+.footer-note{
+  background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.16);
+  color:#e5eef9;
+}
+
+/* Outcome colours */
+.outcome.success{
+  border-left-color:var(--green);
+}
+
+.outcome.stop{
+  border-left-color:var(--amber);
+}
+
+.outcome.fail{
+  border-left-color:var(--red);
+}
+
+/* Buttons */
+.flow-btn.yes{
+  background:var(--blue);
+  color:#ffffff;
+}
+
+.flow-btn.no{
+  background:var(--red);
+  color:#ffffff;
+}
+
+.flow-btn.next{
+  background:var(--green);
+  color:#ffffff;
+}
+
+.flow-btn.back{
+  background:#64748b;
+  color:#ffffff;
+}
+
+.flow-btn.reset{
+  background:#0f172a;
+  color:#ffffff;
+  border:1px solid #334155;
+}
 </style>
 </head>
 <body>
