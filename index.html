@@ -326,16 +326,21 @@ h1{
   font-size:14px;
 }
 
-@media(max-width:1000px){
-  .flow-layout{grid-template-columns:1fr}
-  .side-panel{position:static}
-  .quick-links{grid-template-columns:1fr}
+  .quick-link{
+  min-height:100px;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
 }
 
-@media(max-width:720px){
-  .shell{width:min(var(--max),calc(100% - 16px))}
-  .card,.step-card{border-radius:22px}
-  h1{font-size:36px}
+@media(max-width:1000px){
+  .flow-wrap{grid-template-columns:1fr}
+  .side-panel{position:static}
+  .quick-links{grid-template-columns:repeat(2,1fr);}
+}
+
+@media(max-width:600px){
+  .quick-links{grid-template-columns:1fr;}
 }
 </style>
 </head>
