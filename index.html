@@ -576,7 +576,7 @@ const FLOWS = {
   nsa_saved:{type:"outcome",tone:"success",title:"Route found — complete install",desc:"Use the identified method and complete the install."},
   nsa_fail:{type:"outcome",tone:"fail",title:"Failure rationale — non-serviceable / no capacity",desc:"Fail only once maps/portals have been checked, neighbours have been Badgered, and FM/senior tech support has reviewed whether a route or solution exists. Notes must explain the network reason preventing completion."},
 
-pa34_1:{type:"question",title:"Does the blockage appear to be at the sweep / conduit?",desc:"Work out where the blockage is first. If it is at the sweep, clear/test the sweep before moving onto further route recovery.",yes:"sweep_2",no:"pa34_route_1"},
+pa34_1:{type:"question",title:"Does the blockage appear to be at the sweep/ inside boundary?",desc:"Work out where the blockage is first. If it is at the sweep, clear the sweep before moving on further.",yes:"sweep_2",no:"pa34_route_1"},
 
 pa34_route_1:{type:"question",title:"Does the blockage appear to be further along the route?",desc:"If the issue is beyond the sweep/conduit, move into route recovery methods before construction is raised.",yes:"pa34_2",no:"pa34_locate_first"},
 
