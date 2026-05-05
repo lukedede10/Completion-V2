@@ -4,7 +4,6 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
 <title>Completion Save Flow</title>
-
 <style>
 :root{
   --bg:#050505;
@@ -85,7 +84,10 @@ h1{
   color:#000;
   border-radius:20px;
   padding:17px;
-  min-height:92px;
+  min-height:100px;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
   text-align:left;
   cursor:pointer;
   font-weight:900;
@@ -166,14 +168,14 @@ h1{
 }
 
 .tag{
-  display:inline-block;
+  display:inline-block !important;
   margin-top:9px;
   background:rgba(223,255,0,.12);
   border:1px solid rgba(223,255,0,.4);
-  color:var(--yellow);
+  color:var(--yellow) !important;
   border-radius:999px;
   padding:5px 8px;
-  font-size:11px;
+  font-size:11px !important;
   font-weight:900;
 }
 
@@ -284,17 +286,9 @@ h1{
   border-left-color:var(--red);
 }
 
-.outcome.success{
-  border-left-color:var(--green);
-}
-
-.outcome.stop{
-  border-left-color:var(--amber);
-}
-
-.outcome.fail{
-  border-left-color:var(--red);
-}
+.outcome.success{border-left-color:var(--green)}
+.outcome.stop{border-left-color:var(--amber)}
+.outcome.fail{border-left-color:var(--red)}
 
 .evidence{
   display:grid;
@@ -326,55 +320,42 @@ h1{
   font-size:14px;
 }
 
-  .quick-link{
-  min-height:100px;
-  display:flex;
-  flex-direction:column;
-  justify-content:space-between;
-}
-
 @media(max-width:1000px){
   .flow-layout{grid-template-columns:1fr}
   .side-panel{position:static}
-  .quick-links{grid-template-columns:repeat(2,1fr);}
+  .quick-links{grid-template-columns:repeat(2,1fr)}
 }
 
 @media(max-width:600px){
-  .quick-links{grid-template-columns:1fr;}
+  .quick-links{grid-template-columns:1fr}
 }
 </style>
 </head>
-
 <body>
 <main>
 <div class="shell">
 
 <section class="card hero">
   <h1>Completion Save Flow</h1>
-  <p class="sub">
-    Use this before failing a job. The aim is to protect completion by proving the right save actions have been attempted, FM support has been used, and any failure has a clear, defensible rationale.
-  </p>
+  <p class="sub">Use this before failing a job. The aim is to protect completion by proving the right save actions have been attempted, FM support has been used, and any failure has a clear, defensible rationale.</p>
 
   <div class="quick-links">
     <button class="quick-link" onclick="startFlow('customer_menu','Customer / Access issue')">
       <b>Customer / Access issue</b>
       <span>No reply, not ready, unsure, access, route, reschedule or cancellation.</span>
     </button>
-
     <button class="quick-link" onclick="startFlow('network_menu','Network / Drop issue')">
       <b>Network / Drop issue</b>
       <span>Coax, fibre, repull, light levels, port checks or non-serviceable.</span>
     </button>
-
     <button class="quick-link" onclick="startFlow('construction_menu','Construction / Preworks issue')">
       <b>Construction / Preworks issue</b>
       <span>Blocked route, sweep, PA3/PA4 tooling, PA2/CUR blow issues or DP change.</span>
     </button>
-
-    <button class="quick-link dark" onclick="startFlow('order_1')">
-  <b>Order / System issue</b>
-  <span>Order entry errors, sales issues, TV expectations or corrections required.</span>
-</button>
+    <button class="quick-link" onclick="startFlow('order_menu','Order / System issue')">
+      <b>Order / System issue</b>
+      <span>Order entry errors, sales issues, TV expectations or system corrections required.</span>
+    </button>
   </div>
 </section>
 
@@ -382,7 +363,6 @@ h1{
   <aside class="card side-panel">
     <h2>Start a flow</h2>
     <div class="menu" id="menu"></div>
-
     <div class="controls">
       <button class="flow-btn back" onclick="goBack()">Back</button>
       <button class="flow-btn reset" onclick="resetAll()">Reset</button>
@@ -390,320 +370,242 @@ h1{
   </aside>
 
   <section class="trail" id="trail">
-    <div class="empty-state">
-      Select a flow to begin. Each answer will stay visible so the final outcome shows the full rationale behind the decision.
-    </div>
+    <div class="empty-state">Select a flow to begin. Each answer will stay visible so the final outcome shows the full rationale behind the decision.</div>
   </section>
 </section>
 
-<div class="footer-note">
-  Completion is the focus. Permanent fix is always preferred, but a safe temporary solution can be used where appropriate to protect completion. FM escalation is required before any failure.
-</div>
+<div class="footer-note">Completion is the focus. Permanent fix is always preferred, but a safe temporary solution can be used where appropriate to protect completion. FM escalation is required before any failure.</div>
 
 </div>
 </main>
 
 <script>
 const menuItems = [
-  {
-    label:"Customer / Access fail",
-    desc:"No reply, customer not ready, unsure, access issue, route not agreed, reschedule or cancellation.",
-    next:"customer_menu",
-    tag:"Customer"
-  },
-  {
-    label:"Drop / Network fail",
-    desc:"Coax, fibre, repull, light levels, UG/OH and non-serviceable checks.",
-    next:"network_menu",
-    tag:"Network"
-  },
-  {
-    label:"Construction / Preworks fail",
-    desc:"Blocked route, sweep, PA3/PA4 tooling, PA2/CUR blow issues and DP change checks.",
-    next:"construction_menu",
-    tag:"Construction"
-  },
-  {
-    label:"Order / System issue",
-    desc:"Order entry error, sales issue, TV expectation issue or order correction required.",
-    next:"order_1",
-    tag:"Order"
-  }
+  {label:"Customer / Access fail", desc:"No reply, customer not ready, unsure, access issue, route not agreed, reschedule or cancellation.", next:"customer_menu", tag:"Customer"},
+  {label:"Drop / Network fail", desc:"Coax, fibre, repull, light levels, UG/OH and non-serviceable checks.", next:"network_menu", tag:"Network"},
+  {label:"Construction / Preworks fail", desc:"Blocked route, sweep, PA3/PA4 tooling, PA2/CUR blow issues and DP change checks.", next:"construction_menu", tag:"Construction"},
+  {label:"Order / System issue", desc:"Order entry error, sales issue, TV expectation issue or system correction required.", next:"order_menu", tag:"Order"}
 ];
 
 const FLOWS = {
-  customer_menu:{
-    type:"menu",
-    title:"Customer / Access issue",
-    desc:"Pick what is putting the job at risk. Every route should attempt a same-day save before failure.",
-    options:[
-      {label:"No reply / no one home", desc:"Contact attempts, wait guidance and reattendance.", next:"nr_start", tag:"Customer"},
-      {label:"Customer/property not ready", desc:"Permanent install preferred, safe temporary as last resort.", next:"not_ready_1", tag:"Customer"},
-      {label:"Customer unsure / second thoughts", desc:"Resolve concerns and use FM/senior support before failing.", next:"unsure_1", tag:"Customer"},
-      {label:"Third-party access required", desc:"Landlord, agent, service cupboard or building manager access.", next:"access_1", tag:"Access"},
-      {label:"Cable route not agreed", desc:"Alternative route, FM/senior support and clear rationale.", next:"route_1", tag:"Route"},
-      {label:"Customer requested reschedule", desc:"Try to accommodate today before moving the job.", next:"resched_1", tag:"Customer"},
-      {label:"Customer requested cancellation", desc:"Understand reason, attempt save and escalate before failing.", next:"cancel_1", tag:"Customer"}
-    ]
-  },
+  customer_menu:{type:"menu", title:"Customer / Access issue", desc:"Pick what is putting the job at risk. Every route should attempt a same-day save before failure.", options:[
+    {label:"No reply / no one home", desc:"Contact attempts, wait guidance and reattendance.", next:"nr_start", tag:"Customer"},
+    {label:"Customer/property not ready", desc:"Permanent install preferred, safe temporary as last resort.", next:"not_ready_1", tag:"Customer"},
+    {label:"Customer unsure / second thoughts", desc:"Resolve concerns and use FM/senior support before failing.", next:"unsure_1", tag:"Customer"},
+    {label:"Third-party access required", desc:"Landlord, agent, service cupboard or building manager access.", next:"access_1", tag:"Access"},
+    {label:"Cable route not agreed", desc:"Alternative route, FM/senior support and clear rationale.", next:"route_1", tag:"Route"},
+    {label:"No access to pit / cab", desc:"Blocked pit/cab access, parked vehicle or obstruction.", next:"pit_1", tag:"Access"},
+    {label:"Customer requested reschedule", desc:"Try to accommodate today before moving the job.", next:"resched_1", tag:"Customer"},
+    {label:"Customer requested cancellation", desc:"Understand reason, attempt save and escalate before failing.", next:"cancel_1", tag:"Customer"}
+  ]},
 
-  network_menu:{
-    type:"menu",
-    title:"Network / Drop issue",
-    desc:"Pick the network blocker. The flow will push the correct recovery checks before any fail outcome.",
-    options:[
-      {label:"Coax damaged drop / low levels", desc:"Connections, tap, cut/test, boundary, repair, temp and FM escalation.", next:"coax_1", tag:"Coax"},
-      {label:"Fibre Up issue", desc:"Light levels, port check, new port, scope/clean and preblow.", next:"fibreup_1", tag:"Fibre"},
-      {label:"UG/OH fibre issue", desc:"Qualification-based DP access, preblow and same-day save options.", next:"ugoh_1", tag:"Fibre"},
-      {label:"Non-serviceable / no capacity", desc:"Maps, portals, Badger neighbours, FM and senior tech support.", next:"nsa_1", tag:"Network"}
-    ]
-  },
+  network_menu:{type:"menu", title:"Network / Drop issue", desc:"Pick the network blocker. The flow will push the correct recovery checks before any fail outcome.", options:[
+    {label:"Coax damaged drop / low levels", desc:"Connections, tap, cut/test, boundary, repair, temp and FM escalation.", next:"coax_1", tag:"Coax"},
+    {label:"Fibre Up issue", desc:"Light levels, port check, new port, scope/clean and preblow.", next:"fibreup_1", tag:"Fibre"},
+    {label:"UG/OH fibre issue", desc:"Qualification-based DP checks, preblow and UG save options.", next:"ugoh_1", tag:"Fibre"},
+    {label:"Non-serviceable / no capacity", desc:"Maps, portals, Badger neighbours, FM and senior tech support.", next:"nsa_1", tag:"Network"}
+  ]},
 
-  construction_menu:{
-    type:"menu",
-    title:"Construction / Preworks issue",
-    desc:"Pick the build/blocker. This section is designed to build a strong rationale before a construction failure.",
-    options:[
-      {label:"PA3 / PA4 blocked route", desc:"Desiliter, cobra ends, hoover, sweep, backrod, alternative routes and DP change.", next:"pa34_1", tag:"PA3/PA4"},
-      {label:"PA2 / CUR blow issue", desc:"Compressor, fibre gun, sponges, bullets, reverse blow and pressure changes.", next:"pa2cur_1", tag:"PA2/CUR"},
-      {label:"Blocked sweep / conduit", desc:"Hoover, expose sweep, rod after sweep and backrod.", next:"sweep_1", tag:"Sweep"},
-      {label:"No viable route to DP", desc:"Maps, portals, alternative route and DP change consideration.", next:"dp_route_1", tag:"DP Route"},
-      {label:"Preworks cannot be completed safely", desc:"Safety, access, scope and FM escalation.", next:"cons_safety_1", tag:"Safety"}
-    ]
-  },
+  construction_menu:{type:"menu", title:"Construction / Preworks issue", desc:"Pick the build/blocker. This section is designed to build a strong rationale before a construction failure.", options:[
+    {label:"PA3 / PA4 blocked route", desc:"Identify blockage location, sweep recovery, cobra/backrod/desiliter, alt route and DP change.", next:"pa34_start", tag:"PA3/PA4"},
+    {label:"PA2 / CUR blow issue", desc:"Compressor, fibre gun, sponges, bullets, reverse blow and pressure changes.", next:"pa2cur_start", tag:"PA2/CUR"},
+    {label:"Blocked sweep", desc:"Debris, conduit through sweep, rod after sweep and backrod.", next:"sweep_start", tag:"Sweep"},
+    {label:"No viable route to DP", desc:"Maps, portals, alternative route and DP change consideration.", next:"dp_route_1", tag:"DP Route"},
+    {label:"Preworks cannot be completed safely", desc:"Safety, access, scope and FM escalation.", next:"cons_safety_1", tag:"Safety"}
+  ]},
 
-  nr_start:{type:"info",title:"No reply / no one home",desc:"Call and text all available numbers. Leave voicemail where available. The job should be reopened and reattended, multiple times if necessary, where this can save the job.",next:"nr_1"},
-  nr_1:{type:"question",title:"Have all available contact methods been attempted?",desc:"Call, text and voicemail where available. Notes must show the attempts.",yes:"nr_2",no:"nr_contact_required"},
-  nr_contact_required:{type:"outcome",tone:"stop",title:"Do not fail yet — attempt contact first",desc:"Attempt all contact methods before progressing. Failure is not defensible without clear contact attempts."},
-  nr_2:{type:"question",title:"Has the correct wait guidance been followed?",desc:"AM: wait 10 minutes. PM: wait 10 minutes. PPM / 4–7: use judgement and speak to FM if unsure due to end-of-day route pressure.",yes:"nr_3",no:"nr_wait_required"},
-  nr_wait_required:{type:"outcome",tone:"stop",title:"Do not fail yet — follow wait guidance",desc:"Wait 10 minutes for AM/PM. For PPM, use judgement and contact FM if unsure before deciding the job cannot be saved."},
-  nr_3:{type:"question",title:"Can the job be reopened and reattended today?",desc:"Jobs must always be reopened and reattended where possible, multiple times if necessary, to save completion.",yes:"nr_saved",no:"nr_4"},
-  nr_saved:{type:"outcome",tone:"success",title:"Reopen, reattend and complete",desc:"Reopen the job, agree/attempt reattendance and complete the install if the customer becomes available."},
-  nr_4:{type:"question",title:"Has FM been contacted before failure?",desc:"FM escalation is mandatory before any fail.",yes:"nr_fail",no:"fm_required"},
-  nr_fail:{type:"outcome",tone:"fail",title:"Failure rationale — no reply / no one home",desc:"Fail only once all contact methods have been attempted, correct wait guidance has been followed, reattendance has been attempted or ruled out, and FM has been contacted. Notes must show times, contact attempts and why the job could not be saved."},
+  order_menu:{type:"menu", title:"Order / System issue", desc:"Pick the blocker. The aim is to fix the order/system issue on the day wherever possible.", options:[
+    {label:"Customer says they never ordered", desc:"Confirm order validity and customer intent before failing.", next:"order_never_1", tag:"Order"},
+    {label:"Order entry error / incorrect order", desc:"Sales or customer service correction required.", next:"order_error_1", tag:"Order"},
+    {label:"TV expectations / package issue", desc:"Customer expected different TV/package/service.", next:"order_tv_1", tag:"TV"},
+    {label:"System issue blocking completion", desc:"System/account issue prevents completion even though customer wants install.", next:"order_system_1", tag:"System"}
+  ]},
 
-  not_ready_1:{type:"question",title:"Can the permanent install still be completed today?",desc:"Permanent completion is preferred where possible.",yes:"not_ready_saved",no:"not_ready_2"},
-  not_ready_saved:{type:"outcome",tone:"success",title:"Complete permanent install",desc:"Complete the job permanently and close as complete."},
-  not_ready_2:{type:"question",title:"Can a safe temporary install save the job today?",desc:"Temporary install is allowed if safe. It should be a last resort to protect completion when permanent completion is not possible on the day.",yes:"not_ready_temp",no:"not_ready_3"},
-  not_ready_temp:{type:"outcome",tone:"success",title:"Complete safe temporary install",desc:"Complete the install safely in a temporary position, document what has been agreed and arrange follow-up where required."},
-  not_ready_3:{type:"question",title:"Has FM been contacted before failure?",desc:"FM escalation is mandatory before any fail.",yes:"not_ready_fail",no:"fm_required"},
-  not_ready_fail:{type:"outcome",tone:"fail",title:"Failure rationale — customer/property not ready",desc:"Fail only once permanent completion and safe temporary completion have been considered, same-day reattendance has been ruled out, and FM has been contacted. Notes must explain what prevented completion."},
+  nr_start:{type:"info", title:"No reply / no one home", desc:"Call and text all available numbers. Leave voicemail where available. The job should be reopened and reattended, multiple times if necessary, where this can save the job.", next:"nr_1"},
+  nr_1:{type:"question", title:"Have all available contact methods been attempted?", desc:"Call, text and voicemail where available. Notes must show the attempts.", yes:"nr_2", no:"nr_contact_required"},
+  nr_contact_required:{type:"outcome", tone:"stop", title:"Do not fail yet — attempt contact first", desc:"Attempt all contact methods before progressing. Failure is not defensible without clear contact attempts."},
+  nr_2:{type:"question", title:"Has the correct wait guidance been followed?", desc:"AM: wait 10 minutes. PM: wait 10 minutes. PPM / 4-7: use judgement and speak to FM if unsure due to end-of-day route pressure.", yes:"nr_3", no:"nr_wait_required"},
+  nr_wait_required:{type:"outcome", tone:"stop", title:"Do not fail yet — follow wait guidance", desc:"Wait 10 minutes for AM/PM. For PPM, use judgement and contact FM if unsure before deciding the job cannot be saved."},
+  nr_3:{type:"question", title:"Can the job be reopened and reattended today?", desc:"Jobs must always be reopened and reattended where possible, multiple times if necessary, to save completion.", yes:"nr_saved", no:"nr_4"},
+  nr_saved:{type:"outcome", tone:"success", title:"Reopen, reattend and complete", desc:"Reopen the job, agree/attempt reattendance and complete the install if the customer becomes available."},
+  nr_4:{type:"question", title:"Has FM been contacted before failure?", desc:"FM escalation is mandatory before any fail.", yes:"nr_fail", no:"fm_required"},
+  nr_fail:{type:"outcome", tone:"fail", title:"Failure rationale — no reply / no one home", desc:"Fail only once all contact methods have been attempted, correct wait guidance has been followed, reattendance has been attempted or ruled out, and FM has been contacted. Notes must show times, contact attempts and why the job could not be saved."},
 
-  unsure_1:{type:"question",title:"Have the customer’s concerns been understood and addressed?",desc:"Clarify what is causing the customer to hesitate and try to resolve it on site.",yes:"unsure_saved",no:"unsure_2"},
-  unsure_saved:{type:"outcome",tone:"success",title:"Customer happy to proceed",desc:"Proceed with the install and complete the job."},
-  unsure_2:{type:"question",title:"Has FM or a senior technician been used to support the save?",desc:"FM escalation is mandatory before any fail. Use support to try and resolve the concern.",yes:"unsure_3",no:"fm_required"},
-  unsure_3:{type:"question",title:"After support, will the customer proceed?",desc:"If the customer agrees, complete the job.",yes:"unsure_saved",no:"unsure_fail"},
-  unsure_fail:{type:"outcome",tone:"fail",title:"Failure rationale — customer unsure / second thoughts",desc:"Fail only once the concern has been understood, options have been explained, FM/senior support has been used, and the customer still will not proceed. Notes must clearly explain the reason."},
+  not_ready_1:{type:"question", title:"Can the permanent install still be completed today?", desc:"Permanent completion is preferred where possible.", yes:"not_ready_saved", no:"not_ready_2"},
+  not_ready_saved:{type:"outcome", tone:"success", title:"Complete permanent install", desc:"Complete the job permanently and close as complete."},
+  not_ready_2:{type:"question", title:"Can a safe temporary install save the job today?", desc:"Temporary install is allowed if safe. It should be a last resort to protect completion when permanent completion is not possible on the day.", yes:"not_ready_temp", no:"not_ready_3"},
+  not_ready_temp:{type:"outcome", tone:"success", title:"Complete safe temporary install", desc:"Complete the install safely in a temporary position, document what has been agreed and arrange follow-up where required."},
+  not_ready_3:{type:"question", title:"Has FM been contacted before failure?", desc:"FM escalation is mandatory before any fail.", yes:"not_ready_fail", no:"fm_required"},
+  not_ready_fail:{type:"outcome", tone:"fail", title:"Failure rationale — customer/property not ready", desc:"Fail only once permanent completion and safe temporary completion have been considered, same-day reattendance has been ruled out, and FM has been contacted. Notes must explain what prevented completion."},
 
-  access_1:{type:"question",title:"Can third-party access be arranged today?",desc:"Contact landlord, letting agent, building manager or relevant party where possible.",yes:"access_saved",no:"access_2"},
-  access_saved:{type:"outcome",tone:"success",title:"Access arranged — complete today",desc:"Reattend or wait where realistic, gain access and complete the install."},
-  access_2:{type:"question",title:"Can a safe temporary install complete the job today?",desc:"Only proceed if safe and appropriate. Permanent solution can be followed up later if needed.",yes:"access_temp",no:"access_3"},
-  access_temp:{type:"outcome",tone:"success",title:"Complete safe temporary install",desc:"Complete safely, document the access limitation and agree any follow-up required."},
-  access_3:{type:"question",title:"Has FM been contacted before failure?",desc:"FM escalation is mandatory before any fail.",yes:"access_fail",no:"fm_required"},
-  access_fail:{type:"outcome",tone:"fail",title:"Failure rationale — third-party access unavailable",desc:"Fail only once access has been attempted, same-day options have been explored, safe temporary completion has been ruled out, and FM has been contacted."},
+  unsure_1:{type:"question", title:"Have the customer’s concerns been understood and addressed?", desc:"Clarify what is causing the customer to hesitate and try to resolve it on site.", yes:"unsure_saved", no:"unsure_2"},
+  unsure_saved:{type:"outcome", tone:"success", title:"Customer happy to proceed", desc:"Proceed with the install and complete the job."},
+  unsure_2:{type:"question", title:"Has FM or a senior technician been used to support the save?", desc:"FM escalation is mandatory before any fail. Use support to try and resolve the concern.", yes:"unsure_3", no:"fm_required"},
+  unsure_3:{type:"question", title:"After support, will the customer proceed?", desc:"If the customer agrees, complete the job.", yes:"unsure_saved", no:"unsure_fail"},
+  unsure_fail:{type:"outcome", tone:"fail", title:"Failure rationale — customer unsure / second thoughts", desc:"Fail only once the concern has been understood, options have been explained, FM/senior support has been used, and the customer still will not proceed. Notes must clearly explain the reason."},
 
-  route_1:{type:"question",title:"Can an alternative route be agreed with the customer?",desc:"Try to find a technically viable route that meets, or gets close to, the customer’s expectations.",yes:"route_saved",no:"route_2"},
-  route_saved:{type:"outcome",tone:"success",title:"Alternative route agreed — complete",desc:"Agree the final route with the customer and complete the install."},
-  route_2:{type:"question",title:"Has FM or a senior technician reviewed the route concern?",desc:"Use support where experience or authority may save the job.",yes:"route_3",no:"fm_required"},
-  route_3:{type:"question",title:"After support, can the route be agreed?",desc:"If yes, complete the install. If no, build the rationale clearly.",yes:"route_saved",no:"route_fail"},
-  route_fail:{type:"outcome",tone:"fail",title:"Failure rationale — cable route not agreed",desc:"Fail only once alternative routes have been considered, FM/senior support has reviewed it, and the customer still will not accept a viable route. Notes must explain the proposed route, alternatives discussed and why agreement could not be reached."},
+  access_1:{type:"question", title:"Can third-party access be arranged today?", desc:"Contact landlord, letting agent, building manager or relevant party where possible.", yes:"access_saved", no:"access_2"},
+  access_saved:{type:"outcome", tone:"success", title:"Access arranged — complete today", desc:"Reattend or wait where realistic, gain access and complete the install."},
+  access_2:{type:"question", title:"Can a safe temporary install complete the job today?", desc:"Only proceed if safe and appropriate. Permanent solution can be followed up later if needed.", yes:"access_temp", no:"access_3"},
+  access_temp:{type:"outcome", tone:"success", title:"Complete safe temporary install", desc:"Complete safely, document the access limitation and agree any follow-up required."},
+  access_3:{type:"question", title:"Has FM been contacted before failure?", desc:"FM escalation is mandatory before any fail.", yes:"access_fail", no:"fm_required"},
+  access_fail:{type:"outcome", tone:"fail", title:"Failure rationale — third-party access unavailable", desc:"Fail only once access has been attempted, same-day options have been explored, safe temporary completion has been ruled out, and FM has been contacted."},
 
-  resched_1:{type:"question",title:"Can the customer be accommodated today?",desc:"Consider later return, timing adjustment, or another responsible adult allowing access.",yes:"resched_saved",no:"resched_2"},
-  resched_saved:{type:"outcome",tone:"success",title:"Accommodate and complete today",desc:"Adjust the plan where reasonable and complete the install."},
-  resched_2:{type:"question",title:"Has FM been contacted before failure?",desc:"FM escalation is mandatory before any fail.",yes:"resched_fail",no:"fm_required"},
-  resched_fail:{type:"outcome",tone:"fail",title:"Failure rationale — customer requested reschedule",desc:"Fail only once same-day options have been explored and FM has been contacted. Notes must explain what options were offered and why the job could not complete today."},
+  route_1:{type:"question", title:"Can an alternative route be agreed with the customer?", desc:"Try to find a technically viable route that meets, or gets close to, the customer’s expectations.", yes:"route_saved", no:"route_2"},
+  route_saved:{type:"outcome", tone:"success", title:"Alternative route agreed — complete", desc:"Agree the final route with the customer and complete the install."},
+  route_2:{type:"question", title:"Has FM or a senior technician reviewed the route concern?", desc:"Use support where experience or authority may save the job.", yes:"route_3", no:"fm_required"},
+  route_3:{type:"question", title:"After support, can the route be agreed?", desc:"If yes, complete the install. If no, build the rationale clearly.", yes:"route_saved", no:"route_fail"},
+  route_fail:{type:"outcome", tone:"fail", title:"Failure rationale — cable route not agreed", desc:"Fail only once alternative routes have been considered, FM/senior support has reviewed it, and the customer still will not accept a viable route. Notes must explain the proposed route, alternatives discussed and why agreement could not be reached."},
 
-  cancel_1:{type:"question",title:"Do you understand why the customer wants to cancel?",desc:"Ask the reason and try to resolve the blocker.",yes:"cancel_2",no:"cancel_reason_required"},
-  cancel_reason_required:{type:"outcome",tone:"stop",title:"Do not fail yet — understand the reason first",desc:"Clarify why the customer wants to cancel before progressing. The notes must explain the reason."},
-  cancel_2:{type:"question",title:"Can the concern be resolved on site?",desc:"If yes, proceed and complete.",yes:"cancel_saved",no:"cancel_3"},
-  cancel_saved:{type:"outcome",tone:"success",title:"Customer agrees to proceed",desc:"Complete the install."},
-  cancel_3:{type:"question",title:"Has FM or senior support been used before failure?",desc:"FM escalation is mandatory before any fail.",yes:"cancel_fail",no:"fm_required"},
-  cancel_fail:{type:"outcome",tone:"fail",title:"Failure rationale — customer requested cancellation",desc:"Fail only once the reason has been understood, resolution options have been attempted, FM/senior support has been used, and the customer still requests cancellation."},
+  pit_1:{type:"question", title:"Can the vehicle/obstruction owner be identified?", desc:"Ask customer and neighbours. If located, request temporary movement so access can be gained.", yes:"pit_saved", no:"pit_2"},
+  pit_saved:{type:"outcome", tone:"success", title:"Access gained — complete works", desc:"Once moved/access gained, complete the required works and protect completion."},
+  pit_2:{type:"question", title:"Has a polite note been left and reattendance attempted later?", desc:"Leave a polite note and reattempt later the same day where possible.", yes:"pit_3", no:"pit_note_required"},
+  pit_note_required:{type:"outcome", tone:"stop", title:"Do not fail yet — attempt to gain access", desc:"Try to identify the owner, leave a polite note and reattempt later where possible before failing."},
+  pit_3:{type:"question", title:"Has FM reviewed before failure?", desc:"FM escalation is mandatory before any fail.", yes:"pit_fail", no:"fm_required"},
+  pit_fail:{type:"outcome", tone:"fail", title:"Failure rationale — no access to pit / cab", desc:"Fail only once owner identification, polite note, reattendance and FM escalation have been attempted. Notes must explain what blocked access and what was tried."},
 
-  coax_1:{type:"question",title:"Have all relevant connections been checked/replaced?",desc:"Check omni/cabinet connections and replace F-connectors where required before judging the drop as failed.",yes:"coax_2",no:"coax_connections"},
-  coax_connections:{type:"outcome",tone:"stop",title:"Do not fail yet — complete connection checks",desc:"Replace/check required connectors and retest before progressing."},
-  coax_2:{type:"question",title:"Has signal been tested at the tap?",desc:"Confirm the issue is not at source. Try alternative ports where appropriate and escalate Networks if needed.",yes:"coax_3",no:"coax_tap"},
-  coax_tap:{type:"outcome",tone:"stop",title:"Do not fail yet — test at tap",desc:"Test at the tap/source and rule out port/source issues before progressing."},
-  coax_3:{type:"question",title:"Is there visible damage on the drop?",desc:"If damage is visible, cut at the damage point and test from there.",yes:"coax_4",no:"coax_6"},
-  coax_4:{type:"question",title:"After cutting at the damage point, are levels within spec?",desc:"If yes, repair from that point.",yes:"coax_repair",no:"coax_5"},
-  coax_repair:{type:"outcome",tone:"success",title:"Repair, reinstate and complete",desc:"Splice/repair from the damage point, replace the affected section, reinstate safely and complete the install."},
-  coax_5:{type:"question",title:"Have you cut and tested at the boundary?",desc:"Boundary test helps narrow the failure point and may allow repair from there.",yes:"coax_7",no:"coax_boundary_required"},
-  coax_6:{type:"question",title:"Have you cut and tested at the boundary or first accessible point?",desc:"Use this to narrow the failure and avoid unnecessary repull.",yes:"coax_7",no:"coax_boundary_required"},
-  coax_boundary_required:{type:"outcome",tone:"stop",title:"Do not fail yet — cut/test at boundary",desc:"Cut and test at the boundary or first accessible point where appropriate before booking or failing for repull."},
-  coax_7:{type:"question",title:"Can the drop be repaired from the boundary/test point?",desc:"Permanent repair is preferred where possible.",yes:"coax_repair",no:"coax_8"},
-  coax_8:{type:"question",title:"Can a safe temporary connection save completion today?",desc:"Temporary is last resort but acceptable if safe. For HFC, consider a neighbour temporary where appropriate.",yes:"coax_temp",no:"coax_9"},
-  coax_temp:{type:"outcome",tone:"success",title:"Complete with safe temporary solution",desc:"Use the safe temporary option, complete the install and ensure follow-up is arranged for the permanent fix."},
-  coax_9:{type:"question",title:"Has FM reviewed before failure or repull decision?",desc:"FM escalation is mandatory before any fail.",yes:"coax_10",no:"fm_required"},
-  coax_10:{type:"question",title:"Can repull be completed today?",desc:"If yes, complete repull and install today.",yes:"coax_repullday",no:"coax_11"},
-  coax_repullday:{type:"outcome",tone:"success",title:"Repull today and complete",desc:"Complete repull and install on the day."},
-  coax_11:{type:"question",title:"Can a dry install be completed without construction?",desc:"Only where safe and no civils/construction is required.",yes:"coax_dry",no:"coax_fail"},
-  coax_dry:{type:"outcome",tone:"success",title:"Dry install and protect follow-up",desc:"Complete dry install, book required TLOS/repull follow-up and close install as complete where process allows."},
-  coax_fail:{type:"outcome",tone:"fail",title:"Failure rationale — coax drop / repull required",desc:"Fail only once connections, tap/source, cut/test points, repair options, safe temporary options, same-day repull and dry install options have been exhausted, and FM has reviewed. Notes must show what was tested and why completion cannot be achieved."},
+  resched_1:{type:"question", title:"Can the customer be accommodated today?", desc:"Consider later return, timing adjustment, or another responsible adult allowing access.", yes:"resched_saved", no:"resched_2"},
+  resched_saved:{type:"outcome", tone:"success", title:"Accommodate and complete today", desc:"Adjust the plan where reasonable and complete the install."},
+  resched_2:{type:"question", title:"Has FM been contacted before failure?", desc:"FM escalation is mandatory before any fail.", yes:"resched_fail", no:"fm_required"},
+  resched_fail:{type:"outcome", tone:"fail", title:"Failure rationale — customer requested reschedule", desc:"Fail only once same-day options have been explored and FM has been contacted. Notes must explain what options were offered and why the job could not complete today."},
 
-  fibreup_1:{type:"question",title:"Have light levels been checked with a light meter?",desc:"Confirm levels before progressing. Fibre cannot be temporarily connected like coax.",yes:"fibreup_2",no:"fibre_light_required"},
-  fibre_light_required:{type:"outcome",tone:"stop",title:"Do not fail yet — check light levels",desc:"Use light meter and record/understand the result before progressing."},
-  fibreup_2:{type:"question",title:"Are light levels within spec?",desc:"If yes, continue install.",yes:"fibre_success",no:"fibreup_3"},
-  fibre_success:{type:"outcome",tone:"success",title:"Levels within spec — complete install",desc:"Proceed and complete the job."},
-  fibreup_3:{type:"question",title:"Has the cabinet port been checked for light / changed where required?",desc:"If the port has no light, use a new port and retest.",yes:"fibreup_4",no:"fibre_port_required"},
-  fibre_port_required:{type:"outcome",tone:"stop",title:"Do not fail yet — complete port checks",desc:"Check for light at port, use a new port where required and retest."},
-  fibreup_4:{type:"question",title:"Have fibre ends been scoped and cleaned?",desc:"Scope and clean fibre ends, then retest.",yes:"fibreup_5",no:"fibre_scope_required"},
-  fibre_scope_required:{type:"outcome",tone:"stop",title:"Do not fail yet — scope and clean",desc:"Scope and clean fibre ends before progressing to failure rationale."},
-  fibreup_5:{type:"question",title:"Are levels within spec after checks?",desc:"If yes, complete. If not, preblow is next.",yes:"fibre_success",no:"fibreup_6"},
-  fibreup_6:{type:"question",title:"Can FM arrange preblow today?",desc:"FM escalation is mandatory before failure. Preblow should be attempted to save the day where possible.",yes:"fibre_preblow",no:"fibreup_7"},
-  fibre_preblow:{type:"outcome",tone:"success",title:"Preblow, retest and complete",desc:"Complete preblow today, retest light levels and complete the install if levels are within spec."},
-  fibreup_7:{type:"question",title:"Are there construction issues preventing dry install?",desc:"Dry install only where no construction issue prevents the follow-up.",yes:"fibreup_fail",no:"fibre_dry"},
-  fibre_dry:{type:"outcome",tone:"success",title:"Dry install and book follow-up",desc:"Complete dry install and book the required follow-up/preblow where process allows."},
-  fibreup_fail:{type:"outcome",tone:"fail",title:"Failure rationale — Fibre Up / construction required",desc:"Fail only once light levels, port checks, new port, scope/clean, FM preblow and dry install suitability have all been considered. Notes must explain why fibre cannot be completed today."},
+  cancel_1:{type:"question", title:"Do you understand why the customer wants to cancel?", desc:"Ask the reason and try to resolve the blocker.", yes:"cancel_2", no:"cancel_reason_required"},
+  cancel_reason_required:{type:"outcome", tone:"stop", title:"Do not fail yet — understand the reason first", desc:"Clarify why the customer wants to cancel before progressing. The notes must explain the reason."},
+  cancel_2:{type:"question", title:"Can the concern be resolved on site?", desc:"If yes, proceed and complete.", yes:"cancel_saved", no:"cancel_3"},
+  cancel_saved:{type:"outcome", tone:"success", title:"Customer agrees to proceed", desc:"Complete the install."},
+  cancel_3:{type:"question", title:"Has FM or senior support been used before failure?", desc:"FM escalation is mandatory before any fail.", yes:"cancel_fail", no:"fm_required"},
+  cancel_fail:{type:"outcome", tone:"fail", title:"Failure rationale — customer requested cancellation", desc:"Fail only once the reason has been understood, resolution options have been attempted, FM/senior support has been used, and the customer still requests cancellation."},
 
-  ugoh_1:{type:"question",title:"Have light levels been checked?",desc:"Use light meter. If within spec, complete install.",yes:"ugoh_2",no:"fibre_light_required"},
-  ugoh_2:{type:"question",title:"Are levels within spec?",desc:"If yes, continue install.",yes:"fibre_success",no:"ugoh_3"},
-  ugoh_3:{type:"question",title:"Are you qualified to access the DP/port?",desc:"Certain qualifications are required to access DPs. Do not access if not qualified.",yes:"ugoh_4",no:"ugoh_fm"},
-  ugoh_fm:{type:"question",title:"Can FM arrange qualified technician support today?",desc:"Use qualified VMO2 support to complete the port-side checks.",yes:"ugoh_4",no:"ugoh_7"},
-  ugoh_4:{type:"question",title:"Have port-side checks/new port been completed?",desc:"Check for light at DP/port, use new port where required and retest.",yes:"ugoh_5",no:"fibre_port_required"},
-  ugoh_5:{type:"question",title:"Have fibre ends been scoped and cleaned?",desc:"Clean/scope as required and retest.",yes:"ugoh_6",no:"fibre_scope_required"},
-  ugoh_6:{type:"question",title:"Are levels within spec now?",desc:"If yes, complete install.",yes:"fibre_success",no:"ugoh_7"},
-  ugoh_7:{type:"question",title:"Can preblow/preworks be completed today?",desc:"If yes, complete the required preworks and continue.",yes:"fibre_preblow",no:"ugoh_8"},
-  ugoh_8:{type:"question",title:"Can a safe temporary UG option save completion?",desc:"On UG network only, it may be possible to use a neighbour T where appropriate until blockage is cleared.",yes:"ugoh_temp",no:"ugoh_9"},
-  ugoh_temp:{type:"outcome",tone:"success",title:"Use safe UG temporary option and complete",desc:"Use the neighbour T / safe temporary UG option where suitable, complete the install and ensure permanent follow-up is arranged."},
-  ugoh_9:{type:"question",title:"Has FM reviewed before failure?",desc:"FM escalation is mandatory before any fail.",yes:"ugoh_fail",no:"fm_required"},
-  ugoh_fail:{type:"outcome",tone:"fail",title:"Failure rationale — UG/OH fibre issue",desc:"Fail only once qualification requirements, port checks, new port, scope/clean, preblow/preworks, UG temporary options and FM support have been exhausted. Notes must explain why completion cannot be achieved today."},
+  coax_1:{type:"question", title:"Have all relevant connections been checked/replaced?", desc:"Check omni/cabinet connections and replace F-connectors where required before judging the drop as failed.", yes:"coax_2", no:"coax_connections"},
+  coax_connections:{type:"outcome", tone:"stop", title:"Do not fail yet — complete connection checks", desc:"Replace/check required connectors and retest before progressing."},
+  coax_2:{type:"question", title:"Has signal been tested at the tap?", desc:"Confirm the issue is not at source. Try alternative ports where appropriate and escalate Networks if needed.", yes:"coax_3", no:"coax_tap"},
+  coax_tap:{type:"outcome", tone:"stop", title:"Do not fail yet — test at tap", desc:"Test at the tap/source and rule out port/source issues before progressing."},
+  coax_3:{type:"question", title:"Is there visible damage on the drop?", desc:"If damage is visible, cut at the damage point and test from there.", yes:"coax_4", no:"coax_6"},
+  coax_4:{type:"question", title:"After cutting at the damage point, are levels within spec?", desc:"If yes, repair from that point.", yes:"coax_repair", no:"coax_5"},
+  coax_repair:{type:"outcome", tone:"success", title:"Repair, reinstate and complete", desc:"Splice/repair from the damage point, replace the affected section, reinstate safely and complete the install."},
+  coax_5:{type:"question", title:"Have you cut and tested at the boundary?", desc:"Boundary test helps narrow the failure point and may allow repair from there.", yes:"coax_7", no:"coax_boundary_required"},
+  coax_6:{type:"question", title:"Have you cut and tested at the boundary or first accessible point?", desc:"Use this to narrow the failure and avoid unnecessary repull.", yes:"coax_7", no:"coax_boundary_required"},
+  coax_boundary_required:{type:"outcome", tone:"stop", title:"Do not fail yet — cut/test at boundary", desc:"Cut and test at the boundary or first accessible point where appropriate before booking or failing for repull."},
+  coax_7:{type:"question", title:"Can the drop be repaired from the boundary/test point?", desc:"Permanent repair is preferred where possible.", yes:"coax_repair", no:"coax_8"},
+  coax_8:{type:"question", title:"Can a safe temporary connection save completion today?", desc:"Temporary is last resort but acceptable if safe. For HFC, consider a neighbour temporary where appropriate.", yes:"coax_temp", no:"coax_9"},
+  coax_temp:{type:"outcome", tone:"success", title:"Complete with safe temporary solution", desc:"Use the safe temporary option, complete the install and ensure follow-up is arranged for the permanent fix."},
+  coax_9:{type:"question", title:"Has FM reviewed before failure or repull decision?", desc:"FM escalation is mandatory before any fail.", yes:"coax_10", no:"fm_required"},
+  coax_10:{type:"question", title:"Can repull be completed today?", desc:"If yes, complete repull and install today.", yes:"coax_repullday", no:"coax_11"},
+  coax_repullday:{type:"outcome", tone:"success", title:"Repull today and complete", desc:"Complete repull and install on the day."},
+  coax_11:{type:"question", title:"Can a dry install be completed without construction?", desc:"Only where safe and no civils/construction is required.", yes:"coax_dry", no:"coax_fail"},
+  coax_dry:{type:"outcome", tone:"success", title:"Dry install and protect follow-up", desc:"Complete dry install, book required TLOS/repull follow-up and close install as complete where process allows."},
+  coax_fail:{type:"outcome", tone:"fail", title:"Failure rationale — coax drop / repull required", desc:"Fail only once connections, tap/source, cut/test points, repair options, safe temporary options, same-day repull and dry install options have been exhausted, and FM has reviewed. Notes must show what was tested and why completion cannot be achieved."},
 
-  nsa_1:{type:"question",title:"Have maps/portals been checked to understand the build?",desc:"Check GCOMS, Network Expansion Portal or Openreach portal depending on build.",yes:"nsa_2",no:"nsa_maps_required"},
-  nsa_maps_required:{type:"outcome",tone:"stop",title:"Do not fail yet — check maps/portals",desc:"Check the relevant network records first so the failure is based on evidence, not assumption."},
-  nsa_2:{type:"question",title:"Have neighbours been checked / Badgered?",desc:"Check whether neighbours have been installed and copy how this has been achieved where possible.",yes:"nsa_3",no:"nsa_badger_required"},
-  nsa_badger_required:{type:"outcome",tone:"stop",title:"Do not fail yet — Badger neighbours",desc:"Check nearby installs and use them as a guide before concluding the address is non-serviceable."},
-  nsa_3:{type:"question",title:"Can FM or senior tech find a way to install?",desc:"Use FM/senior support to review maps, route and local build.",yes:"nsa_saved",no:"nsa_fail"},
-  nsa_saved:{type:"outcome",tone:"success",title:"Route found — complete install",desc:"Use the identified method and complete the install."},
-  nsa_fail:{type:"outcome",tone:"fail",title:"Failure rationale — non-serviceable / no capacity",desc:"Fail only once maps/portals have been checked, neighbours have been Badgered, and FM/senior tech support has reviewed whether a route or solution exists. Notes must explain the network reason preventing completion."},
+  fibreup_1:{type:"question", title:"Have light levels been checked with a light meter?", desc:"Confirm levels before progressing. Fibre cannot be temporarily connected like coax.", yes:"fibreup_2", no:"fibre_light_required"},
+  fibre_light_required:{type:"outcome", tone:"stop", title:"Do not fail yet — check light levels", desc:"Use light meter and record/understand the result before progressing."},
+  fibreup_2:{type:"question", title:"Are light levels within spec?", desc:"If yes, continue install.", yes:"fibre_success", no:"fibreup_3"},
+  fibre_success:{type:"outcome", tone:"success", title:"Levels within spec — complete install", desc:"Proceed and complete the job."},
+  fibreup_3:{type:"question", title:"Has the cabinet port been checked for light / changed where required?", desc:"If the port has no light, use a new port and retest.", yes:"fibreup_4", no:"fibre_port_required"},
+  fibre_port_required:{type:"outcome", tone:"stop", title:"Do not fail yet — complete port checks", desc:"Check for light at port, use a new port where required and retest."},
+  fibreup_4:{type:"question", title:"Have fibre ends been scoped and cleaned?", desc:"Scope and clean fibre ends, then retest.", yes:"fibreup_5", no:"fibre_scope_required"},
+  fibre_scope_required:{type:"outcome", tone:"stop", title:"Do not fail yet — scope and clean", desc:"Scope and clean fibre ends before progressing to failure rationale."},
+  fibreup_5:{type:"question", title:"Are levels within spec after checks?", desc:"If yes, complete. If not, preblow is next.", yes:"fibre_success", no:"fibreup_6"},
+  fibreup_6:{type:"question", title:"Can FM arrange preblow today?", desc:"FM escalation is mandatory before failure. Preblow should be attempted to save the day where possible.", yes:"fibre_preblow", no:"fibreup_7"},
+  fibre_preblow:{type:"outcome", tone:"success", title:"Preblow, retest and complete", desc:"Complete preblow today, retest light levels and complete the install if levels are within spec."},
+  fibreup_7:{type:"question", title:"Are there construction issues preventing dry install?", desc:"Dry install only where no construction issue prevents the follow-up.", yes:"fibreup_fail", no:"fibre_dry"},
+  fibre_dry:{type:"outcome", tone:"success", title:"Dry install and book follow-up", desc:"Complete dry install and book the required follow-up/preblow where process allows."},
+  fibreup_fail:{type:"outcome", tone:"fail", title:"Failure rationale — Fibre Up / construction required", desc:"Fail only once light levels, port checks, new port, scope/clean, FM preblow and dry install suitability have all been considered. Notes must explain why fibre cannot be completed today."},
 
-pa34_1:{
-  type:"question",
-  title:"Where does the blockage appear to be?",
-  desc:"Identify whether the issue is at the sweep or further along the route",
-  yes:"pa34_sweep_1",
-  no:"pa34_route_1"
-},
+  ugoh_1:{type:"question", title:"Have light levels been checked?", desc:"Use light meter. If within spec, complete install.", yes:"ugoh_2", no:"fibre_light_required"},
+  ugoh_2:{type:"question", title:"Are levels within spec?", desc:"If yes, continue install.", yes:"fibre_success", no:"ugoh_3"},
+  ugoh_3:{type:"question", title:"Can a qualified technician complete DP/port checks today?", desc:"Certain qualifications are required to access DPs. Do not access if not qualified.", yes:"ugoh_4", no:"ugoh_fm"},
+  ugoh_fm:{type:"question", title:"Can FM arrange qualified technician support today?", desc:"Use qualified VMO2 support to complete the port-side checks.", yes:"ugoh_4", no:"ugoh_7"},
+  ugoh_4:{type:"question", title:"Have port-side checks/new port been completed?", desc:"Check for light at DP/port, use new port where required and retest.", yes:"ugoh_5", no:"fibre_port_required"},
+  ugoh_5:{type:"question", title:"Have fibre ends been scoped and cleaned?", desc:"Clean/scope as required and retest.", yes:"ugoh_6", no:"fibre_scope_required"},
+  ugoh_6:{type:"question", title:"Are levels within spec now?", desc:"If yes, complete install.", yes:"fibre_success", no:"ugoh_7"},
+  ugoh_7:{type:"question", title:"Can preblow/preworks be completed today?", desc:"If yes, complete the required preworks and continue.", yes:"fibre_preblow", no:"ugoh_8"},
+  ugoh_8:{type:"question", title:"Can a safe temporary UG option save completion?", desc:"On UG network only, it may be possible to use a neighbour T where appropriate until blockage is cleared.", yes:"ugoh_temp", no:"ugoh_9"},
+  ugoh_temp:{type:"outcome", tone:"success", title:"Use safe UG temporary option and complete", desc:"Use the neighbour T / safe temporary UG option where suitable, complete the install and ensure permanent follow-up is arranged."},
+  ugoh_9:{type:"question", title:"Has FM reviewed before failure?", desc:"FM escalation is mandatory before any fail.", yes:"ugoh_fail", no:"fm_required"},
+  ugoh_fail:{type:"outcome", tone:"fail", title:"Failure rationale — UG/OH fibre issue", desc:"Fail only once qualification requirements, port checks, new port, scope/clean, preblow/preworks, UG temporary options and FM support have been exhausted. Notes must explain why completion cannot be achieved today."},
 
+  nsa_1:{type:"question", title:"Have maps/portals been checked to understand the build?", desc:"Check GCOMS, Network Expansion Portal or Openreach portal depending on build.", yes:"nsa_2", no:"nsa_maps_required"},
+  nsa_maps_required:{type:"outcome", tone:"stop", title:"Do not fail yet — check maps/portals", desc:"Check the relevant network records first so the failure is based on evidence, not assumption."},
+  nsa_2:{type:"question", title:"Have neighbours been checked / Badgered?", desc:"Check whether neighbours have been installed and copy how this has been achieved where possible.", yes:"nsa_3", no:"nsa_badger_required"},
+  nsa_badger_required:{type:"outcome", tone:"stop", title:"Do not fail yet — Badger neighbours", desc:"Check nearby installs and use them as a guide before concluding the address is non-serviceable."},
+  nsa_3:{type:"question", title:"Can FM or senior tech find a way to install?", desc:"Use FM/senior support to review maps, route and local build.", yes:"nsa_saved", no:"nsa_fail"},
+  nsa_saved:{type:"outcome", tone:"success", title:"Route found — complete install", desc:"Use the identified method and complete the install."},
+  nsa_fail:{type:"outcome", tone:"fail", title:"Failure rationale — non-serviceable / no capacity", desc:"Fail only once maps/portals have been checked, neighbours have been Badgered, and FM/senior tech support has reviewed whether a route or solution exists. Notes must explain the network reason preventing completion."},
 
+  pa34_start:{type:"menu", title:"PA3 / PA4 blocked route", desc:"Start by identifying where the blockage appears to be. The recovery method is different for a sweep issue versus a blockage further along the route.", options:[
+    {label:"Blockage appears to be at the sweep", desc:"Use sweep-specific recovery: debris, conduit through sweep, rod after sweep and backrod.", next:"pa34_sweep_1", tag:"Sweep"},
+    {label:"Blockage appears further along the route", desc:"Use route recovery: cobra ends, backrod, Desiliter, alternative route and DP change.", next:"pa34_route_1", tag:"Route"},
+    {label:"Blockage location is not clear yet", desc:"Prove whether the issue is at the sweep or further along before deciding the fail route.", next:"pa34_locate_1", tag:"Locate"}
+  ]},
+  pa34_locate_1:{type:"outcome", tone:"stop", title:"Do not fail yet — identify the blockage location", desc:"Before progressing to failure, establish whether the issue is at the sweep or further along the route. Use the correct recovery route once the likely location is understood."},
+  pa34_sweep_1:{type:"question", title:"Has loose debris been cleared from the sweep area?", desc:"Clear debris manually or with hoover/vacuum where suitable before deciding the sweep is blocked.", yes:"pa34_sweep_2", no:"pa34_sweep_debris_required"},
+  pa34_sweep_debris_required:{type:"outcome", tone:"stop", title:"Do not fail yet — clear sweep debris", desc:"Clear loose debris from the sweep area where possible, then reattempt the route before progressing."},
+  pa34_sweep_2:{type:"question", title:"Has conduit been inserted/twisted through the sweep where suitable?", desc:"Where appropriate, use conduit through the sweep to help clear the obstruction and create a path to rod through.", yes:"pa34_sweep_3", no:"pa34_conduit_required"},
+  pa34_conduit_required:{type:"outcome", tone:"stop", title:"Do not fail yet — attempt conduit through sweep", desc:"Where suitable, insert/twist conduit through the sweep to help clear the obstruction and guide the rod through before progressing."},
+  pa34_sweep_3:{type:"question", title:"Have you rodded through/after the sweep?", desc:"Rod through the conduit or from after the sweep where possible to prove whether the blockage is in the sweep or beyond it.", yes:"pa34_sweep_4", no:"rod_after_required"},
+  rod_after_required:{type:"outcome", tone:"stop", title:"Do not fail yet — rod through or after the sweep", desc:"Rod through/after the sweep where possible before concluding construction is required."},
+  pa34_sweep_4:{type:"question", title:"Has backrodding been attempted where possible?", desc:"Backrod from the opposite direction where access allows.", yes:"pa34_common_1", no:"backrod_required"},
+  pa34_route_1:{type:"question", title:"Have different cobra ends / attachments been attempted?", desc:"Use suitable cobra ends for the blockage type. Multiple attempts are expected before concluding the route is non-recoverable.", yes:"pa34_route_2", no:"cobra_required"},
+  cobra_required:{type:"outcome", tone:"stop", title:"Do not fail yet — try alternative cobra ends", desc:"Attempt different cobra ends/attachments and record what was tried before progressing."},
+  pa34_route_2:{type:"question", title:"Has backrodding been attempted where possible?", desc:"Attempt to clear the blockage from the opposite direction where access allows.", yes:"pa34_route_3", no:"backrod_required"},
+  backrod_required:{type:"outcome", tone:"stop", title:"Do not fail yet — attempt backrod", desc:"Backrod where possible and record the outcome before progressing."},
+  pa34_route_3:{type:"question", title:"Has the Desiliter been attempted where suitable?", desc:"Use the Desiliter where appropriate after initial recovery attempts have been made.", yes:"pa34_common_1", no:"desiliter_required"},
+  desiliter_required:{type:"outcome", tone:"stop", title:"Do not fail yet — attempt Desiliter", desc:"Where suitable, attempt Desiliter and record the outcome before progressing."},
+  pa34_common_1:{type:"question", title:"Is there another viable route to the DP?", desc:"Check maps, portals and on-site routing options before failing.", yes:"alt_route_success", no:"pa34_common_2"},
+  alt_route_success:{type:"outcome", tone:"success", title:"Use alternative route and complete", desc:"Use the viable alternative route to protect completion."},
+  pa34_common_2:{type:"question", title:"Could the job be saved with a DP change?", desc:"Check whether another DP is viable and whether a DP change can be completed.", yes:"dp_change_success", no:"pa34_common_3"},
+  dp_change_success:{type:"outcome", tone:"success", title:"Progress DP change and complete", desc:"Complete or arrange the DP change where viable and continue the job."},
+  pa34_common_3:{type:"question", title:"After all recovery options, has the blockage been located and sprayed up?", desc:"Spray up only after recovery options have been attempted. Locate the blockage as accurately as possible.", yes:"pa34_common_4", no:"spray_required"},
+  spray_required:{type:"outcome", tone:"stop", title:"Do not fail yet — locate and spray up", desc:"After recovery attempts are exhausted, locate the blockage and spray up/mark the suspected point so construction has actionable information."},
+  pa34_common_4:{type:"question", title:"Has FM reviewed before failure?", desc:"FM escalation is mandatory before any fail.", yes:"pa34_fail", no:"fm_required"},
+  pa34_fail:{type:"outcome", tone:"fail", title:"Failure rationale — PA3 / PA4 blocked route", desc:"Fail only once the blockage location has been identified, the correct recovery path has been followed, sweep-specific or route-specific recovery has been attempted, alternative routes and DP change have been ruled out, the blockage has been located/sprayed up, and FM has reviewed."},
 
-pa34_sweep_1:{
-  type:"question",
-  title:"Have sweep recovery methods been attempted?",
-  desc:"Clear debris, hoover where appropriate, expose the sweep if needed, rod from after the sweep, and attempt backrodding.",
-  yes:"pa34_common_1",
-  no:"pa34_sweep_required"
-},
+  sweep_start:{type:"info", title:"Blocked sweep", desc:"Use this when the issue is specifically at the sweep. This is not the same as a generic conduit blockage. Conduit may be used as a method to pass through or clear the sweep.", next:"pa34_sweep_1"},
 
-pa34_sweep_required:{
-  type:"outcome",
-  tone:"stop",
-  title:"Do not fail yet — complete sweep recovery",
-  desc:"If the blockage is at the sweep, recovery must be fully attempted. This includes clearing debris, hoovering, exposing the sweep where safe, rodding from after the sweep, and backrodding."
-},
+  pa2cur_start:{type:"info", title:"PA2 / CUR blow issue", desc:"PA2 and CUR are straw-based builds. The route is recovered through blow methods rather than Desiliter/cobra recovery.", next:"pa2cur_1"},
+  pa2cur_1:{type:"question", title:"Has the fibre been attempted with compressor and fibre gun?", desc:"Attempt the standard blow method first.", yes:"pa2cur_2", no:"pa2cur_standard_required"},
+  pa2cur_standard_required:{type:"outcome", tone:"stop", title:"Do not fail yet — attempt standard blow", desc:"Use compressor and fibre gun before progressing to blockage recovery."},
+  pa2cur_2:{type:"question", title:"Have sponges and bullets been blown to try and clear the blockage?", desc:"Use sponges/bullets to attempt to clear the straw.", yes:"pa2cur_3", no:"pa2cur_sponges_required"},
+  pa2cur_sponges_required:{type:"outcome", tone:"stop", title:"Do not fail yet — try sponges and bullets", desc:"Blow sponges and bullets before progressing to failure rationale."},
+  pa2cur_3:{type:"question", title:"Has reverse blow been attempted from the DP end?", desc:"If house-end blow fails, try from the DP end where possible.", yes:"pa2cur_4", no:"pa2cur_reverse_required"},
+  pa2cur_reverse_required:{type:"outcome", tone:"stop", title:"Do not fail yet — attempt reverse blow", desc:"Try blowing from the DP end before failing for construction."},
+  pa2cur_4:{type:"question", title:"Has the larger 10 bar compressor been considered/attempted if available?", desc:"Use larger compressor if available and appropriate.", yes:"pa2cur_5", no:"pa2cur_10bar_required"},
+  pa2cur_10bar_required:{type:"outcome", tone:"stop", title:"Do not fail yet — consider 10 bar compressor", desc:"Check whether the larger compressor is available and appropriate before failing."},
+  pa2cur_5:{type:"question", title:"Have different air pressures been attempted?", desc:"Both increasing and reducing air pressure can help. Lower pressure has sometimes cleared blockages where higher pressure has not.", yes:"pa2cur_6", no:"pa2cur_pressure_required"},
+  pa2cur_pressure_required:{type:"outcome", tone:"stop", title:"Do not fail yet — vary air pressure", desc:"Try appropriate pressure changes, including lower pressure, before failing."},
+  pa2cur_6:{type:"question", title:"Can another route or DP change save the job?", desc:"Check maps/portals and DP options before failure.", yes:"dp_change_success", no:"pa2cur_7"},
+  pa2cur_7:{type:"question", title:"After all blow recovery options, has the blockage been located and sprayed up?", desc:"Only spray up once all recovery options have been attempted.", yes:"pa2cur_8", no:"spray_required"},
+  pa2cur_8:{type:"question", title:"Has FM reviewed before failure?", desc:"FM escalation is mandatory before any fail.", yes:"pa2cur_fail", no:"fm_required"},
+  pa2cur_fail:{type:"outcome", tone:"fail", title:"Failure rationale — PA2 / CUR blow issue", desc:"Fail only once standard blow, sponges/bullets, reverse blow, larger compressor consideration, pressure variation, alternative route and DP change options have been exhausted, the blockage has been located/sprayed up, and FM has reviewed."},
 
+  dp_route_1:{type:"question", title:"Have GCOMS / Network Expansion / Openreach portal been checked?", desc:"Use the relevant portal depending on build to understand how the network is routed.", yes:"dp_route_2", no:"nsa_maps_required"},
+  dp_route_2:{type:"question", title:"Is there another viable route to the current DP?", desc:"Check maps and on-site options.", yes:"alt_route_success", no:"dp_route_3"},
+  dp_route_3:{type:"question", title:"Could another DP be used with a DP change?", desc:"Consider whether DP change can save the install.", yes:"dp_change_success", no:"dp_route_4"},
+  dp_route_4:{type:"question", title:"Has FM or senior technician reviewed the route?", desc:"FM escalation is mandatory before failure.", yes:"dp_route_fail", no:"fm_required"},
+  dp_route_fail:{type:"outcome", tone:"fail", title:"Failure rationale — no viable route to DP", desc:"Fail only once maps/portals have been checked, alternative routes have been considered, DP change has been ruled out, and FM/senior support has reviewed."},
 
+  cons_safety_1:{type:"question", title:"Is the activity unsafe or outside scope?", desc:"Do not proceed where it creates risk or is outside the work order/safe method.", yes:"cons_safety_2", no:"construction_menu"},
+  cons_safety_2:{type:"question", title:"Has FM reviewed the safety/scope concern?", desc:"FM escalation is mandatory before failure.", yes:"cons_safety_fail", no:"fm_required"},
+  cons_safety_fail:{type:"outcome", tone:"fail", title:"Failure rationale — preworks cannot be completed safely", desc:"Fail only where the required activity cannot be completed safely or is outside scope, and FM has reviewed. Notes must explain the risk, location, and what would be required next."},
 
-pa34_route_1:{
-  type:"question",
-  title:"Have different cobra ends / attachments been attempted?",
-  desc:"Use appropriate cobra ends for the blockage type. Multiple attempts are expected before concluding failure.",
-  yes:"pa34_route_2",
-  no:"cobra_required"
-},
+  order_never_1:{type:"question", title:"Has the customer confirmed they do not want the install?", desc:"Clarify whether they genuinely never ordered or whether there is confusion around the order.", yes:"order_never_2", no:"order_error_1"},
+  order_never_2:{type:"question", title:"Has FM been contacted before failure?", desc:"FM escalation is mandatory before any fail.", yes:"order_never_fail", no:"fm_required"},
+  order_never_fail:{type:"outcome", tone:"fail", title:"Failure rationale — customer never ordered", desc:"Fail only once the customer has confirmed they do not want the install and FM has reviewed. Notes must clearly state the customer position."},
+  order_error_1:{type:"question", title:"Can sales or customer service correct the order today?", desc:"Attempt same-day correction so the install can continue.", yes:"order_saved", no:"order_error_2"},
+  order_saved:{type:"outcome", tone:"success", title:"Order corrected — proceed with install", desc:"Once corrected and customer is happy, complete the install."},
+  order_error_2:{type:"question", title:"Has FM reviewed before failure?", desc:"FM escalation is mandatory before any fail.", yes:"order_error_fail", no:"fm_required"},
+  order_error_fail:{type:"outcome", tone:"fail", title:"Failure rationale — order entry error", desc:"Fail only once same-day order correction has been attempted, the customer cannot proceed on the current order, and FM has reviewed. Notes must explain the order issue and who was contacted."},
+  order_tv_1:{type:"question", title:"Can the TV/package expectation issue be resolved today?", desc:"Use the relevant support route, such as TiVo Nigel / CONS 360 where appropriate, to resolve package or TV expectation concerns.", yes:"order_saved", no:"order_tv_2"},
+  order_tv_2:{type:"question", title:"Has FM reviewed before failure?", desc:"FM escalation is mandatory before any fail.", yes:"order_tv_fail", no:"fm_required"},
+  order_tv_fail:{type:"outcome", tone:"fail", title:"Failure rationale — TV/package expectation issue", desc:"Fail only once the issue has been understood, correct support channels have been attempted, the customer still will not proceed, and FM has reviewed."},
+  order_system_1:{type:"question", title:"Has the correct support route been used to resolve the system issue today?", desc:"Use router, customer service, sales support, system support or FM route depending on the blocker.", yes:"order_system_2", no:"order_system_support_required"},
+  order_system_support_required:{type:"outcome", tone:"stop", title:"Do not fail yet — use support route", desc:"Use the correct support route before failing for a system issue. Notes must show who was contacted and what the blocker is."},
+  order_system_2:{type:"question", title:"Can the job proceed after support?", desc:"If resolved, complete the install.", yes:"order_saved", no:"order_system_3"},
+  order_system_3:{type:"question", title:"Has FM reviewed before failure?", desc:"FM escalation is mandatory before any fail.", yes:"order_system_fail", no:"fm_required"},
+  order_system_fail:{type:"outcome", tone:"fail", title:"Failure rationale — system issue blocking completion", desc:"Fail only once the correct support route has been used, the issue cannot be resolved same day, and FM has reviewed. Notes must explain the system blocker and next required action."},
 
-pa34_route_2:{
-  type:"question",
-  title:"Has backrodding been attempted where possible?",
-  desc:"Attempt to clear the blockage from the opposite direction where access allows.",
-  yes:"pa34_route_3",
-  no:"backrod_required"
-},
-
-pa34_route_3:{
-  type:"question",
-  title:"Has the Desiliter been attempted where suitable?",
-  desc:"Use Desiliter after initial recovery attempts where conditions allow.",
-  yes:"pa34_common_1",
-  no:"desiliter_required"
-},
-
-
-
-pa34_common_1:{
-  type:"question",
-  title:"Is there another viable route to the DP?",
-  desc:"Check maps, portals and on-site routing options.",
-  yes:"alt_route_success",
-  no:"pa34_common_2"
-},
-
-pa34_common_2:{
-  type:"question",
-  title:"Could the job be saved with a DP change?",
-  desc:"Check whether another DP is viable and if a DP change can be completed.",
-  yes:"dp_change_success",
-  no:"pa34_common_3"
-},
-
-pa34_common_3:{
-  type:"question",
-  title:"Has the blockage been located and sprayed up?",
-  desc:"Only do this after all recovery options have been attempted. Location must be as accurate as possible.",
-  yes:"pa34_common_4",
-  no:"spray_required"
-},
-
-pa34_common_4:{
-  type:"question",
-  title:"Has FM reviewed before failure?",
-  desc:"FM escalation is mandatory before any fail.",
-  yes:"pa34_fail",
-  no:"fm_required"
-},
-
-
-
-pa34_fail:{
-  type:"outcome",
-  tone:"fail",
-  title:"Failure rationale — PA3 / PA4 blocked route",
-  desc:"Fail only once the blockage location has been identified, correct recovery path has been followed (sweep or route), all relevant recovery methods have been attempted, alternative routes and DP change have been ruled out, the blockage has been located and sprayed up, and FM has reviewed."
-},  
-  sweep_1:{type:"question",title:"Does the blockage appear to be at the sweep / conduit?",desc:"Confirm whether the issue is around the sweep, bend, conduit entry or transition point.",yes:"sweep_2",no:"pa34_1"},
-  sweep_2:{type:"question",title:"Has the sweep/conduit been cleared with hoover/vacuum?",desc:"Clear loose debris before concluding construction is required.",yes:"sweep_3",no:"hoover_required"},
-  sweep_3:{type:"question",title:"Has the sweep been exposed where required?",desc:"If safe and in scope, expose to test beyond the bend/restriction.",yes:"sweep_4",no:"sweep_required"},
-  sweep_4:{type:"question",title:"Have you rodded from after the sweep?",desc:"This proves whether the issue is in the sweep or further along the route.",yes:"sweep_5",no:"rod_after_required"},
-  rod_after_required:{type:"outcome",tone:"stop",title:"Do not fail yet — rod from after the sweep",desc:"Rod from after the sweep where possible before failing for construction."},
-  sweep_5:{type:"question",title:"Have you attempted to backrod?",desc:"Backrod from the opposite direction where possible.",yes:"pa34_7",no:"backrod_required"},
-
-  pa2cur_1:{type:"question",title:"Have you confirmed this is PA2 / CUR build?",desc:"PA2 and CUR use straw-based fibre blow methods. Use the correct recovery process.",yes:"pa2cur_2",no:"build_type_required"},
-  pa2cur_2:{type:"question",title:"Has the fibre been attempted with compressor and fibre gun?",desc:"Attempt standard blow method first.",yes:"pa2cur_3",no:"pa2cur_standard_required"},
-  pa2cur_standard_required:{type:"outcome",tone:"stop",title:"Do not fail yet — attempt standard blow",desc:"Use compressor and fibre gun before progressing to blockage recovery."},
-  pa2cur_3:{type:"question",title:"Have sponges and bullets been blown to try and clear the blockage?",desc:"Use sponges/bullets to attempt to clear the straw.",yes:"pa2cur_4",no:"pa2cur_sponges_required"},
-  pa2cur_sponges_required:{type:"outcome",tone:"stop",title:"Do not fail yet — try sponges and bullets",desc:"Blow sponges and bullets before progressing to failure rationale."},
-  pa2cur_4:{type:"question",title:"Has reverse blow been attempted from the DP end?",desc:"If house-end blow fails, try from the DP end where possible.",yes:"pa2cur_5",no:"pa2cur_reverse_required"},
-  pa2cur_reverse_required:{type:"outcome",tone:"stop",title:"Do not fail yet — attempt reverse blow",desc:"Try blowing from the DP end before failing for construction."},
-  pa2cur_5:{type:"question",title:"Has the larger 10 bar compressor been considered/attempted if available?",desc:"Use larger compressor if available and appropriate.",yes:"pa2cur_6",no:"pa2cur_10bar_required"},
-  pa2cur_10bar_required:{type:"outcome",tone:"stop",title:"Do not fail yet — consider 10 bar compressor",desc:"Check whether the larger compressor is available and appropriate before failing."},
-  pa2cur_6:{type:"question",title:"Have different air pressures been attempted?",desc:"Both increasing and reducing air pressure can help. Lower pressure has sometimes cleared blockages where higher pressure has not.",yes:"pa2cur_7",no:"pa2cur_pressure_required"},
-  pa2cur_pressure_required:{type:"outcome",tone:"stop",title:"Do not fail yet — vary air pressure",desc:"Try appropriate pressure changes, including lower pressure, before failing."},
-  pa2cur_7:{type:"question",title:"Can another route or DP change save the job?",desc:"Check maps/portals and DP options before failure.",yes:"dp_change_success",no:"pa2cur_8"},
-  pa2cur_8:{type:"question",title:"After all blow recovery options, has the blockage been located and sprayed up?",desc:"Only spray up once all recovery options have been attempted.",yes:"pa2cur_fail",no:"spray_required"},
-  pa2cur_fail:{type:"outcome",tone:"fail",title:"Failure rationale — PA2 / CUR blow issue",desc:"Fail only once standard blow, sponges/bullets, reverse blow, larger compressor consideration, pressure variation, alternative route and DP change options have been exhausted, and the blockage has been located/sprayed up."},
-
-  dp_route_1:{type:"question",title:"Have GCOMS / Network Expansion / Openreach portal been checked?",desc:"Use the relevant portal depending on build to understand how the network is routed.",yes:"dp_route_2",no:"nsa_maps_required"},
-  dp_route_2:{type:"question",title:"Is there another viable route to the current DP?",desc:"Check maps and on-site options.",yes:"alt_route_success",no:"dp_route_3"},
-  dp_route_3:{type:"question",title:"Could another DP be used with a DP change?",desc:"Consider whether DP change can save the install.",yes:"dp_change_success",no:"dp_route_4"},
-  dp_route_4:{type:"question",title:"Has FM or senior technician reviewed the route?",desc:"FM escalation is mandatory before failure.",yes:"dp_route_fail",no:"fm_required"},
-  dp_route_fail:{type:"outcome",tone:"fail",title:"Failure rationale — no viable route to DP",desc:"Fail only once maps/portals have been checked, alternative routes have been considered, DP change has been ruled out, and FM/senior support has reviewed."},
-
-  cons_safety_1:{type:"question",title:"Is the activity unsafe or outside scope?",desc:"Do not proceed where it creates risk or is outside the work order/safe method.",yes:"cons_safety_2",no:"construction_menu"},
-  cons_safety_2:{type:"question",title:"Has FM reviewed the safety/scope concern?",desc:"FM escalation is mandatory before failure.",yes:"cons_safety_fail",no:"fm_required"},
-  cons_safety_fail:{type:"outcome",tone:"fail",title:"Failure rationale — preworks cannot be completed safely",desc:"Fail only where the required activity cannot be completed safely or is outside scope, and FM has reviewed. Notes must explain the risk, location, and what would be required next."},
-
-  fm_required:{type:"outcome",tone:"stop",title:"Do not fail yet — FM escalation required",desc:"FM escalation is mandatory before any failure. Contact FM, explain the issue, and record the guidance/decision before closing."},
-
-  done:{type:"outcome",tone:"success",title:"Done",desc:"Use the menu to start another flow or reset to clear the screen."}
+  fm_required:{type:"outcome", tone:"stop", title:"Do not fail yet — FM escalation required", desc:"FM escalation is mandatory before any failure. Contact FM, explain the issue, and record the guidance/decision before closing."},
+  done:{type:"outcome", tone:"success", title:"Done", desc:"Use the menu to start another flow or reset to clear the screen."}
 };
 
 const menuEl = document.getElementById("menu");
