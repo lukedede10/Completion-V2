@@ -576,26 +576,99 @@ const FLOWS = {
   nsa_saved:{type:"outcome",tone:"success",title:"Route found — complete install",desc:"Use the identified method and complete the install."},
   nsa_fail:{type:"outcome",tone:"fail",title:"Failure rationale — non-serviceable / no capacity",desc:"Fail only once maps/portals have been checked, neighbours have been Badgered, and FM/senior tech support has reviewed whether a route or solution exists. Notes must explain the network reason preventing completion."},
 
-pa34_1:{type:"question",title:"Does the blockage appear to be at the sweep/ inside boundary?",desc:"Work out where the blockage is first. If it is at the sweep, clear the sweep before moving on further.",yes:"sweep_2",no:"pa34_route_1"},
+pa34_1:{
+  type:"question",
+  title:"Where does the blockage appear to be?",
+  desc:"Identify whether the issue is at the sweep or further along the route",
+  yes:"pa34_sweep_1",
+  no:"pa34_route_1"
+},
 
-pa34_route_1:{type:"question",title:"Does the blockage appear to be further along the route?",desc:"If the issue is beyond the sweep/conduit, move into route recovery methods before construction is raised.",yes:"pa34_2",no:"pa34_locate_first"},
 
-pa34_locate_first:{type:"outcome",tone:"stop",title:"Do not fail yet — identify where the blockage is",desc:"Before any failure rationale, identify whether the blockage is at the sweep/conduit or further along the route. This decides which recovery method should be used."},
 
-pa34_2:{type:"question",title:"Have different cobra ends / attachments been attempted?",desc:"Try suitable cobra ends for the blockage type. A single attempt is not enough to prove the route is non-recoverable.",yes:"pa34_3",no:"cobra_required"},
+pa34_sweep_1:{
+  type:"question",
+  title:"Have sweep recovery methods been attempted?",
+  desc:"Clear debris, hoover where appropriate, expose the sweep if needed, rod from after the sweep, and attempt backrodding.",
+  yes:"pa34_common_1",
+  no:"pa34_sweep_required"
+},
 
-pa34_3:{type:"question",title:"Has backrodding been attempted where possible?",desc:"Backrod to see if the blockage can be cleared from the opposite direction.",yes:"pa34_4",no:"backrod_required"},
+pa34_sweep_required:{
+  type:"outcome",
+  tone:"stop",
+  title:"Do not fail yet — complete sweep recovery",
+  desc:"If the blockage is at the sweep, recovery must be fully attempted. This includes clearing debris, hoovering, exposing the sweep where safe, rodding from after the sweep, and backrodding."
+},
 
-pa34_4:{type:"question",title:"Has the Desiliter been attempted where suitable?",desc:"Use the Desiliter where appropriate after the route has been assessed and other recovery options have been attempted.",yes:"pa34_5",no:"desiliter_required"},
 
-pa34_5:{type:"question",title:"Is there another viable route to the DP?",desc:"Check portals/maps and on-site route options before failing.",yes:"alt_route_success",no:"pa34_6"},
 
-pa34_6:{type:"question",title:"Could the job be saved with a DP change?",desc:"Check whether another DP is viable and whether a DP change can be completed.",yes:"dp_change_success",no:"pa34_7"},
+pa34_route_1:{
+  type:"question",
+  title:"Have different cobra ends / attachments been attempted?",
+  desc:"Use appropriate cobra ends for the blockage type. Multiple attempts are expected before concluding failure.",
+  yes:"pa34_route_2",
+  no:"cobra_required"
+},
 
-pa34_7:{type:"question",title:"After all recovery options, has the blockage been located and sprayed up?",desc:"Spray up only after recovery options have been attempted. Locate the blockage as accurately as possible.",yes:"pa34_fail",no:"spray_required"},
+pa34_route_2:{
+  type:"question",
+  title:"Has backrodding been attempted where possible?",
+  desc:"Attempt to clear the blockage from the opposite direction where access allows.",
+  yes:"pa34_route_3",
+  no:"backrod_required"
+},
 
-pa34_fail:{type:"outcome",tone:"fail",title:"Failure rationale — PA3 / PA4 blocked route",desc:"Fail only once the blockage location has been identified, the correct recovery route has been followed, sweep/conduit issues have been cleared or ruled out, cobra ends and backrodding have been attempted where applicable, Desiliter has been attempted where suitable, alternative routes and DP change have been ruled out, and the blockage has been located/sprayed up."},
+pa34_route_3:{
+  type:"question",
+  title:"Has the Desiliter been attempted where suitable?",
+  desc:"Use Desiliter after initial recovery attempts where conditions allow.",
+  yes:"pa34_common_1",
+  no:"desiliter_required"
+},
 
+
+
+pa34_common_1:{
+  type:"question",
+  title:"Is there another viable route to the DP?",
+  desc:"Check maps, portals and on-site routing options.",
+  yes:"alt_route_success",
+  no:"pa34_common_2"
+},
+
+pa34_common_2:{
+  type:"question",
+  title:"Could the job be saved with a DP change?",
+  desc:"Check whether another DP is viable and if a DP change can be completed.",
+  yes:"dp_change_success",
+  no:"pa34_common_3"
+},
+
+pa34_common_3:{
+  type:"question",
+  title:"Has the blockage been located and sprayed up?",
+  desc:"Only do this after all recovery options have been attempted. Location must be as accurate as possible.",
+  yes:"pa34_common_4",
+  no:"spray_required"
+},
+
+pa34_common_4:{
+  type:"question",
+  title:"Has FM reviewed before failure?",
+  desc:"FM escalation is mandatory before any fail.",
+  yes:"pa34_fail",
+  no:"fm_required"
+},
+
+
+
+pa34_fail:{
+  type:"outcome",
+  tone:"fail",
+  title:"Failure rationale — PA3 / PA4 blocked route",
+  desc:"Fail only once the blockage location has been identified, correct recovery path has been followed (sweep or route), all relevant recovery methods have been attempted, alternative routes and DP change have been ruled out, the blockage has been located and sprayed up, and FM has reviewed."
+},  
   sweep_1:{type:"question",title:"Does the blockage appear to be at the sweep / conduit?",desc:"Confirm whether the issue is around the sweep, bend, conduit entry or transition point.",yes:"sweep_2",no:"pa34_1"},
   sweep_2:{type:"question",title:"Has the sweep/conduit been cleared with hoover/vacuum?",desc:"Clear loose debris before concluding construction is required.",yes:"sweep_3",no:"hoover_required"},
   sweep_3:{type:"question",title:"Has the sweep been exposed where required?",desc:"If safe and in scope, expose to test beyond the bend/restriction.",yes:"sweep_4",no:"sweep_required"},
