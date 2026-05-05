@@ -383,12 +383,13 @@ const menuItems = [
   { label:"Order entry error", desc:"Sales/order issue, TV expectation issue or order correction required.", next:"order_start", tag:"Order" },
   { label:"Customer requested reschedule", desc:"Customer wants to move the job.", next:"resched_start", tag:"Customer" },
   { label:"Customer requested cancellation", desc:"Understand reason, attempt to resolve and escalate where appropriate.", next:"cancel_start", tag:"Customer" },
-  { label:"Non serviceable address", desc:"Includes capacity/facilities issues.", next:"nsa_start", tag:"Network" }
-  { 
+  { label:"Non serviceable address", desc:"Includes capacity/facilities issues.", next:"nsa_start", tag:"Network" },
+{ 
   label:"Construction / preworks issue", 
   desc:"2-man jobs, civils risk, blocked route, preworks and install saves.", 
   next:"construction_start", 
   tag:"Construction" 
+}
 },
 ];
 
@@ -583,7 +584,7 @@ construction_fail:{
   tone:"fail",
   title:"Stop here — close it correctly with clear notes",
   desc:"If the construction/preworks activity cannot be completed safely or effectively today, close correctly with notes explaining what was attempted, what prevented completion, and what is required next."
-}
+},
   done:{type:"outcome",tone:"success",title:"Done",desc:"Use the menu to select another issue, or reset to clear the flow."}
 };
 
