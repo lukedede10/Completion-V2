@@ -332,18 +332,19 @@ h1{
   </p>
 
   <div class="quick-links">
-    <button class="quick-link blue" onclick="startFlow('nr_menu')">
-      <b>No reply / no one home</b>
-      <span>Contact attempts, reattendance and correct closure.</span>
-    </button>
-    <button class="quick-link red" onclick="startFlow('coax_start')">
-      <b>Drop / repull at risk</b>
-      <span>Prove checks before repull or not done.</span>
-    </button>
-    <button class="quick-link green" onclick="startFlow('fu_start')">
-      <b>Fibre issue</b>
-      <span>Light levels, port checks, scope/clean and preworks.</span>
-    </button>
+<button class="quick-link blue" onclick="startFlow('coc_menu')">
+  <b>Customer / Access issue</b>
+  <span>No reply, access, reschedule, cancellation or route concern.</span>
+</button>
+
+<button class="quick-link red" onclick="startFlow('coax_start')">
+  <b>Network / Drop issue</b>
+  <span>Coax, fibre, repull, light levels or non-serviceable.</span>
+</button>
+<button class="quick-link amber" onclick="startFlow('construction_start')">
+  <b>Construction / Preworks issue</b>
+  <span>2-man jobs, civils risk, preworks and install saves.</span>
+</button>
   </div>
 </section>
 
@@ -383,6 +384,12 @@ const menuItems = [
   { label:"Customer requested reschedule", desc:"Customer wants to move the job.", next:"resched_start", tag:"Customer" },
   { label:"Customer requested cancellation", desc:"Understand reason, attempt to resolve and escalate where appropriate.", next:"cancel_start", tag:"Customer" },
   { label:"Non serviceable address", desc:"Includes capacity/facilities issues.", next:"nsa_start", tag:"Network" }
+  { 
+  label:"Construction / preworks issue", 
+  desc:"2-man jobs, civils risk, blocked route, preworks and install saves.", 
+  next:"construction_start", 
+  tag:"Construction" 
+},
 ];
 
 const FLOWS = {
@@ -526,6 +533,57 @@ const FLOWS = {
   nsa_senior:{type:"outcome",tone:"stop",title:"Senior engineer on-site review",desc:"Senior engineer attends and attempts to find a way to complete the install."},
   nsa_fail:{type:"outcome",tone:"fail",title:"Stop here — close it correctly with clear notes",desc:"Close as non serviceable address. Notes must explain what checks were completed."},
 
+  construction_start:{
+  type:"info",
+  title:"Construction / Preworks issue",
+  desc:"Use this where the job includes preworks and install activity, particularly on 2-man work orders where the aim is to complete the civils/prep activity and still protect the install on the day.",
+  next:"construction_1"
+},
+
+construction_1:{
+  type:"question",
+  title:"Can the required preworks be completed safely today?",
+  desc:"Confirm whether the route can be recovered, cleared, dug, pulled or prepared safely within the scope of the work order.",
+  yes:"construction_2",
+  no:"construction_fail"
+},
+
+construction_2:{
+  type:"question",
+  title:"Can the install still be completed today after the preworks?",
+  desc:"If the preworks can be completed, check whether there is still enough time and resource to complete the install fully.",
+  yes:"construction_saved",
+  no:"construction_partial"
+},
+
+construction_saved:{
+  type:"outcome",
+  tone:"success",
+  title:"Complete preworks and install",
+  desc:"Complete the preworks, then continue with the install and close the job as complete."
+},
+
+construction_partial:{
+  type:"question",
+  title:"Can the preworks be completed today to allow a clean return?",
+  desc:"If the install cannot complete today, still complete the preworks where possible so the next visit is protected.",
+  yes:"construction_preworks_only",
+  no:"construction_fail"
+},
+
+construction_preworks_only:{
+  type:"outcome",
+  tone:"stop",
+  title:"Complete preworks and protect the return visit",
+  desc:"Complete the preworks, capture clear notes and evidence, and make sure the follow-on visit is set up correctly. Do not leave the next visit with the same blocker."
+},
+
+construction_fail:{
+  type:"outcome",
+  tone:"fail",
+  title:"Stop here — close it correctly with clear notes",
+  desc:"If the construction/preworks activity cannot be completed safely or effectively today, close correctly with notes explaining what was attempted, what prevented completion, and what is required next."
+}
   done:{type:"outcome",tone:"success",title:"Done",desc:"Use the menu to select another issue, or reset to clear the flow."}
 };
 
