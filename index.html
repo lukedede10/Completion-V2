@@ -329,6 +329,13 @@ h1{
 @media(max-width:600px){
   .quick-links{grid-template-columns:1fr}
 }
+
+  .flow-btn:disabled,
+.menu-btn:disabled{
+  opacity:.45;
+  cursor:not-allowed;
+  transform:none;
+}
 </style>
 </head>
 <body>
@@ -640,6 +647,7 @@ function renderNode(id){
 
   const stepNo = trailEl.children.length + 1;
   const typeLabel = node.type === "question" ? "Decision" : node.type === "menu" ? "Select" : node.type === "info" ? "Action" : "Outcome";
+  const showBack = trailEl.children.length > 0;
 
   card.innerHTML = `
     <div class="step-head">
@@ -654,6 +662,10 @@ function renderNode(id){
   `;
 
   const actions = card.querySelector(".actions");
+
+  if(showBack){
+    actions.append(makeButton("Back", "back", () => goBack()));
+  }
 
   if(node.type === "question"){
     actions.append(
@@ -700,7 +712,9 @@ function makeButton(text, cls, handler){
 }
 
 function disableActions(card){
-  card.querySelectorAll("button").forEach(btn=>btn.disabled = true);
+  card.querySelectorAll("button").forEach(btn=>{
+    btn.disabled = true;
+  });
 }
 
 function addAnswer(card, answer, isNo=false){
