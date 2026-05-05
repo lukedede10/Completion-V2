@@ -1,0 +1,705 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+<title>Completion Save Flow</title>
+
+<style>
+:root{
+  --bg:#07121f;
+  --card:#ffffff;
+  --text:#0b1220;
+  --muted:#64748b;
+  --stroke:#d6dde8;
+  --o2:#005EB8;
+  --o2Dark:#004A93;
+  --red:#E4002B;
+  --redDark:#B80022;
+  --green:#0f9f6e;
+  --amber:#f59e0b;
+  --soft:#f8fbff;
+  --radius:24px;
+  --shadow:0 10px 24px rgba(2,6,23,.16);
+  --max:1200px;
+}
+
+*{box-sizing:border-box}
+
+html,body{
+  margin:0;
+  min-height:100%;
+  font-family:Arial,Helvetica,sans-serif;
+  background:
+    radial-gradient(900px 500px at 15% 0%, rgba(0,94,184,.28), transparent 60%),
+    radial-gradient(800px 500px at 90% 10%, rgba(228,0,43,.18), transparent 55%),
+    linear-gradient(180deg,#06101b 0%,#0b1930 100%);
+  color:#fff;
+}
+
+main{padding:24px 0 36px}
+
+.shell{
+  width:min(var(--max),calc(100% - 24px));
+  margin:0 auto;
+}
+
+.card{
+  background:var(--card);
+  color:var(--text);
+  border-radius:28px;
+  box-shadow:var(--shadow);
+  padding:18px;
+  border:1px solid #e8eef7;
+}
+
+.intro-card{margin-bottom:18px}
+
+h1{
+  margin:0 0 10px;
+  font-size:clamp(30px,4vw,52px);
+  line-height:1.05;
+}
+
+.sub{
+  margin:0;
+  color:#334155;
+  font-size:clamp(15px,2vw,18px);
+  line-height:1.45;
+}
+
+.quick-links{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+  margin-top:18px;
+}
+
+.quick-link{
+  border:none;
+  border-radius:20px;
+  padding:15px 16px;
+  color:#fff;
+  text-align:left;
+  cursor:pointer;
+  transition:.18s ease;
+  min-height:82px;
+  box-shadow:0 8px 20px rgba(2,6,23,.12);
+}
+
+.quick-link:hover{transform:translateY(-2px)}
+.quick-link b{display:block;font-size:16px;margin-bottom:6px}
+.quick-link span{display:block;font-size:13px;line-height:1.35;opacity:.94}
+
+.quick-link.blue{background:var(--o2)}
+.quick-link.red{background:var(--red)}
+.quick-link.green{background:var(--green)}
+.quick-link.dark{background:var(--o2Dark)}
+.quick-link.amber{background:var(--amber); color:#111827}
+
+.flow-wrap{
+  display:grid;
+  grid-template-columns:.9fr 1.1fr;
+  gap:18px;
+}
+
+.side-panel{
+  position:sticky;
+  top:16px;
+  align-self:start;
+}
+
+.panel-title{
+  margin:0 0 10px;
+  font-size:22px;
+}
+
+.menu{
+  display:grid;
+  gap:10px;
+}
+
+.menu-btn{
+  width:100%;
+  border:1px solid var(--stroke);
+  background:#f8fbff;
+  color:var(--text);
+  border-radius:16px;
+  padding:13px;
+  text-align:left;
+  cursor:pointer;
+  transition:.15s;
+}
+
+.menu-btn:hover{
+  border-color:var(--o2);
+  transform:translateY(-1px);
+}
+
+.menu-btn b{
+  display:block;
+  font-size:15px;
+  margin-bottom:4px;
+}
+
+.menu-btn span{
+  display:block;
+  font-size:13px;
+  color:#475569;
+  line-height:1.35;
+}
+
+.menu-tag{
+  display:inline-block;
+  margin-top:8px;
+  font-size:11px;
+  font-weight:800;
+  color:#0f3f7e;
+  background:#eaf3ff;
+  border:1px solid #bfdbfe;
+  border-radius:999px;
+  padding:5px 8px;
+}
+
+.trail{
+  display:grid;
+  gap:14px;
+}
+
+.step-card{
+  background:#fff;
+  color:var(--text);
+  border-radius:22px;
+  border:1px solid #e8eef7;
+  box-shadow:var(--shadow);
+  overflow:hidden;
+}
+
+.step-head{
+  padding:14px 16px;
+  background:#f8fbff;
+  border-bottom:1px solid var(--stroke);
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  align-items:center;
+}
+
+.step-number{
+  font-weight:900;
+  color:var(--o2);
+  font-size:13px;
+  text-transform:uppercase;
+  letter-spacing:.5px;
+}
+
+.step-type{
+  font-size:12px;
+  font-weight:800;
+  color:#475569;
+}
+
+.step-body{
+  padding:16px;
+}
+
+.step-body h3{
+  margin:0 0 8px;
+  font-size:21px;
+}
+
+.step-body p{
+  margin:0;
+  color:#475569;
+  line-height:1.45;
+  font-size:15px;
+}
+
+.answer-box{
+  margin-top:12px;
+  border-left:5px solid var(--o2);
+  background:#eff6ff;
+  border-radius:14px;
+  padding:11px 13px;
+  color:#0f172a;
+  font-weight:800;
+}
+
+.answer-box.no{
+  border-left-color:var(--red);
+  background:#fff1f2;
+}
+
+.actions{
+  margin-top:14px;
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+}
+
+.flow-btn{
+  border:none;
+  border-radius:14px;
+  padding:13px 18px;
+  color:#fff;
+  font-weight:900;
+  cursor:pointer;
+  min-width:100px;
+  box-shadow:0 6px 14px rgba(2,6,23,.12);
+}
+
+.yes{background:var(--o2)}
+.no{background:var(--red)}
+.next{background:var(--green)}
+.back{background:#64748b}
+.reset{background:#0f172a}
+
+.outcome{
+  background:#f0fdf4;
+  border:1px solid #bbf7d0;
+  border-left:6px solid var(--green);
+}
+
+.outcome.stop{
+  background:#fff7ed;
+  border:1px solid #fed7aa;
+  border-left:6px solid var(--amber);
+}
+
+.outcome.fail{
+  background:#fff1f2;
+  border:1px solid #fecdd3;
+  border-left:6px solid var(--red);
+}
+
+.evidence{
+  margin-top:12px;
+  display:grid;
+  gap:8px;
+  padding:0;
+  list-style:none;
+}
+
+.evidence li{
+  background:rgba(255,255,255,.65);
+  border:1px solid rgba(15,23,42,.08);
+  border-radius:12px;
+  padding:10px 12px;
+  font-size:14px;
+  color:#334155;
+}
+
+.footer-actions{
+  margin-top:18px;
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.footer-note{
+  margin-top:18px;
+  padding:16px 18px;
+  border-radius:20px;
+  background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.12);
+  color:#e5eef9;
+  font-size:14px;
+  line-height:1.5;
+}
+
+@media(max-width:1000px){
+  .flow-wrap{grid-template-columns:1fr}
+  .side-panel{position:static}
+  .quick-links{grid-template-columns:1fr}
+}
+
+@media(max-width:720px){
+  .shell{width:min(var(--max),calc(100% - 16px))}
+  .card,.step-card{border-radius:22px}
+  h1{font-size:34px}
+}
+</style>
+</head>
+
+<body>
+<main>
+<div class="shell">
+
+<section class="card intro-card">
+  <h1>Completion Save Flow</h1>
+  <p class="sub">
+    Field-led guidance to help protect completion. Select the issue, follow the prompts, and only close the job once all realistic same-day save options have been exhausted and clearly noted.
+  </p>
+
+  <div class="quick-links">
+    <button class="quick-link blue" onclick="startFlow('nr_menu')">
+      <b>No reply / no one home</b>
+      <span>Contact attempts, reattendance and correct closure.</span>
+    </button>
+    <button class="quick-link red" onclick="startFlow('coax_start')">
+      <b>Drop / repull at risk</b>
+      <span>Prove checks before repull or not done.</span>
+    </button>
+    <button class="quick-link green" onclick="startFlow('fu_start')">
+      <b>Fibre issue</b>
+      <span>Light levels, port checks, scope/clean and preworks.</span>
+    </button>
+  </div>
+</section>
+
+<section class="flow-wrap">
+
+  <aside class="card side-panel">
+    <h2 class="panel-title">Start a flow</h2>
+    <div class="menu" id="menu"></div>
+
+    <div class="footer-actions">
+      <button class="flow-btn back" onclick="goBack()">Back</button>
+      <button class="flow-btn reset" onclick="resetAll()">Reset</button>
+    </div>
+  </aside>
+
+  <section class="trail" id="trail"></section>
+
+</section>
+
+<div class="footer-note">
+  Completion should be protected where possible, but not at the expense of safety, customer experience or correct process. If the job cannot be saved, close it correctly with clear notes showing what was attempted.
+</div>
+
+</div>
+</main>
+
+<script>
+const menuItems = [
+  { label:"Change of circumstances", desc:"Customer/property not ready, unsure, third-party access, appointment moved earlier.", next:"coc_menu", tag:"Customer" },
+  { label:"No reply / no one home", desc:"No answer, unreachable, wrong contact details or reattendance required.", next:"nr_menu", tag:"Customer" },
+  { label:"Drop / repull required - coax", desc:"Damaged drop, low levels or low SNR.", next:"coax_start", tag:"Network" },
+  { label:"Drop / repull required - Fibre Up", desc:"Light meter, port light checks, scope/clean and preblow escalation.", next:"fu_start", tag:"Fibre" },
+  { label:"Drop / repull required - fibre UG/OH", desc:"Qualification-led port checks and VMO2 tech support.", next:"fo_start", tag:"Fibre" },
+  { label:"Cable route not agreed", desc:"Customer will not accept the proposed route.", next:"route_start", tag:"Customer" },
+  { label:"No access to pit / cab", desc:"Blocked pit/cab access, parked vehicle or obstruction.", next:"pit_start", tag:"Access" },
+  { label:"Order entry error", desc:"Sales/order issue, TV expectation issue or order correction required.", next:"order_start", tag:"Order" },
+  { label:"Customer requested reschedule", desc:"Customer wants to move the job.", next:"resched_start", tag:"Customer" },
+  { label:"Customer requested cancellation", desc:"Understand reason, attempt to resolve and escalate where appropriate.", next:"cancel_start", tag:"Customer" },
+  { label:"Non serviceable address", desc:"Includes capacity/facilities issues.", next:"nsa_start", tag:"Network" }
+];
+
+const FLOWS = {
+  coc_menu:{
+    type:"menu",
+    title:"Change of circumstances",
+    desc:"Pick what is actually stopping the job from completing.",
+    options:[
+      {label:"Customer/property not ready", desc:"Return later, temporary safe install, or reschedule.", next:"coc_ready_1", tag:"Customer"},
+      {label:"Customer unsure / second thoughts", desc:"Understand concerns, resolve where possible, then escalate if needed.", next:"coc_unsure_1", tag:"Customer"},
+      {label:"Third-party access required", desc:"Service cupboard, landlord, agent or building manager access.", next:"coc_access_1", tag:"Access"},
+      {label:"Appointment brought forward", desc:"Customer did not expect the earlier slot.", next:"coc_early_1", tag:"Customer"}
+    ]
+  },
+  coc_ready_1:{type:"question",title:"Can you reattend later today while protecting your remaining route?",desc:"Same-day return is preferred where possible.",yes:"coc_ready_yes",no:"coc_ready_2"},
+  coc_ready_yes:{type:"outcome",tone:"success",title:"Reattend later today and complete",desc:"Get the job put back into your ID, agree a return time with the customer, reattend and complete."},
+  coc_ready_2:{type:"question",title:"Can you complete a safe temporary install today?",desc:"Only use a temporary position if it is safe and creates no hazard.",yes:"coc_ready_temp",no:"coc_ready_fail"},
+  coc_ready_temp:{type:"outcome",tone:"success",title:"Complete install temporarily",desc:"Install equipment safely in a temporary position. Complete the job and agree a return date with the customer to relocate if required."},
+  coc_ready_fail:{type:"outcome",tone:"fail",title:"Stop here — close it correctly with clear notes",desc:"Inform router and arrange reschedule. Close as change of circumstances - customer/property not ready."},
+
+  coc_unsure_1:{type:"question",title:"Can you resolve the customer’s concerns?",desc:"Understand what is stopping them from proceeding and address expectations clearly.",yes:"coc_unsure_saved",no:"coc_unsure_2"},
+  coc_unsure_saved:{type:"outcome",tone:"success",title:"Continue with install",desc:"Customer is happy to proceed. Complete the install."},
+  coc_unsure_2:{type:"question",title:"Can your FM or a senior technician help save the job?",desc:"Use support if it may help resolve the customer’s concerns.",yes:"coc_unsure_saved",no:"coc_unsure_fail"},
+  coc_unsure_fail:{type:"outcome",tone:"fail",title:"Stop here — close it correctly with clear notes",desc:"If support cannot save the job, close as change of circumstances - customer unsure/second thoughts."},
+
+  coc_access_1:{type:"question",title:"Is third-party access required?",desc:"For example, service cupboard, landlord, letting agent or building manager access.",yes:"coc_access_2",no:"done"},
+  coc_access_2:{type:"question",title:"Can access be arranged today?",desc:"Contact landlord, letting agent or building manager where possible.",yes:"coc_access_saved",no:"coc_access_3"},
+  coc_access_saved:{type:"outcome",tone:"success",title:"Return when access is granted and complete",desc:"Reattend same day where possible and complete the install."},
+  coc_access_3:{type:"question",title:"Can you complete today with a safe temporary setup?",desc:"Only proceed if the temporary setup is safe and feasible.",yes:"coc_access_temp",no:"coc_access_fail"},
+  coc_access_temp:{type:"outcome",tone:"success",title:"Complete today and plan return",desc:"Complete using a safe temporary arrangement and agree a return for the final access works."},
+  coc_access_fail:{type:"outcome",tone:"fail",title:"Stop here — access not available",desc:"Close correctly and arrange return when access can be provided. Close as change of circumstances - third-party access not available."},
+
+  coc_early_1:{type:"question",title:"Can you contact the customer?",desc:"Call and text to explain the situation and agree options.",yes:"coc_early_2",no:"coc_early_4"},
+  coc_early_2:{type:"question",title:"Can the customer proceed today?",desc:"Reassure them and agree a workable plan for today.",yes:"coc_early_saved",no:"coc_early_3"},
+  coc_early_saved:{type:"outcome",tone:"success",title:"Proceed with install",desc:"Customer agrees. Complete the install."},
+  coc_early_3:{type:"question",title:"Can another responsible adult provide access?",desc:"If yes, proceed. If no, consider later reattendance.",yes:"coc_early_saved",no:"coc_early_4"},
+  coc_early_4:{type:"question",title:"Can the customer return later today for reattendance?",desc:"Agree a time and reattend if realistic.",yes:"coc_early_return",no:"coc_early_fail"},
+  coc_early_return:{type:"outcome",tone:"success",title:"Reattend later and complete",desc:"Arrange return time with the customer and complete the install."},
+  coc_early_fail:{type:"outcome",tone:"fail",title:"Stop here — rebook correctly",desc:"Close as change of circumstances - appointment brought forward. Arrange suitable appointment via correct channels."},
+
+  nr_menu:{
+    type:"menu",
+    title:"No reply / no one home",
+    desc:"Pick what is happening on site.",
+    options:[
+      {label:"Not answering but may be nearby", desc:"Call/text, wait based on AM/PM, reopen and reattempt later.", next:"nr_near_1", tag:"Customer"},
+      {label:"Customer unreachable / wrong contact", desc:"Call/text/voicemail. FM to source alternate contact if number is incorrect.", next:"nr_unreach_1", tag:"Customer"}
+    ]
+  },
+  nr_near_1:{type:"info",title:"Attempt contact",desc:"Call and text all available numbers. If the customer responds, proceed when available.",next:"nr_near_2"},
+  nr_near_2:{type:"question",title:"Is this an AM appointment?",desc:"AM guidance is shorter wait. PM guidance is longer wait.",yes:"nr_near_am",no:"nr_near_pm"},
+  nr_near_am:{type:"info",title:"AM guidance",desc:"Wait around 5 minutes. If no answer, move on and plan reattendance later where possible.",next:"nr_near_3"},
+  nr_near_pm:{type:"info",title:"PM guidance",desc:"Wait around 15 minutes. If no answer, move on and plan reattendance later where possible.",next:"nr_near_3"},
+  nr_near_3:{type:"question",title:"Can the job be reopened and reattempted later today?",desc:"If realistic, reopen and put as the last job of the day.",yes:"nr_near_4",no:"nr_near_fail"},
+  nr_near_4:{type:"outcome",tone:"success",title:"Reattend later and complete",desc:"If the customer confirms availability, you must reattend and complete the install."},
+  nr_near_fail:{type:"outcome",tone:"fail",title:"Stop here — close it correctly with clear notes",desc:"If no response and reattendance is not possible, close as no reply / no one home. Notes must show contact attempts."},
+
+  nr_unreach_1:{type:"info",title:"Attempt contact",desc:"Call, text and leave voicemail where available.",next:"nr_unreach_2"},
+  nr_unreach_2:{type:"question",title:"Is the contact number incorrect or invalid?",desc:"If incorrect, escalate to FM to source alternative contact details.",yes:"nr_unreach_3",no:"nr_unreach_fail"},
+  nr_unreach_3:{type:"outcome",tone:"stop",title:"Escalate to FM for alternative contact",desc:"FM may source alternative contact details and potentially email the customer. If contact is established, proceed with the install."},
+  nr_unreach_fail:{type:"outcome",tone:"fail",title:"Stop here — close it correctly with clear notes",desc:"Close as no reply / no one home - customer unreachable. Notes must show all contact attempts."},
+
+  coax_start:{type:"info",title:"Coax — damaged drop / low levels / low SNR",desc:"Attempt repair first, then escalation, then dry install only where appropriate.",next:"coax_damage_1"},
+  coax_damage_1:{type:"question",title:"Is there visible damage on the drop?",desc:"If yes, cut at the damage point and test from there.",yes:"coax_damage_2",no:"coax_levels_1"},
+  coax_damage_2:{type:"info",title:"Cut at damage point and test",desc:"Cut at the point of damage, then test levels at that point.",next:"coax_damage_3"},
+  coax_damage_3:{type:"question",title:"Are levels OK at this point?",desc:"If yes, splice and replace the affected section.",yes:"coax_damage_splice",no:"coax_boundary_1"},
+  coax_damage_splice:{type:"outcome",tone:"success",title:"Splice, replace section and reinstate",desc:"Fit splice kit and install new cable length from that point. Bury/reinstate garden and proceed with install."},
+  coax_boundary_1:{type:"info",title:"Cut at boundary and test",desc:"Cut at boundary wall and test from this point.",next:"coax_boundary_2"},
+  coax_boundary_2:{type:"question",title:"Are levels OK at boundary?",desc:"If yes, splice and replace the affected section.",yes:"coax_damage_splice",no:"coax_neighbour_1"},
+  coax_neighbour_1:{type:"question",title:"Can a temporary neighbour connection be attempted?",desc:"Only where this is a realistic and appropriate option on site.",yes:"coax_neighbour_ok",no:"coax_escalate_1"},
+  coax_neighbour_ok:{type:"outcome",tone:"success",title:"Temporary neighbour option",desc:"Attempt temporary connection from neighbour’s garden. If levels are within spec, complete install."},
+  coax_escalate_1:{type:"info",title:"Contact FM",desc:"Contact FM to review whether repull can be completed today.",next:"coax_escalate_2"},
+  coax_escalate_2:{type:"question",title:"Can repull be completed today?",desc:"If yes, repull and complete. If no, check whether dry install is appropriate.",yes:"coax_repullday",no:"coax_dry_1"},
+  coax_repullday:{type:"outcome",tone:"success",title:"Repull today and complete",desc:"Proceed with repull today and complete install."},
+  coax_dry_1:{type:"question",title:"Can repull go ahead without construction?",desc:"Duct must be visible/available. If construction is required, do not dry install.",yes:"coax_dry_ok",no:"coax_dry_no"},
+  coax_dry_ok:{type:"outcome",tone:"success",title:"Dry install and book TLOS repull",desc:"Complete dry install. Book TLOS repull for next working day. Close install as complete."},
+  coax_dry_no:{type:"outcome",tone:"fail",title:"Stop here — construction required",desc:"Do not complete dry install. Close as not done and inform the customer. Repull requires construction."},
+  coax_levels_1:{type:"outcome",tone:"stop",title:"Low levels / low SNR",desc:"Follow the same cut/test escalation route where applicable. If levels cannot be brought within spec, the job should not complete."},
+
+  fu_start:{type:"info",title:"Fibre Up",desc:"No temporary fibre connections. Light meter, port light/new port, scope/clean, FM preblow, then dry install only if appropriate.",next:"fu_1"},
+  fu_1:{type:"info",title:"Check light levels",desc:"Use light meter. If levels are within spec, continue with install.",next:"fu_2"},
+  fu_2:{type:"question",title:"Are light levels within spec?",desc:"If not within spec, check port in cabinet for light.",yes:"fu_saved",no:"fu_3"},
+  fu_saved:{type:"outcome",tone:"success",title:"Continue with install",desc:"Levels are within spec. Proceed with install."},
+  fu_3:{type:"info",title:"Check cabinet port for light",desc:"If port has no light, use a new port. Re-test levels.",next:"fu_4"},
+  fu_4:{type:"question",title:"After port check/new port, are levels within spec?",desc:"If still not, scope and clean fibre ends.",yes:"fu_saved",no:"fu_5"},
+  fu_5:{type:"info",title:"Scope and clean fibre ends",desc:"Scope ends and ensure they are clean. Re-test light levels.",next:"fu_6"},
+  fu_6:{type:"question",title:"After scope/clean, are levels within spec?",desc:"If not, contact FM to arrange preblow same day.",yes:"fu_saved",no:"fu_7"},
+  fu_7:{type:"question",title:"Can FM arrange preblow today?",desc:"If yes, re-test after preworks and proceed.",yes:"fu_preblow",no:"fu_8"},
+  fu_preblow:{type:"outcome",tone:"success",title:"Preblow today, re-test and proceed",desc:"Preblow completed today. Re-test levels. If within spec, proceed with install."},
+  fu_8:{type:"question",title:"Are there construction issues?",desc:"If there are no construction issues, dry install and book TLOS. If construction is required, do not dry install.",yes:"fu_cons",no:"fu_dry"},
+  fu_dry:{type:"outcome",tone:"success",title:"Dry install and book TLOS",desc:"No construction issues. Complete dry install, book TLOS and close install as complete."},
+  fu_cons:{type:"outcome",tone:"fail",title:"Stop here — construction required",desc:"Do not complete dry install. Book TLOS with construction and close install as not done."},
+
+  fo_start:{type:"info",title:"Fibre — other build types",desc:"Port access depends on qualification. Remediation is via VMO2 technicians, not contractors.",next:"fo_1"},
+  fo_1:{type:"info",title:"Check light levels",desc:"Use light meter. If within spec, continue with install.",next:"fo_2"},
+  fo_2:{type:"question",title:"Are light levels within spec?",desc:"If not, qualification determines whether you can check port for light.",yes:"fo_saved",no:"fo_3"},
+  fo_saved:{type:"outcome",tone:"success",title:"Continue with install",desc:"Levels are within spec. Proceed with install."},
+  fo_3:{type:"question",title:"Are you qualified to access the port?",desc:"PIA / OH qualification may be required. If not qualified, escalate to FM.",yes:"fo_4",no:"fo_qual"},
+  fo_qual:{type:"info",title:"Escalate via FM",desc:"Arrange a qualified VMO2 technician to attend and support port-side checks.",next:"fo_5"},
+  fo_4:{type:"info",title:"Port-side checks",desc:"Check for light at port. If no light, use a new port. Re-test levels.",next:"fo_5"},
+  fo_5:{type:"info",title:"Scope and clean fibre ends",desc:"Scope ends and clean as required. Re-test light levels.",next:"fo_6"},
+  fo_6:{type:"question",title:"Are levels within spec now?",desc:"If not, check whether prepull can be completed today, even later.",yes:"fo_saved",no:"fo_7"},
+  fo_7:{type:"question",title:"Can prepull/fibre work be completed today?",desc:"If yes, dry install now and crew completes preworks later.",yes:"fo_dry_ok",no:"fo_fail"},
+  fo_dry_ok:{type:"outcome",tone:"success",title:"Dry install now and preworks later",desc:"Complete dry install and complete the job. Advise customer crew will attend later to complete preworks."},
+  fo_fail:{type:"outcome",tone:"fail",title:"Stop here — close it correctly with clear notes",desc:"If prepull cannot be completed today, close as drop/repull required - fibre."},
+
+  route_start:{type:"question",title:"Can you find an alternative route the customer will accept?",desc:"The route must be technically viable and as close to customer expectation as possible.",yes:"route_saved",no:"route_2"},
+  route_saved:{type:"outcome",tone:"success",title:"Agree route and proceed",desc:"Agree final route with customer and continue with install."},
+  route_2:{type:"question",title:"Can FM or a senior technician help resolve route concerns?",desc:"Use support where more time or experience could save the job.",yes:"route_saved",no:"route_fail"},
+  route_fail:{type:"outcome",tone:"fail",title:"Stop here — close it correctly with clear notes",desc:"Close as cable route not agreed. Notes must explain what route was proposed and why it could not be agreed."},
+
+  pit_start:{type:"info",title:"No access to pit / cab",desc:"Usually caused by parked vehicle or obstruction. Try to identify owner, leave note and reattempt later.",next:"pit_1"},
+  pit_1:{type:"question",title:"Can you identify the vehicle/obstruction owner?",desc:"Ask customer and nearby neighbours. If located, request temporary movement.",yes:"pit_owner",no:"pit_2"},
+  pit_owner:{type:"outcome",tone:"success",title:"Ask owner to move temporarily",desc:"If owner can move vehicle/obstruction temporarily, access pit/cab and complete required works."},
+  pit_2:{type:"info",title:"Leave polite note and move on",desc:"Leave a polite note requesting the vehicle/obstruction is moved so access can be gained. Return later same day.",next:"pit_3"},
+  pit_3:{type:"question",title:"On return, is access now available?",desc:"If yes, complete works. If still blocked, close correctly.",yes:"pit_owner",no:"pit_fail"},
+  pit_fail:{type:"outcome",tone:"fail",title:"Stop here — reschedule correctly",desc:"Close as no access to pit/cab. Notes must explain attempts made to gain access."},
+
+  order_start:{type:"question",title:"Has the customer actually placed the order?",desc:"Confirm whether this is a genuine order or an order entry issue.",yes:"order_2",no:"order_fail_noorder"},
+  order_fail_noorder:{type:"outcome",tone:"fail",title:"Stop here — order not placed",desc:"Close as customer never ordered / order entry error."},
+  order_2:{type:"question",title:"Can customer service or sales fix the order today?",desc:"Attempt same-day correction so the install can proceed.",yes:"order_saved",no:"order_3"},
+  order_saved:{type:"outcome",tone:"success",title:"Proceed with install",desc:"Order corrected and customer happy. Continue with install."},
+  order_3:{type:"question",title:"Is the issue linked to TV service expectations?",desc:"If yes, contact TiVo Nigel or use CONS 360 Teams channel for support.",yes:"order_tv",no:"order_fail"},
+  order_tv:{type:"outcome",tone:"stop",title:"Get TV support",desc:"Use TiVo Nigel / CONS 360 support. If resolved on the day, proceed. If not resolved, close correctly."},
+  order_fail:{type:"outcome",tone:"fail",title:"Stop here — close it correctly with clear notes",desc:"Close as order entry error."},
+
+  resched_start:{type:"question",title:"Can you accommodate the customer today?",desc:"Consider later return, timing adjustment or another responsible adult to allow access.",yes:"resched_saved",no:"resched_fail"},
+  resched_saved:{type:"outcome",tone:"success",title:"Proceed and complete",desc:"Make reasonable accommodations and complete the install today."},
+  resched_fail:{type:"outcome",tone:"fail",title:"Stop here — reschedule correctly",desc:"Close as customer requested reschedule and arrange rebooking via correct channels."},
+
+  cancel_start:{type:"question",title:"Can you address the reason for cancellation?",desc:"Understand why the customer wants to cancel and attempt to resolve where appropriate.",yes:"cancel_saved",no:"cancel_2"},
+  cancel_saved:{type:"outcome",tone:"success",title:"Proceed with install",desc:"Customer agrees to proceed. Complete the install."},
+  cancel_2:{type:"question",title:"Can FM or a senior technician help resolve concerns?",desc:"Use support if it could save the job.",yes:"cancel_saved",no:"cancel_fail"},
+  cancel_fail:{type:"outcome",tone:"fail",title:"Stop here — close it correctly with clear notes",desc:"Close as customer requested cancellation."},
+
+  nsa_start:{type:"info",title:"Non serviceable address",desc:"Includes no capacity/facilities. Attempt saves before closing.",next:"nsa_1"},
+  nsa_1:{type:"question",title:"Do neighbours have or previously had service?",desc:"Use Badger/neighbour check to understand how service has been provided nearby.",yes:"nsa_rep",no:"nsa_2"},
+  nsa_rep:{type:"outcome",tone:"success",title:"Replicate neighbour install if possible",desc:"Use neighbour install process as reference and attempt to replicate to complete install."},
+  nsa_2:{type:"info",title:"FM to check GCOMS",desc:"Ask FM to check GCOMS to understand how network has been built and whether install can be enabled.",next:"nsa_3"},
+  nsa_3:{type:"question",title:"Can a senior engineer attend to find a solution?",desc:"If yes and a solution is found, proceed. If no solution, close correctly.",yes:"nsa_senior",no:"nsa_fail"},
+  nsa_senior:{type:"outcome",tone:"stop",title:"Senior engineer on-site review",desc:"Senior engineer attends and attempts to find a way to complete the install."},
+  nsa_fail:{type:"outcome",tone:"fail",title:"Stop here — close it correctly with clear notes",desc:"Close as non serviceable address. Notes must explain what checks were completed."},
+
+  done:{type:"outcome",tone:"success",title:"Done",desc:"Use the menu to select another issue, or reset to clear the flow."}
+};
+
+let activeCards = [];
+
+const menuEl = document.getElementById("menu");
+const trailEl = document.getElementById("trail");
+
+function renderMainMenu(){
+  menuEl.innerHTML = "";
+  menuItems.forEach(item=>{
+    const btn = document.createElement("button");
+    btn.className = "menu-btn";
+    btn.innerHTML = `
+      <b>${item.label}</b>
+      <span>${item.desc}</span>
+      <span class="menu-tag">${item.tag}</span>
+    `;
+    btn.onclick = () => startFlow(item.next, item.label);
+    menuEl.appendChild(btn);
+  });
+}
+
+function startFlow(id, label){
+  trailEl.innerHTML = "";
+  activeCards = [];
+  if(label){
+    addAnsweredCard("Selected issue", "Menu choice", label, "");
+  }
+  renderNode(id);
+}
+
+function renderNode(id){
+  const node = FLOWS[id] || FLOWS.done;
+
+  const card = document.createElement("article");
+  card.className = "step-card";
+  card.dataset.node = id;
+
+  const stepNo = trailEl.children.length + 1;
+  const typeLabel = node.type === "question" ? "Decision" : node.type === "menu" ? "Select" : node.type === "info" ? "Action" : "Outcome";
+
+  card.innerHTML = `
+    <div class="step-head">
+      <div class="step-number">Step ${stepNo}</div>
+      <div class="step-type">${typeLabel}</div>
+    </div>
+    <div class="step-body">
+      <h3>${node.title}</h3>
+      <p>${node.desc || ""}</p>
+      <div class="actions"></div>
+    </div>
+  `;
+
+  const actions = card.querySelector(".actions");
+
+  if(node.type === "question"){
+    const noBtn = makeButton("No", "no", () => answerQuestion(card, node, "No", node.no));
+    const yesBtn = makeButton("Yes", "yes", () => answerQuestion(card, node, "Yes", node.yes));
+    actions.append(noBtn, yesBtn);
+  }
+
+  if(node.type === "info"){
+    const nextBtn = makeButton("Next", "next", () => answerInfo(card, node, node.next));
+    actions.append(nextBtn);
+  }
+
+  if(node.type === "menu"){
+    (node.options || []).forEach(opt=>{
+      const btn = document.createElement("button");
+      btn.className = "menu-btn";
+      btn.innerHTML = `<b>${opt.label}</b><span>${opt.desc || ""}</span>${opt.tag ? `<span class="menu-tag">${opt.tag}</span>` : ""}`;
+      btn.onclick = () => answerMenu(card, node, opt.label, opt.next);
+      actions.appendChild(btn);
+    });
+  }
+
+  if(node.type === "outcome"){
+    const tone = node.tone || "stop";
+    card.classList.add("outcome", tone === "success" ? "outcome" : tone === "fail" ? "fail" : "stop");
+
+    const evidence = document.createElement("ul");
+    evidence.className = "evidence";
+    evidence.innerHTML = `
+      <li>Notes should clearly explain what was attempted.</li>
+      <li>Customer contact, escalation or evidence should be recorded where relevant.</li>
+      <li>If the job cannot be saved, close using the correct reason code.</li>
+    `;
+    card.querySelector(".step-body").appendChild(evidence);
+  }
+
+  trailEl.appendChild(card);
+  activeCards.push(card);
+  card.scrollIntoView({behavior:"smooth", block:"start"});
+}
+
+function makeButton(text, cls, handler){
+  const btn = document.createElement("button");
+  btn.className = "flow-btn " + cls;
+  btn.textContent = text;
+  btn.onclick = handler;
+  return btn;
+}
+
+function disableActions(card){
+  card.querySelectorAll("button").forEach(btn=>btn.disabled = true);
+}
+
+function addAnswerToCard(card, answer, isNo){
+  const body = card.querySelector(".step-body");
+  const box = document.createElement("div");
+  box.className = "answer-box" + (isNo ? " no" : "");
+  box.textContent = "Answer: " + answer;
+  body.appendChild(box);
+}
+
+function answerQuestion(card, node, answer, nextId){
+  disableActions(card);
+  addAnswerToCard(card, answer, answer === "No");
+  renderNode(nextId || "done");
+}
+
+function answerInfo(card, node, nextId){
+  disableActions(card);
+  addAnswerToCard(card, "Completed / understood", false);
+  renderNode(nextId || "done");
+}
+
+function answerMenu(card, node, answer, nextId){
+  disableActions(card);
+  addAnswerToCard(card, answer, false);
+  renderNode(nextId || "done");
+}
+
+function addAnsweredCard(title, type, answer, desc){
+  const card = document.createElement("article");
+  card.className = "step-card";
+  card.innerHTML = `
+    <div class="step-head">
+      <div class="step-number">Start</div>
+      <div class="step-type">${type}</div>
+    </div>
+    <div class="step-body">
+      <h3>${title}</h3>
+      ${desc ? `<p>${desc}</p>` : ""}
+      <div class="answer-box">Answer: ${answer}</div>
+    </div>
+  `;
+  trailEl.appendChild(card);
+  activeCards.push(card);
+}
+
+function goBack(){
+  if(trailEl.children.length === 0) return;
+
+  const last = trailEl.lastElementChild;
+  trailEl.removeChild(last);
+  activeCards.pop();
+
+  const previous = trailEl.lastElementChild;
+  if(previous){
+    previous.querySelectorAll("button").forEach(btn=>btn.disabled = false);
+    const answer = previous.querySelector(".answer-box");
+    if(answer) answer.remove();
+    previous.scrollIntoView({behavior:"smooth", block:"start"});
+  }
+}
+
+function resetAll(){
+  trailEl.innerHTML = "";
+  activeCards = [];
+}
+
+renderMainMenu();
+</script>
+</body>
+</html>
