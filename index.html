@@ -743,9 +743,8 @@ const FLOWS = {
   nsa_fail:{type:"outcome", tone:"fail", title:"Failure rationale — non-serviceable / no capacity", desc:"Fail only once maps/portals have been checked, neighbours have been Badgered, and FM/senior tech support has reviewed whether a route or solution exists. Notes must explain the network reason preventing completion."},
 
   pa34_start:{type:"menu", title:"PA3 / PA4 blocked route", desc:"Start by identifying where the blockage appears to be. The recovery method is different for a sweep issue versus a blockage further along the route.", options:[
-    {label:"Blockage appears to be at the sweep", desc:"Use sweep-specific recovery: debris, conduit through sweep, rod after sweep and backrod.", next:"pa34_sweep_1", tag:"Sweep"},
+    {label:"Blockage appears to be at the sweep", desc:"Use sweep-specific tooling: debris, conduit through sweep, rod after sweep and backrod.", next:"pa34_sweep_1", tag:"Sweep"},
     {label:"Blockage appears further along the route", desc:"Use route recovery: cobra ends, backrod, Desiliter, alternative route and DP change.", next:"pa34_route_1", tag:"Route"},
-    {label:"Blockage location is not clear yet", desc:"Prove whether the issue is at the sweep or further along before deciding the fail route.", next:"pa34_locate_1", tag:"Locate"}
   ]},
   pa34_locate_1:{type:"outcome", tone:"stop", title:"Do not fail yet — identify the blockage location", desc:"Before progressing to failure, establish whether the issue is at the sweep or further along the route. Use the correct recovery route once the likely location is understood."},
   pa34_sweep_1:{type:"question", title:"Has loose debris been cleared from the sweep area?", desc:"Clear debris manually or with hoover/vacuum where suitable before deciding the sweep is blocked.", yes:"pa34_sweep_2", no:"pa34_sweep_debris_required"},
@@ -768,7 +767,7 @@ const FLOWS = {
   pa34_common_3:{type:"question", title:"After all recovery options, has the blockage been located and sprayed up?", desc:"Spray up only after recovery options have been attempted. Locate the blockage as accurately as possible.", yes:"pa34_common_4", no:"spray_required"},
   spray_required:{type:"outcome", tone:"stop", title:"Do not fail yet — locate and spray up", desc:"After recovery attempts are exhausted, locate the blockage and spray up/mark the suspected point so construction has actionable information."},
   pa34_common_4:{type:"question", title:"Has FM reviewed before failure?", desc:"FM escalation is mandatory before any fail.", yes:"pa34_fail", no:"fm_required"},
-  pa34_fail:{type:"outcome", tone:"fail", title:"Failure rationale — PA3 / PA4 blocked route", desc:"Fail only once the blockage location has been identified, the correct recovery path has been followed, sweep-specific or route-specific recovery has been attempted, alternative routes and DP change have been ruled out, the blockage has been located/sprayed up, and FM has reviewed."},
+  pa34_fail:{type:"outcome", tone:"fail", title:"Failure rationale — PA3 / PA4 blocked route", desc:"Fail only once the blockage location has been identified, the correct recovery path has been followed, sweep-specific or route-specific tooling has been used, alternative routes and DP change have been ruled out, the blockage has been located/sprayed up, and FM has reviewed."},
 
   sweep_start:{type:"info", title:"Blocked sweep", desc:"Use this when the issue is specifically at the sweep. This is not the same as a generic conduit blockage. Conduit may be used as a method to pass through or clear the sweep.", next:"pa34_sweep_1"},
 
