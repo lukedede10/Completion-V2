@@ -598,9 +598,9 @@ const menuItems = [
 ];
 
 const FLOWS = {
-  customer_menu:{type:"menu", title:"Customer / Access issue", desc:"Pick what is putting the job at risk. Every route should attempt a same-day save before failure.", options:[
+  customer_menu:{type:"menu", title:"Customer / Access issue", desc:"Pick what is putting the job at risk.", options:[
     {label:"No reply / no one home", desc:"Contact attempts, wait guidance and reattendance.", next:"nr_start", tag:"Customer"},
-    {label:"Customer/property not ready", desc:"Permanent install preferred, safe temporary as last resort.", next:"not_ready_1", tag:"Customer"},
+    {label:"Customer/property not ready", desc:"Permanent install preferred, safe temporary install if required.", next:"not_ready_1", tag:"Customer"},
     {label:"Customer unsure / second thoughts", desc:"Resolve concerns and use FM/senior support before failing.", next:"unsure_1", tag:"Customer"},
     {label:"Third-party access required", desc:"Landlord, agent, service cupboard or building manager access.", next:"access_1", tag:"Access"},
     {label:"Cable route not agreed", desc:"Alternative route, FM/senior support and clear rationale.", next:"route_1", tag:"Route"},
@@ -631,19 +631,19 @@ const FLOWS = {
     {label:"System issue blocking completion", desc:"System/account issue prevents completion even though customer wants install.", next:"order_system_1", tag:"System"}
   ]},
 
-  nr_start:{type:"info", title:"No reply / no one home", desc:"Call and text all available numbers. Leave voicemail where available. The job should be reopened and reattended, multiple times if necessary, where this can save the job.", next:"nr_1"},
+  nr_start:{type:"info", title:"No reply / no one home", desc:"Call and text all available numbers. Leave voicemail and text the customer. Leave a calling card with your phone number. The job should be reopened and reattended, multiple times if possible, where this can save the job.", next:"nr_1"},
   nr_1:{type:"question", title:"Have all available contact methods been attempted?", desc:"Call, text and voicemail where available. Notes must show the attempts.", yes:"nr_2", no:"nr_contact_required"},
   nr_contact_required:{type:"outcome", tone:"stop", title:"Do not fail yet — attempt contact first", desc:"Attempt all contact methods before progressing. Failure is not defensible without clear contact attempts."},
-  nr_2:{type:"question", title:"Has the correct wait guidance been followed?", desc:"AM: wait 10 minutes. PM: wait 10 minutes. PPM / 4-7: use judgement and speak to FM if unsure due to end-of-day route pressure.", yes:"nr_3", no:"nr_wait_required"},
+  nr_2:{type:"question", title:"Has the correct wait guidance been followed?", desc:"AM: wait 10 minutes. PM: wait 10 minutes. PPM / 4-7: speak to FM", yes:"nr_3", no:"nr_wait_required"},
   nr_wait_required:{type:"outcome", tone:"stop", title:"Do not fail yet — follow wait guidance", desc:"Wait 10 minutes for AM/PM. For PPM, use judgement and contact FM if unsure before deciding the job cannot be saved."},
-  nr_3:{type:"question", title:"Can the job be reopened and reattended today?", desc:"Jobs must always be reopened and reattended where possible, multiple times if necessary, to save completion.", yes:"nr_saved", no:"nr_4"},
+  nr_3:{type:"question", title:"Can the job be reopened and reattended today?", desc:"Jobs must always be reopened and reattended where possible, multiple times if necessary, to save OTD install.", yes:"nr_saved", no:"nr_4"},
   nr_saved:{type:"outcome", tone:"success", title:"Reopen, reattend and complete", desc:"Reopen the job, agree/attempt reattendance and complete the install if the customer becomes available."},
   nr_4:{type:"question", title:"Has FM been contacted before failure?", desc:"FM escalation is mandatory before any fail.", yes:"nr_fail", no:"fm_required"},
   nr_fail:{type:"outcome", tone:"fail", title:"Failure rationale — no reply / no one home", desc:"Fail only once all contact methods have been attempted, correct wait guidance has been followed, reattendance has been attempted or ruled out, and FM has been contacted. Notes must show times, contact attempts and why the job could not be saved."},
 
   not_ready_1:{type:"question", title:"Can the permanent install still be completed today?", desc:"Permanent completion is preferred where possible.", yes:"not_ready_saved", no:"not_ready_2"},
   not_ready_saved:{type:"outcome", tone:"success", title:"Complete permanent install", desc:"Complete the job permanently and close as complete."},
-  not_ready_2:{type:"question", title:"Can a safe temporary install save the job today?", desc:"Temporary install is allowed if safe. It should be a last resort to protect completion when permanent completion is not possible on the day.", yes:"not_ready_temp", no:"not_ready_3"},
+  not_ready_2:{type:"question", title:"Can a safe temporary install save the job today?", desc:"Temporary install is allowed if safe.", yes:"not_ready_temp", no:"not_ready_3"},
   not_ready_temp:{type:"outcome", tone:"success", title:"Complete safe temporary install", desc:"Complete the install safely in a temporary position, document what has been agreed and arrange follow-up where required."},
   not_ready_3:{type:"question", title:"Has FM been contacted before failure?", desc:"FM escalation is mandatory before any fail.", yes:"not_ready_fail", no:"fm_required"},
   not_ready_fail:{type:"outcome", tone:"fail", title:"Failure rationale — customer/property not ready", desc:"Fail only once permanent completion and safe temporary completion have been considered, same-day reattendance has been ruled out, and FM has been contacted. Notes must explain what prevented completion."},
