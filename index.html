@@ -616,14 +616,14 @@ const FLOWS = {
     {label:"Non-serviceable / no capacity", desc:"Maps, portals, Badger neighbours, FM and senior tech support.", next:"nsa_1", tag:"Network"}
   ]},
 
-  construction_menu:{type:"menu", title:"Construction / Preworks issue", desc:"Pick the build/blocker. This section is designed to build a strong rationale before a construction failure.", options:[
+  construction_menu:{type:"menu", title:"Construction / Preworks issue", desc:"Pick what is putting the job at risk.", options:[
     {label:"PA3 / PA4 blocked route", desc:"Identify blockage location, sweep recovery, cobra/backrod/desiliter, alt route and DP change.", next:"pa34_start", tag:"PA3/PA4"},
     {label:"PA2 / CUR blow issue", desc:"Compressor, fibre gun, sponges, bullets, reverse blow and pressure changes.", next:"pa2cur_start", tag:"PA2/CUR"},
     {label:"No viable route to DP", desc:"Maps, portals, alternative route and DP change consideration.", next:"dp_route_1", tag:"DP Route"},
     {label:"Preworks cannot be completed safely", desc:"Safety, access, scope and FM escalation.", next:"cons_safety_1", tag:"Safety"}
   ]},
 
-  order_menu:{type:"menu", title:"Order / System issue", desc:"Pick the blocker. The aim is to fix the order/system issue on the day wherever possible.", options:[
+  order_menu:{type:"menu", title:"Order / System issue", desc:"Pick what is putting the job at risk.", options:[
     {label:"Customer says they never ordered", desc:"Confirm order validity and customer intent before failing.", next:"order_never_1", tag:"Order"},
     {label:"Order entry error / incorrect order", desc:"Sales or customer service correction required.", next:"order_error_1", tag:"Order"},
     {label:"TV expectations / package issue", desc:"Customer expected different TV/package/service.", next:"order_tv_1", tag:"TV"},
@@ -1076,7 +1076,7 @@ pa2cur_fail:{
   desc:"Fail only once standard blow, sponges/bullets, reverse blow from the DP end, larger compressor consideration, pressure variation, blockage location/spray-up, and FM review have all been completed. Notes must explain what was attempted and why the straw cannot be cleared today."
 },
 
-  dp_route_1:{type:"question", title:"Have GCOMS / Network Expansion / Openreach portal been checked?", desc:"Use the relevant portal depending on build to understand how the network is routed.", yes:"dp_route_2", no:"nsa_maps_required"},
+  dp_route_1:{type:"question", title:"Has GCOMS / Network Expansion / Openreach portals been checked?", desc:"Use the relevant portal depending on build to understand how the network is routed.", yes:"dp_route_2", no:"nsa_maps_required"},
   dp_route_2:{type:"question", title:"Is there another viable route to the current DP?", desc:"Check maps and on-site options.", yes:"alt_route_success", no:"dp_route_3"},
   dp_route_3:{type:"question", title:"Could another DP be used with a DP change?", desc:"Consider whether DP change can save the install.", yes:"dp_change_success", no:"dp_route_4"},
   dp_route_4:{type:"question", title:"Has FM or senior technician reviewed the route?", desc:"FM escalation is mandatory before failure.", yes:"dp_route_fail", no:"fm_required"},
